@@ -15,7 +15,7 @@ const Banner = () => {
 
 	return <section id="about" className="flex items-center h-screen relative overflow-hidden">
 		<Particles
-			className="absolute top-0 bottom-0 right-0 left-0"
+			className="absolute top-0 bottom-0 right-0 left-0 z-0"
             id="tsparticles"
             init={particlesInit}
             loaded={particlesLoaded}
@@ -90,7 +90,7 @@ const Banner = () => {
                 detectRetina: true,
             }}
         />
-		<div className="container mx-auto text-center text-white">
+		<div className="container mx-auto text-center text-white z-[1]">
 			<h1 className="text-[30px] lg:text-[80px] font-semibold uppercase text-shadow-dark">REAL IELTS ON VIDEO</h1>
 			<h2 className="text-[16px] lg:text-[34px] font-semibold uppercase">HỆ THỐNG LUYỆN THI IELTS QUA VIDEO COACHING</h2>
 			<p className="text-[14px] lg:text-[16px] italic my-12">Real people make miracles!</p>
