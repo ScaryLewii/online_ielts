@@ -95,7 +95,7 @@ const Banner = () => {
 			<h2 className="text-[16px] lg:text-[34px] font-semibold uppercase">HỆ THỐNG LUYỆN THI IELTS QUA VIDEO COACHING</h2>
 			<p className="text-[14px] lg:text-[16px] italic my-12">Real people make miracles!</p>
 
-			<Link href="#" className="inline-flex uppercase py-4 px-10 bg-cyan text-white font-bold hover:opacity-90 focus:opacity-90">TRẢI NGHIỆM NGAY</Link>
+			<Link href="/login" className="inline-flex uppercase py-4 px-10 bg-cyan text-white font-bold hover:opacity-90 focus:opacity-90">TRẢI NGHIỆM NGAY</Link>
 		</div>
 	</section>
 }
