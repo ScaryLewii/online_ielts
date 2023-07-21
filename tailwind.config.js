@@ -12,8 +12,11 @@ module.exports = {
     extend: {
       colors: {
         'sea': '#03123B',
-        'cyan': '#00F0FF'
-      },
+        'cyan': '#00F0FF',
+        'light': '#FEE7B5',
+        'red': '#D81C1C',
+        'grey': '#D6D6D6'
+      }
     },
   },
   plugins: [],
