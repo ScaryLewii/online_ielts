@@ -3,7 +3,7 @@ import bellIcon from "../../../public/images/bell.svg"
 
 const TopNav = () => {
 	return <div className="absolute top-0 w-full min-h-[50px] p-4 flex justify-between text-white z-10" style={{
-		"background": "linear-gradient(180deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
+		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
 	}}>
 		<div></div>
 		<div className="flex gap-5 items-center">

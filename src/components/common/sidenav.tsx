@@ -6,6 +6,9 @@ import live from "../../../public/images/live.svg"
 import interactive from "../../../public/images/interactive.svg"
 import review from "../../../public/images/review.svg"
 import exam from "../../../public/images/exam.svg"
+import userIcon from "../../../public/images/user.svg"
+import settingIcon from "../../../public/images/setting.svg"
+import supportIcon from "../../../public/images/support.svg"
 import { ReactSVG } from "react-svg"
 import { useRouter } from 'next/router'
 
@@ -70,15 +73,15 @@ const SideNav = () => {
 		return ""
 	}
 
-	return <div className="bg-sea-light min-h-screen text-white pt-6 px-6 relative min-w-[300px]">
-		<div className="sticky top-0">
-			<Link href="/" className="mb-8 block">
+	return <div className="bg-sea-light text-white relative min-w-[275px]">
+		<div className="sidenav-wrapper sticky top-0 pt-6">
+			<Link href="/" className="mb-8 block px-6">
 				<Image src={logo} width={80} height={75} alt={logo} />
 			</Link>
 
-			<h2 className="font-semibold mb-5">Danh mục</h2>
-			<nav className="sidenav">
-				<ul>
+			<nav className="sidenav px-6">
+				<h2 className="font-semibold mb-5">Danh mục</h2>
+				<ul className="sidenav">
 					{mainNav.map(nav =>
 						<li key={nav.url || nav.label} className="sidenav__item">
 							{nav.url && 
@@ -90,7 +93,7 @@ const SideNav = () => {
 
 							{!nav.url && 
 								<button className={`
-									sidenav__link mb-2 relative cursor-default
+									sidenav__link mb-2 relative
 									${nav.children && nav.children.some(n => n.url === router.asPath) && "is-active"}
 								`}>
 									<ReactSVG src={nav.icon["src"]} className="fill-white absolute -left-[35px]" />
@@ -109,6 +112,36 @@ const SideNav = () => {
 							}
 						</li>
 					)}
+				</ul>
+			</nav>
+
+			<nav className="mt-[200px] pt-7 px-6 border-t border-[rgba(255, 255, 255, 0.50)]">
+				<h2 className="font-semibold mb-5">Quản trị</h2>
+				<ul className="bottom-nav">
+					<li className="bottom-nav__item">
+						<Link href="#" className="bottom-nav__link is-active">
+							<div className="relative z-[1] flex gap-3 items-center py-3">
+								<ReactSVG src={userIcon["src"]} className="fill-white" />
+								Tài khoản của tôi
+							</div>
+						</Link>
+					</li>
+					<li className="bottom-nav__item">
+						<Link href="#" className="bottom-nav__link">
+							<div className="relative z-[1] flex gap-3 items-center py-3">
+								<ReactSVG src={settingIcon["src"]} className="fill-white" />
+								Cài đặt
+							</div>
+						</Link>
+					</li>
+					<li className="bottom-nav__item">
+						<Link href="#" className="bottom-nav__link">
+							<div className="relative z-[1] flex gap-3 items-center py-3">
+								<ReactSVG src={supportIcon["src"]} className="fill-white" />
+								Hỗ trợ
+							</div>
+						</Link>
+					</li>
 				</ul>
 			</nav>
 		</div>
