@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 const mainNav = [
 	{
 		label: "Khóa học của tôi",
+		url: "/study-route",
 		icon: course,
 		children: [
 			{
@@ -47,6 +48,16 @@ const mainNav = [
 		label: "Live",
 		url: "/live",
 		icon: live,
+		children: [
+			{
+				label: "Chat với giáo viên",
+				url: "/live"
+			},
+			{
+				label: "Đặt lịch hẹn giáo viên",
+				url: "/live2"
+			}
+		]
 	},
 	{
 		label: "Interactive",
@@ -62,6 +73,24 @@ const mainNav = [
 		label: "Exam",
 		url: "/exam",
 		icon: exam,
+	}
+]
+
+const dashboardNav = [
+	{
+		label: "Tài khoản của tôi",
+		url: "/profile",
+		icon: userIcon,
+	},
+	{
+		label: "Cài đặt",
+		url: "/setting",
+		icon: settingIcon,
+	},
+	{
+		label: "Hỗ trợ",
+		url: "/support",
+		icon: supportIcon,
 	}
 ]
 
@@ -84,25 +113,13 @@ const SideNav = () => {
 				<ul className="sidenav">
 					{mainNav.map(nav =>
 						<li key={nav.url || nav.label} className="sidenav__item">
-							{nav.url && 
-								<Link href={nav.url} className={`sidenav__link relative ${getActiveClass(nav.url)}`}>
-									<ReactSVG src={nav.icon["src"]} className="fill-white absolute -left-[35px]" />
-									{nav.label}
-								</Link>
-							}
-
-							{!nav.url && 
-								<button className={`
-									sidenav__link mb-2 relative
-									${nav.children && nav.children.some(n => n.url === router.asPath) && "is-active"}
-								`}>
-									<ReactSVG src={nav.icon["src"]} className="fill-white absolute -left-[35px]" />
-									{nav.label}
-								</button>
-							}
+							<Link href={nav.url} className={`sidenav__link mb-2 relative ${getActiveClass(nav.url)}`}>
+								<ReactSVG src={nav.icon["src"]} className="fill-white absolute -left-[35px]" />
+								{nav.label}
+							</Link>
 
 							{nav.children &&
-								<ul>
+								<ul className={`${nav.children.some(n => n.url === router.asPath) ? "block" : "hidden"}`}>
 									{nav.children.map(navChild =>
 										<li key={navChild.url} className="sidenav-child__item">
 											<Link href={navChild.url} className={`sidenav-child__link hover:text-cyan ${getActiveClass(navChild.url)}`}>{navChild.label}</Link>
@@ -118,30 +135,16 @@ const SideNav = () => {
 			<nav className="mt-[200px] pt-7 px-6 border-t border-[rgba(255, 255, 255, 0.50)]">
 				<h2 className="font-semibold mb-5">Quản trị</h2>
 				<ul className="bottom-nav">
-					<li className="bottom-nav__item">
-						<Link href="#" className="bottom-nav__link is-active">
-							<div className="relative z-[1] flex gap-3 items-center py-3">
-								<ReactSVG src={userIcon["src"]} className="fill-white" />
-								Tài khoản của tôi
-							</div>
-						</Link>
-					</li>
-					<li className="bottom-nav__item">
-						<Link href="#" className="bottom-nav__link">
-							<div className="relative z-[1] flex gap-3 items-center py-3">
-								<ReactSVG src={settingIcon["src"]} className="fill-white" />
-								Cài đặt
-							</div>
-						</Link>
-					</li>
-					<li className="bottom-nav__item">
-						<Link href="#" className="bottom-nav__link">
-							<div className="relative z-[1] flex gap-3 items-center py-3">
-								<ReactSVG src={supportIcon["src"]} className="fill-white" />
-								Hỗ trợ
-							</div>
-						</Link>
-					</li>
+					{dashboardNav.map(nav => 
+						<li key={nav.url} className="bottom-nav__item">
+							<Link href={nav.url} className={`bottom-nav__link ${getActiveClass(nav.url)}`}>
+								<div className="relative z-[1] flex gap-3 items-center py-3">
+									<ReactSVG src={nav.icon["src"]} className="fill-white" />
+									{nav.label}
+								</div>
+							</Link>
+						</li>
+					)}
 				</ul>
 			</nav>
 		</div>
