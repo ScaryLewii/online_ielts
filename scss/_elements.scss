@@ -36,3 +36,14 @@ svg {
 		left: 0;
 	}
 }
+
+.toggle-cyan {
+	background-color: white;
+	border-width: 2px;
+	border-color: var(--toggle-cyan--border-color, #999595);
+	--tglbg: var(--set-tglbg, #999595);
+	&:checked {
+		--toggle-cyan--border-color: var(--color-cyan);
+		--set-tglbg: var(--color-cyan);
+	}
+}
