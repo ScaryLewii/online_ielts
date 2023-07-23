@@ -36,7 +36,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ onImageChange }) => {
 					unoptimized={true}
 				/>
 				<div className="flex justify-center items-center w-[50px] h-[50px] bg-dark rounded-full
-					absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+					absolute top-1/2 left-1/2 -translate-x-[55%] -translate-y-[55%]
 					group-hover:bg-cyan
 				">
 					<Image src={cameraIcon} width={20} height={20} alt="upload" />
