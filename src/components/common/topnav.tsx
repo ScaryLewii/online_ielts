@@ -7,16 +7,16 @@ const TopNav = () => {
 	}}>
 		<div></div>
 		<div className="flex gap-5 items-center">
-			<button className="relative">
-				<Image src={bellIcon} width={30} height={30} alt="notification" />
-				<span className="flex justify-center items-center text-xs font-semibold w-4 h-4 rounded-full bg-red absolute right-0 top-0">3</span>
+			<button className="relative w-[40px] h-[40px] flex justify-center items-center rounded-full hover:bg-sea">
+				<Image src={bellIcon} width={25} height={25} alt="notification" />
+				<span className="flex justify-center items-center text-xs font-semibold w-4 h-4 rounded-full bg-red absolute right-[5px] top-[5px]">3</span>
 			</button>
 
 			<span className="hidden lg:block h-8 w-[1px] bg-white"></span>
 
-			<button className="flex gap-5 items-center">
-				<h3>Ngoc Tran</h3>
-				<Image className="rounded-full border-2 border-white" src="https://placehold.co/45x45" width={45} height={45} alt="profile image" unoptimized={true} />
+			<button className="flex gap-5 items-center group">
+				<h3 className="group-hover:underline">Ngoc Tran</h3>
+				<Image className="rounded-full border-2 border-white group-hover:border-cyan" src="https://placehold.co/45x45" width={45} height={45} alt="profile image" unoptimized={true} />
 			</button>
 		</div>
 	</div>

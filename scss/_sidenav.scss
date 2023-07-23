@@ -35,6 +35,11 @@
 		color: var(--color-cyan);
 		font-weight: 600;
 	}
+
+	&:hover:not(.is-active) {
+		--svg--fill: var(--color-cyan);
+		color: var(--color-cyan);
+	}
 }
 
 .sidenav-child__item {
@@ -90,5 +95,11 @@
 		--bottom-nav__link-before--content: "";
 		--svg--fill: var(--color-sea);
 		color: var(--color-sea);
+		font-weight: 600;
+	}
+
+	&:hover:not(.is-active) {
+		--svg--fill: var(--color-cyan);
+		color: var(--color-cyan);
 	}
 }
