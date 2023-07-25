@@ -20,8 +20,8 @@ const LoginPage = () => {
 				<Image src={logo} width={73} height={63} alt="ielts video course logo" />
 			</Link>
 		</header>
-		<section className="container flex flex-wrap xl:justify-around w-screen lg:h-screen items-center relative z-[1]">
-			<div className="lg:w-1/2">
+		<section className="container flex flex-wrap xl:justify-around w-screen lg:h-screen items-center relative z-[1] mx-auto pt-20 xl:pt-0">
+			<div className="flex-grow xl:w-1/2 xl:flex-grow-0">
 				<TypeAnimation className={`${nicoFont.className} text-shadow text-[50px] text-center uppercase`}
 					sequence={[
 						'HAVE A NICE DAY!',
@@ -35,7 +35,7 @@ const LoginPage = () => {
 				/>
 				<Image src={globe} width={500} height={500} alt="some fancy stuff" className="mx-auto -mt-10" />
 			</div>
-			<div className="lg:max-w-1/2">
+			<div className="mx-auto xl:max-w-1/2">
 				<LoginForm />
 			</div>
 		</section>

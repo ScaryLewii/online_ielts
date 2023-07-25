@@ -44,7 +44,7 @@ const HeaderSection = observer(function Component() {
 	return <header className="fixed top-0 left-0 w-full bg-sea bg-opacity-90 z-50">
 		<nav className="flex items-center justify-between flex-wrap p-3 xl:p-6 text-white">
 			<div className="flex items-center flex-shrink-0 mx-auto xl:mr-10">
-				<CustomLink to="about" spy={true} smooth={true} offset={-100} duration={500}>
+				<CustomLink to="about" spy={true} smooth={true} offset={-100} duration={500} onClick={() => state.menuOpen.set(false)}>
 					<Image src={logo} width={73} height={63} alt="ielts video course logo" />
 				</CustomLink>
 			</div>
@@ -56,7 +56,7 @@ const HeaderSection = observer(function Component() {
 			<div className={`w-full flex-grow xl:flex xl:items-center xl:w-auto p-5 xl:p-0 bg-slate-600 xl:bg-transparent ${state.menuOpen.get() ? "block" : "hidden"}`}>
 				<div className="xl:flex-grow flex flex-col xl:flex-row gap-10 font-semibold">
 					{navData.map((data, index) =>
-						<CustomLink key={data.href} to={data.href} spy={true} smooth={true} offset={-100} duration={500}>
+						<CustomLink key={data.href} to={data.href} spy={true} smooth={true} offset={-100} duration={500} onClick={() => state.menuOpen.set(isOpen => !isOpen)}>
 							{data.title}
 						</CustomLink>
 					)}
