@@ -9,7 +9,7 @@ import UnitBox from "./unit-box"
 
 const KickOffPage = () => {
 	return <div className="flex gap-14 flex-wrap text-white">
-		<div className="xl:min-w-[650px] border border-white py-5 px-6">
+		<div className="lg:min-w-[650px] border border-white py-5 px-6">
 			{lessonsData.map((data, index) => <UnitBox key={`unit-${index}`} props={data} />)}
 		</div>
 		<div>

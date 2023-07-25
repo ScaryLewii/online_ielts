@@ -104,7 +104,7 @@ const SideNav = () => {
 
 	return <div className="bg-sea-light text-white relative min-w-[275px]">
 		<div className="sidenav-wrapper sticky top-0 pt-6">
-			<Link href="/" className="mb-8 block px-6">
+			<Link href="/" className="inline-block mb-8 px-6">
 				<Image src={logo} width={80} height={75} alt={logo} />
 			</Link>
 
