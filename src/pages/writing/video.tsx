@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import ReactPlayer from "react-player";
+import { useRef } from "react";
 import Image from "next/image";
 import playIcon from "../../../public/images/play.svg"
 import { observer, useObservable } from "@legendapp/state/react"
+import dynamic from 'next/dynamic';
+import { ReactPlayerProps } from "react-player";
 
 const subtitleData = [
 	{
@@ -31,7 +32,9 @@ const VideoBlock = observer(() => {
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
 	})
-	const playerRef = useRef<ReactPlayer>(null);
+
+	const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
+	const playerRef = useRef<ReactPlayerProps>(null);
 	const handleSeekClick = (s: any) => {
 		state.subtitle.set(s.text)
 		playerRef.current?.seekTo(s.time)
@@ -45,7 +48,6 @@ const VideoBlock = observer(() => {
 						ref={playerRef}
 						url="//s3.envoy.rocks/bothrs/goud-design-sprint/goud/LhgEcS_GOUD+PROTOTYPE+SHOWCASE.mp4"
 						className="react-player"
-						playing
 						controls
 						width="100%"
 						height="100%"
@@ -55,7 +57,6 @@ const VideoBlock = observer(() => {
 							{state.subtitle.get()}
 						</p>
 					</div>
-
 				</div>
 				<div className="bg-dark-10 rounded-[10px] flex-grow overflow-hidden min-h-full">
 					<h3 className="bg-light p-3 text-black font-semibold text-center">Subtitle Section</h3>
