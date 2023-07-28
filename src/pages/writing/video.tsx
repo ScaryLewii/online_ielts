@@ -3,7 +3,7 @@ import Image from "next/image";
 import playIcon from "../../../public/images/play.svg"
 import { observer, useObservable } from "@legendapp/state/react"
 import dynamic from 'next/dynamic';
-import { ReactPlayerProps } from "react-player";
+const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 const subtitleData = [
 	{
@@ -33,8 +33,7 @@ const VideoBlock = observer(() => {
 		subtitle: subtitleData[0].text,
 	})
 
-	const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
-	const playerRef = useRef<ReactPlayerProps>(null);
+	const playerRef = useRef<any>(null);
 	const handleSeekClick = (s: any) => {
 		state.subtitle.set(s.text)
 		playerRef.current?.seekTo(s.time)
@@ -44,16 +43,7 @@ const VideoBlock = observer(() => {
 		<>
 			<div className="flex gap-5 mb-10 text-white items-start">
 				<div className="w-full">
-					<ReactPlayer
-						ref={playerRef}
-						url="//s3.envoy.rocks/bothrs/goud-design-sprint/goud/LhgEcS_GOUD+PROTOTYPE+SHOWCASE.mp4"
-						className="react-player"
-						playing
-						playsinline
-						controls
-						width="100%"
-						height="100%"
-					/>
+					<VideoPlayer playerRef={playerRef} />
 					<div className="bg-sea-lighter h-[140px] relative">
 						<p className="text-center absolute px-8 top-1/2 -translate-y-1/2">
 							{state.subtitle.get()}

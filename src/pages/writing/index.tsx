@@ -9,7 +9,17 @@ import { useRouter } from "next/router";
 
 
 const WrittingPage = () => {
-	
+	const router = useRouter()
+	useEffect(() => {
+		const handleGetSession = async () => {
+			const session = await getSession()
+			if (!session) {
+				router.push('/login')
+			}   
+		}
+		
+		handleGetSession()
+	}, [])
 
 	return <>
 		<Breadcrumbs />
