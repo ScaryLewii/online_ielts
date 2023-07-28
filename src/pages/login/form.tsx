@@ -7,9 +7,30 @@ import qr from "../../../public/images/qr.svg"
 import qrwrapper from "../../../public/images/qr-wrapper.svg"
 import gplus from "../../../public/images/gplus.svg"
 import Link from "next/link"
+import { FC } from "react"
 
+interface IError {
+	code: number,
+	message: string
+}
+interface IRequestedData {
+	data: string,
+	errors: IError[],
+	isSuccess: boolean
+}
 
-const LoginForm =  observer(function Component() {
+interface IState {
+	email: string,
+	password: string,
+	isSaveLoginInfo: boolean,
+	isLoginSuccess: boolean,
+	isRegisterPage: boolean,
+	isQrScanning: boolean,
+	isLostPasswordPage: boolean,
+	loginRequestedData: IRequestedData,
+}
+
+const LoginForm = observer(function Component() {
 	const state = useObservable({
 		email: "",
 		password: "",
@@ -18,10 +39,22 @@ const LoginForm =  observer(function Component() {
 		isRegisterPage: false,
 		isQrScanning: false,
 		isLostPasswordPage: false,
-	})
+		loginRequestedData: null,
+	} as unknown as IState)
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+
+		await fetch('https://apionline.ant-edu.ai/api/signin', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				"userName": state.email.get(),
+				"password": state.password.get(),
+			}),
+		}).then(res => res.json()).then(data => state.loginRequestedData.set(data))
 	}
 
 	return <div className="text-sm">
@@ -30,12 +63,20 @@ const LoginForm =  observer(function Component() {
 			<h2 className="text-[32px] font-semibold text-center mb-10">{state.isRegisterPage.get() ? "Đăng ký" : "Đăng nhập"}</h2>
 			<form onSubmit={handleSubmit} className="text-black">
 				<label htmlFor="email" className="mb-5 relative block">
-					<input type="text" id="email" name="email" placeholder="Email" required className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" autoFocus={true} />
+					<input type="text" id="email" name="email" placeholder="Email" required 
+						className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" autoFocus={true}
+						value={state.email.get()}
+						onChange={e => state.email.set(e.target.value)}
+					/>
 					<Image src={emailIcon} width={18} height={11} alt="email" className="absolute top-1/2 -translate-y-1/2 left-5" />
 				</label>
 
 				<label htmlFor="password" className="mb-5 relative block">
-					<input type="text" id="password" name="password" placeholder="Mật khẩu" required className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" />
+					<input type="text" id="password" name="password" placeholder="Mật khẩu" required 
+						className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" 
+						value={state.password.get()}
+						onChange={e => state.password.set(e.target.value)}
+					/>
 					<Image src={lockIcon} width={17} height={16} alt="password" className="absolute top-1/2 -translate-y-1/2 left-5" />
 				</label>
 
@@ -104,6 +145,18 @@ const LoginForm =  observer(function Component() {
 				Đăng nhập với Google
 			</button>
 		</div>
+		}
+
+		{state.loginRequestedData.get() && !state.loginRequestedData.get().isSuccess && 
+			<div className="toast toast-top toast-end">
+				<div className="alert alert-error">
+					{
+						state.loginRequestedData.get().errors.map(
+							error => <span key={`error-code-${error.code}`}>{error.message}</span>
+						)
+					}
+				</div>
+			</div>
 		}
 	</div>
 })
