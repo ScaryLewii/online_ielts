@@ -22,7 +22,7 @@ const LoginPage = () => {
 		</header>
 		<section className="container flex flex-wrap xl:justify-around w-screen lg:h-screen items-center relative z-[1] mx-auto pt-20 xl:pt-0">
 			<div className="flex-grow xl:w-1/2 xl:flex-grow-0">
-				<TypeAnimation className={`${nicoFont.className} text-shadow text-[50px] text-center uppercase`}
+				<TypeAnimation className={`${nicoFont.className} text-shadow text-[45px] text-center uppercase`}
 					sequence={[
 						'HAVE A NICE DAY!',
 						1000,

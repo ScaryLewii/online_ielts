@@ -11,6 +11,10 @@ import settingIcon from "../../../public/images/setting.svg"
 import supportIcon from "../../../public/images/support.svg"
 import { ReactSVG } from "react-svg"
 import { useRouter } from 'next/router'
+import { observer, useObservable } from "@legendapp/state/react"
+import { useContext } from "react"
+import { StateContext } from "./layout"
+import nav from "../../../public/nav.svg"
 
 const mainNav = [
 	{
@@ -94,19 +98,30 @@ const dashboardNav = [
 	}
 ]
 
-const SideNav = () => {
+interface INav {
+	isNavOpen: boolean
+}
+
+const SideNav = observer(() => {
 	const router = useRouter()
+	const state = useContext(StateContext)
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath == url) return "is-active"
 		return ""
 	}
 
-	return <div className="bg-sea-light text-white relative min-w-[275px]">
-		<div className="sidenav-wrapper sticky top-0 pt-6">
-			<Link href="/" className="inline-block mb-8 px-6">
-				<Image src={logo} width={80} height={75} alt={logo} />
-			</Link>
+	return <div className={`bg-sea-light text-white fixed z-20 top-0 left-0 lg:relative`}>
+		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${state.isNavOpen.get() ? "block" : "hidden"}`}>
+			<div className="flex justify-between items-start">
+				<Link href="/" className="inline-block mb-8 px-6">
+					<Image src={logo} width={80} height={75} alt={logo} />
+				</Link>
+
+				<button className="mt-4 mr-3" onClick={() => state.isNavOpen.set((v: any) => !v)}>
+					<Image src={nav} width={23} height={23} alt="nav control" />
+				</button>
+			</div>
 
 			<nav className="sidenav px-6">
 				<h2 className="font-semibold mb-5">Danh mục</h2>
@@ -149,6 +164,6 @@ const SideNav = () => {
 			</nav>
 		</div>
 	</div>
-}
+})
 
 export default SideNav

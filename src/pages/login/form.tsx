@@ -6,10 +6,33 @@ import qrIcon from "../../../public/images/qr-icon.svg"
 import qr from "../../../public/images/qr.svg"
 import qrwrapper from "../../../public/images/qr-wrapper.svg"
 import gplus from "../../../public/images/gplus.svg"
-import Link from "next/link"
+import { useRouter } from 'next/navigation'
+import { useEffect } from "react"
+import { getSession, signIn, getProviders } from "next-auth/react"
 
+interface IError {
+	code: number,
+	message: string
+}
+interface IRequestedData {
+	data: object,
+	errors: string,
+	isSuccess?: boolean
+}
 
-const LoginForm =  observer(function Component() {
+interface IState {
+	email: string,
+	password: string,
+	isSaveLoginInfo: boolean,
+	isLoginSuccess: boolean,
+	isRegisterPage: boolean,
+	isQrScanning: boolean,
+	isLostPasswordPage: boolean,
+	loginRequestedData: IRequestedData,
+}
+
+const LoginForm = observer(function Component() {
+	const router = useRouter()
 	const state = useObservable({
 		email: "",
 		password: "",
@@ -18,10 +41,41 @@ const LoginForm =  observer(function Component() {
 		isRegisterPage: false,
 		isQrScanning: false,
 		isLostPasswordPage: false,
-	})
+		loginRequestedData: {
+			data: null,
+			errors: "",
+			isSuccess: true
+		},
+	} as unknown as IState)
+
+	useEffect(() => {
+		const handleGetSession = async () => {
+			const session = await getSession()
+			if (session) {
+				router.push('/study-route')
+			}   
+		}
+		
+		handleGetSession()
+	}, [])
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+
+		await signIn("credentials", {
+			redirect: false,
+			email: state.email.get(),
+			password: state.password.get()
+		}).then(res => {
+			if (!res?.ok) {
+				state.loginRequestedData.isSuccess?.set(false)
+				state.loginRequestedData.errors?.set(res?.error as string)
+				return
+			}
+
+			state.loginRequestedData.isSuccess?.set(true)
+			router.push('/study-route')
+		})
 	}
 
 	return <div className="text-sm">
@@ -30,12 +84,20 @@ const LoginForm =  observer(function Component() {
 			<h2 className="text-[32px] font-semibold text-center mb-10">{state.isRegisterPage.get() ? "Đăng ký" : "Đăng nhập"}</h2>
 			<form onSubmit={handleSubmit} className="text-black">
 				<label htmlFor="email" className="mb-5 relative block">
-					<input type="text" id="email" name="email" placeholder="Email" required className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" autoFocus={true} />
+					<input type="text" id="email" name="email" placeholder="Email" required 
+						className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" autoFocus={true}
+						value={state.email.get()}
+						onChange={e => state.email.set(e.target.value)}
+					/>
 					<Image src={emailIcon} width={18} height={11} alt="email" className="absolute top-1/2 -translate-y-1/2 left-5" />
 				</label>
 
 				<label htmlFor="password" className="mb-5 relative block">
-					<input type="text" id="password" name="password" placeholder="Mật khẩu" required className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" />
+					<input type="text" id="password" name="password" placeholder="Mật khẩu" required 
+						className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" 
+						value={state.password.get()}
+						onChange={e => state.password.set(e.target.value)}
+					/>
 					<Image src={lockIcon} width={17} height={16} alt="password" className="absolute top-1/2 -translate-y-1/2 left-5" />
 				</label>
 
@@ -49,12 +111,12 @@ const LoginForm =  observer(function Component() {
 					<button type="submit" className="text-[20px] font-semibold bg-cyan rounded-full py-2 px-10 mx-auto block hover:opacity-90">Đăng nhập</button>
 
 					<span className="my-5 text-white text-center block cursor-pointer" onClick={() => state.isLostPasswordPage.set(v => !v)}>Quên mật khẩu?</span>
-					<div className="text-white">Bạn mới tham gia Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Tạo mới tài khoản</span></div>
+					<div className="text-white text-center">Bạn mới tham gia Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Tạo mới tài khoản</span></div>
 				</>}
 
 				{state.isRegisterPage.get() && <>
 					<button type="submit" className="text-[20px] font-semibold bg-cyan rounded-full py-2 px-10 mx-auto block hover:opacity-90">Đăng ký</button>
-					<div className="text-white mt-5">Bạn đã là thành viên Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Đăng nhập</span></div>
+					<div className="text-white mt-5 text-center">Bạn đã là thành viên Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Đăng nhập</span></div>
 				</>}
 			</form>
 		</div>
@@ -104,6 +166,14 @@ const LoginForm =  observer(function Component() {
 				Đăng nhập với Google
 			</button>
 		</div>
+		}
+
+		{state.loginRequestedData.get() && !state.loginRequestedData.isSuccess?.get() && 
+			<div className="toast toast-top toast-end">
+				<div className="alert alert-error">
+					<span>{state.loginRequestedData.errors.get()}</span>
+				</div>
+			</div>
 		}
 	</div>
 })

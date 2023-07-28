@@ -4,14 +4,14 @@ const RadioGroup = () => {
 		<div className="form-control mb-3">
 			<label className="label cursor-pointer justify-start gap-3">
 				<span>A.</span>
-				<input type="radio" name="radio-10" className="radio radio-info checked:bg-cyan border-2" checked />
+				<input type="radio" name="radio-10" className="radio radio-info border-2" checked />
 				<span>Red pill</span> 
 			</label>
 		</div>
 		<div className="form-control mb-3">
 			<label className="label cursor-pointer justify-start gap-3">
 				<span>B.</span>
-				<input type="radio" name="radio-10" className="radio radio-info checked:bg-cyan border-2" checked />
+				<input type="radio" name="radio-10" className="radio radio-info border-2" checked />
 				<span>Blue pill</span> 
 			</label>
 		</div>
