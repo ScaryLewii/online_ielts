@@ -2,6 +2,9 @@ import NextAuth, { Awaitable, RequestInternal, User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
 
+// TODO:
+// Using a secret auth token (maybe get from backend/API)
+
 export const authOptions: any = {
 	session: {
 		strategy: "jwt",

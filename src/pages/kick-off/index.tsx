@@ -19,7 +19,7 @@ const KickOffPage = () => {
 	})
 	
 	return <div className="flex gap-14 flex-wrap text-white">
-		<div className="lg:min-w-[650px] border border-white py-5 px-6">
+		<div className="w-full lg:w-auto lg:min-w-[650px] border border-white py-5 px-5">
 			{lessonsData.map((data, index) => <UnitBox key={`unit-${index}`} props={data} />)}
 		</div>
 		<div>

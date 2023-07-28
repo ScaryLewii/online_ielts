@@ -52,7 +52,7 @@ const LoginForm = observer(function Component() {
 		const handleGetSession = async () => {
 			const session = await getSession()
 			if (session) {
-				router.push('/kick-off')
+				router.push('/study-route')
 			}   
 		}
 		

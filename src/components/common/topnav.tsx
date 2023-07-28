@@ -1,11 +1,24 @@
 import Image from "next/image"
 import bellIcon from "../../../public/images/bell.svg"
+import nav from "../../../public/nav.svg"
+import { useContext } from "react"
+import { StateContext } from "./layout"
+
+interface INavState {
+	navState: any
+}
 
 const TopNav = () => {
-	return <div className="absolute top-0 w-full min-h-[50px] p-4 flex justify-between text-white z-10" style={{
+	const state = useContext(StateContext)
+
+	return <div className="absolute top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
 	}}>
-		<div></div>
+		<div>
+			<button onClick={() => state.isNavOpen.set((v: any) => !v)}>
+				<Image src={nav} width={23} height={23} alt="nav control" />
+			</button>
+		</div>
 		<div className="flex gap-5 items-center">
 			<button className="relative w-[40px] h-[40px] flex justify-center items-center rounded-full hover:bg-sea">
 				<Image src={bellIcon} width={25} height={25} alt="notification" />
