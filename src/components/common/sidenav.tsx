@@ -12,7 +12,7 @@ import supportIcon from "../../../public/images/support.svg"
 import { ReactSVG } from "react-svg"
 import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { StateContext } from "./layout"
 import nav from "../../../public/nav.svg"
 
@@ -98,14 +98,10 @@ const dashboardNav = [
 	}
 ]
 
-interface INav {
-	isNavOpen: boolean
-}
-
 const SideNav = observer(() => {
 	const router = useRouter()
 	const state = useContext(StateContext)
-
+	
 	const getActiveClass = (url: string) => {
 		if (router.asPath == url) return "is-active"
 		return ""
@@ -118,7 +114,7 @@ const SideNav = observer(() => {
 					<Image src={logo} width={80} height={75} alt={logo} />
 				</Link>
 
-				<button className="mt-4 mr-3" onClick={() => state.isNavOpen.set((v: any) => !v)}>
+				<button className="mt-4 mr-3" onClick={() => state.isNavOpen.set((v: boolean) => !v)}>
 					<Image src={nav} width={23} height={23} alt="nav control" />
 				</button>
 			</div>

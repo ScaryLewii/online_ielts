@@ -13,8 +13,8 @@ interface ITask {
 }
 
 export interface ILesson {
-	name: string,
-	time: string,
+	name?: string,
+	time?: string,
 	finish?: string,
 	tasks: ITask[]
 }
@@ -34,20 +34,20 @@ const LessonBox: FC<ILessonProps> = observer(({ lesson }): JSX.Element => {
 		`}>
 			<button className="flex gap-2 lg:gap-4" onClick={() => state.isExpanded.set(v => !v)}>
 				<Image src={chevron} width={24} height={24} alt="chevron" />
-				<h4>{lesson.name}</h4>
+				<h4>{lesson?.name}</h4>
 			</button>
 			<div className="flex gap-2 lg:gap-10 items-center">
-				<p>{lesson.time}</p>
-				{lesson.finish && 
+				<p>{lesson?.time}</p>
+				{lesson?.finish && 
 					<div className="flex items-center gap-2 bg-green py-1 px-3 rounded-md">
 						<Image src={check} width={24} height={24} alt="check" />
-						{lesson.finish}
+						{lesson?.finish}
 					</div>
 				}
 			</div>
 		</div>
 		<ul className={`${state.isExpanded.get() ? "block mb-5" : "hidden"}`}>
-			{lesson.tasks.map((task, index) => 
+			{lesson?.tasks.map((task, index) => 
 				<li key={`task-${index}`} className="list-none flex items-center justify-between pl-10 pr-3">
 					{task.href &&
 						<>

@@ -1,12 +1,8 @@
 import Image from "next/image"
 import bellIcon from "../../../public/images/bell.svg"
 import nav from "../../../public/nav.svg"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { StateContext } from "./layout"
-
-interface INavState {
-	navState: any
-}
 
 const TopNav = () => {
 	const state = useContext(StateContext)
@@ -15,7 +11,8 @@ const TopNav = () => {
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
 	}}>
 		<div>
-			<button onClick={() => state.isNavOpen.set((v: any) => !v)}>
+			<button className={state.isNavOpen.get() ? "hidden" : "block"}
+				onClick={() => state.isNavOpen.set((v: any) => !v)}>
 				<Image src={nav} width={23} height={23} alt="nav control" />
 			</button>
 		</div>

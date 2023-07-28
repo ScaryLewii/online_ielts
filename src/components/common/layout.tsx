@@ -2,7 +2,7 @@ import TopNav from "./topnav"
 import SideNav from "./sidenav"
 import Image from "next/image";
 import dashboardbg from "../../../public/images/dashboard-bg.svg"
-import React, { PropsWithChildren, createContext } from "react";
+import React, { PropsWithChildren, createContext, useEffect } from "react";
 import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 
@@ -14,6 +14,11 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const state = useObservable({
 		isNavOpen: true
 	})
+
+	useEffect(() => {
+		// do nothing
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.isNavOpen.get()])
 
 	if (router.asPath === "/" || router.asPath === '/login') {
 		return <>{children}</>

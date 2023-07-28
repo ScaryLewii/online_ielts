@@ -10,7 +10,7 @@ const Banner = () => {
     }, []);
 
 	const particlesLoaded = useCallback(async (container: Container | undefined) => {
-        await console.log(container);
+        // await console.log(container);
     }, []);
 
 	return <section id="about" className="flex items-center h-screen relative overflow-hidden">
