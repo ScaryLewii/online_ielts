@@ -1,11 +1,12 @@
 import NextAuth, { Awaitable, RequestInternal, User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import GithubProvider from "next-auth/providers/github"
+import { env } from 'process'
 
 // TODO:
 // Using a secret auth token (maybe get from backend/API)
 
 export const authOptions: any = {
+	secret: env.AUTH_SECRET,
 	session: {
 		strategy: "jwt",
 		maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -23,7 +24,7 @@ export const authOptions: any = {
 					"password": credentials?.password,
 				};
 
-				const url = "https://apionline.ant-edu.ai/api/signin"
+				const url = env.SIGNIN_API_URL || ""
 				const res = await fetch(url, {
 					method: 'POST',
 					headers: { "Content-Type": "application/json" },

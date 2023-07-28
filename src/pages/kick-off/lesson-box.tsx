@@ -8,7 +8,7 @@ import Link from "next/link"
 
 interface ITask {
 	name: string,
-	href?: string,
+	href?: string | URL,
 	time: string
 }
 
@@ -49,11 +49,15 @@ const LessonBox: FC<ILessonProps> = observer(({ lesson }): JSX.Element => {
 		<ul className={`${state.isExpanded.get() ? "block mb-5" : "hidden"}`}>
 			{lesson.tasks.map((task, index) => 
 				<li key={`task-${index}`} className="list-none flex items-center justify-between pl-10 pr-3">
-					<Link href={task.href} className="flex items-center gap-5 mb-3">
-						<Image src={doubleCheck} width={24} height={24} alt="done task" />
-						{task.name}
-					</Link>
-					<p>{task.time}</p>
+					{task.href &&
+						<>
+							<Link href={task.href} className="flex items-center gap-5 mb-3">
+								<Image src={doubleCheck} width={24} height={24} alt="done task" />
+								{task.name}
+							</Link>
+							<p>{task.time}</p>
+						</>
+					}
 				</li>
 			)}
 		</ul>
