@@ -1,7 +1,22 @@
+import { getSession } from "next-auth/react"
 import route from "../../../public/images/route.svg"
 import { ReactSVG } from "react-svg"
+import { useEffect } from "react"
+import { useRouter } from "next/router"
 
 const Route = () => {
+	const router = useRouter()
+	useEffect(() => {
+		const handleGetSession = async () => {
+			const session = await getSession()
+			if (!session) {
+				router.push('/login')
+			}   
+		}
+		
+		handleGetSession()
+	}, [])
+
 	return <div className="relative">
 		<ReactSVG src={route['src']} />
 		<div className="absolute cursor-pointer group top-[45px] left-[250px]">

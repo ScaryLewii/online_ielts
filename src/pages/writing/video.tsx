@@ -48,6 +48,8 @@ const VideoBlock = observer(() => {
 						ref={playerRef}
 						url="//s3.envoy.rocks/bothrs/goud-design-sprint/goud/LhgEcS_GOUD+PROTOTYPE+SHOWCASE.mp4"
 						className="react-player"
+						playing
+						playsinline
 						controls
 						width="100%"
 						height="100%"

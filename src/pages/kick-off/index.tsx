@@ -6,8 +6,18 @@ import arrow from "../../../public/images/arrow-right.svg"
 import { ReactSVG } from "react-svg"
 import lessonsData from "./data"
 import UnitBox from "./unit-box"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 
 const KickOffPage = () => {
+	const router = useRouter()
+	const { status } = useSession({
+		required: true,
+		onUnauthenticated() {
+			router.push("/login")
+		},
+	})
+	
 	return <div className="flex gap-14 flex-wrap text-white">
 		<div className="lg:min-w-[650px] border border-white py-5 px-6">
 			{lessonsData.map((data, index) => <UnitBox key={`unit-${index}`} props={data} />)}

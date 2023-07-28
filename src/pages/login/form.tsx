@@ -6,17 +6,18 @@ import qrIcon from "../../../public/images/qr-icon.svg"
 import qr from "../../../public/images/qr.svg"
 import qrwrapper from "../../../public/images/qr-wrapper.svg"
 import gplus from "../../../public/images/gplus.svg"
-import Link from "next/link"
-import { FC } from "react"
+import { useRouter } from 'next/navigation'
+import { useEffect } from "react"
+import { getSession, signIn, getProviders } from "next-auth/react"
 
 interface IError {
 	code: number,
 	message: string
 }
 interface IRequestedData {
-	data: string,
-	errors: IError[],
-	isSuccess: boolean
+	data: object,
+	errors: string,
+	isSuccess?: boolean
 }
 
 interface IState {
@@ -31,6 +32,7 @@ interface IState {
 }
 
 const LoginForm = observer(function Component() {
+	const router = useRouter()
 	const state = useObservable({
 		email: "",
 		password: "",
@@ -39,22 +41,41 @@ const LoginForm = observer(function Component() {
 		isRegisterPage: false,
 		isQrScanning: false,
 		isLostPasswordPage: false,
-		loginRequestedData: null,
+		loginRequestedData: {
+			data: null,
+			errors: "",
+			isSuccess: true
+		},
 	} as unknown as IState)
+
+	useEffect(() => {
+		const handleGetSession = async () => {
+			const session = await getSession()
+			if (session) {
+				router.push('/kick-off')
+			}   
+		}
+		
+		handleGetSession()
+	}, [])
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		await fetch('https://apionline.ant-edu.ai/api/signin', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				"userName": state.email.get(),
-				"password": state.password.get(),
-			}),
-		}).then(res => res.json()).then(data => state.loginRequestedData.set(data))
+		await signIn("credentials", {
+			redirect: false,
+			email: state.email.get(),
+			password: state.password.get()
+		}).then(res => {
+			if (!res?.ok) {
+				state.loginRequestedData.isSuccess?.set(false)
+				state.loginRequestedData.errors?.set(res?.error as string)
+				return
+			}
+
+			state.loginRequestedData.isSuccess?.set(true)
+			router.push('/study-route')
+		})
 	}
 
 	return <div className="text-sm">
@@ -90,12 +111,12 @@ const LoginForm = observer(function Component() {
 					<button type="submit" className="text-[20px] font-semibold bg-cyan rounded-full py-2 px-10 mx-auto block hover:opacity-90">Đăng nhập</button>
 
 					<span className="my-5 text-white text-center block cursor-pointer" onClick={() => state.isLostPasswordPage.set(v => !v)}>Quên mật khẩu?</span>
-					<div className="text-white">Bạn mới tham gia Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Tạo mới tài khoản</span></div>
+					<div className="text-white text-center">Bạn mới tham gia Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Tạo mới tài khoản</span></div>
 				</>}
 
 				{state.isRegisterPage.get() && <>
 					<button type="submit" className="text-[20px] font-semibold bg-cyan rounded-full py-2 px-10 mx-auto block hover:opacity-90">Đăng ký</button>
-					<div className="text-white mt-5">Bạn đã là thành viên Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Đăng nhập</span></div>
+					<div className="text-white mt-5 text-center">Bạn đã là thành viên Ant Edu? <span className="text-cyan font-semibold cursor-pointer" onClick={() => state.isRegisterPage.set(isRegister => !isRegister)}>Đăng nhập</span></div>
 				</>}
 			</form>
 		</div>
@@ -147,14 +168,10 @@ const LoginForm = observer(function Component() {
 		</div>
 		}
 
-		{state.loginRequestedData.get() && !state.loginRequestedData.get().isSuccess && 
+		{state.loginRequestedData.get() && !state.loginRequestedData.isSuccess?.get() && 
 			<div className="toast toast-top toast-end">
 				<div className="alert alert-error">
-					{
-						state.loginRequestedData.get().errors.map(
-							error => <span key={`error-code-${error.code}`}>{error.message}</span>
-						)
-					}
+					<span>{state.loginRequestedData.errors.get()}</span>
 				</div>
 			</div>
 		}
