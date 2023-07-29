@@ -3,9 +3,11 @@ import bellIcon from "../../../public/images/bell.svg"
 import nav from "../../../public/nav.svg"
 import { useContext, useEffect } from "react"
 import { StateContext } from "./layout"
+import { useSession } from "next-auth/react"
 
 const TopNav = () => {
 	const state = useContext(StateContext)
+	const {data: session, status} = useSession()
 
 	return <div className="absolute top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
@@ -25,7 +27,7 @@ const TopNav = () => {
 			<span className="hidden lg:block h-8 w-[1px] bg-white"></span>
 
 			<button className="flex gap-5 items-center group">
-				<h3 className="group-hover:underline">Ngoc Tran</h3>
+				<h3 className="group-hover:underline">{session?.user.name}</h3>
 				<Image className="rounded-full border-2 border-white group-hover:border-cyan" src="https://placehold.co/45x45" width={45} height={45} alt="profile image" unoptimized={true} />
 			</button>
 		</div>

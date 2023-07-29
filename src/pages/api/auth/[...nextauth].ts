@@ -1,9 +1,14 @@
-import NextAuth, { Awaitable, RequestInternal, User } from "next-auth"
+import NextAuth, { Awaitable, RequestInternal, Session, User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { env } from 'process'
 
-// TODO:
-// Using a secret auth token (maybe get from backend/API)
+const fetchUserInfo = async (token: string) => {
+	const headers = { 'Authorization': `Bearer ${token}` };
+	const url = env.USER_INFO_API || ""
+	const data = fetch(url, { headers })
+            .then(response => response.json())
+    return data
+}
 
 export const authOptions: any = {
 	secret: env.AUTH_SECRET,
@@ -40,10 +45,22 @@ export const authOptions: any = {
 					throw new Error(resData.errors[0].message)
 				}
 
-				return resData.data.token
+				const userData = await fetchUserInfo(resData.data.token)
+
+				return {
+					id: userData.data.id,
+					name: userData.data.displayName,
+					email: credentials?.email,
+					image: null
+				}
 			}
 		})
 	],
+	callbacks: {
+		session: async ({session}: any) => {
+			return session
+		},
+	},
 	pages: {
 		signIn: '/signin',
 		// signOut: '/auth/signout',
