@@ -5,6 +5,7 @@ import dashboardbg from "../../../public/images/dashboard-bg.svg"
 import React, { PropsWithChildren, createContext, useEffect } from "react";
 import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
+import GateWrapper from "../gate/gate-wrapper";
 
 export const StateContext = createContext<any>(null)
 
@@ -12,20 +13,34 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const router = useRouter()
 
 	const state = useObservable({
-		isNavOpen: true
+		nav: {
+			isOpen: true
+		},
+		gate: {
+			isQrScanning: false,
+			isLostPasswordPage: false,
+		}
 	})
 
 	useEffect(() => {
 		// do nothing
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.isNavOpen.get()])
+	}, [state.nav.isOpen.get()])
 
-	if (router.asPath === "/" || router.asPath === '/login') {
+	if (router.asPath === "/") {
 		return <>{children}</>
 	}
 
+	if (router.asPath === "/signup" || router.asPath === "/signin") {
+		return <StateContext.Provider value={state.gate}>
+			<GateWrapper>
+				{children}
+			</GateWrapper>
+		</StateContext.Provider>
+	}
+
 	return (
-		<StateContext.Provider value={state}>
+		<StateContext.Provider value={state.nav}>
 			<div className="dashboard-wrapper flex">
 				<SideNav />
 				<main className="bg-sea w-full min-h-screen overflow-hidden relative pt-14" style={{gridArea: "dashboard"}}>

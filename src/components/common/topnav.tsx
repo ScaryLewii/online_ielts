@@ -11,8 +11,8 @@ const TopNav = () => {
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
 	}}>
 		<div>
-			<button className={state.isNavOpen.get() ? "hidden" : "block"}
-				onClick={() => state.isNavOpen.set((v: any) => !v)}>
+			<button className={state.isOpen.get() ? "hidden" : "block"}
+				onClick={() => state.isOpen.set((v: any) => !v)}>
 				<Image src={nav} width={23} height={23} alt="nav control" />
 			</button>
 		</div>
