@@ -5,7 +5,7 @@ import { SessionProvider, useSession } from "next-auth/react"
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} basePath="/api/auth">
       <Layout>
         <Component {...pageProps} />
       </Layout>
