@@ -71,7 +71,7 @@ const SigninForm = observer(function Component() {
 					</label>
 
 					<label htmlFor="password" className="mb-5 relative block">
-						<input type="text" id="password" name="password" placeholder="Mật khẩu" required 
+						<input type="password" id="password" name="password" placeholder="Mật khẩu" required 
 							className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" 
 							value={state.password.get()}
 							onChange={e => state.password.set(e.target.value)}

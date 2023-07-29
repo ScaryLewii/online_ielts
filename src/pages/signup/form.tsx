@@ -9,6 +9,7 @@ import { StateContext } from "@/components/common/layout"
 import QRBlock from "@/components/gate/scanning-qr"
 import Link from "next/link"
 import GateCta from "@/components/gate/gate-cta"
+import { env } from "process"
 
 interface IRequestedData {
 	data: object,
@@ -19,9 +20,7 @@ interface IRequestedData {
 interface IState {
 	email: string,
 	password: string,
-	isSaveLoginInfo: boolean,
-	isLoginSuccess: boolean,
-	loginRequestedData: IRequestedData,
+	signupRequestedData: IRequestedData,
 }
 
 const SignupForm = observer(function Component() {
@@ -30,9 +29,7 @@ const SignupForm = observer(function Component() {
 	const state = useObservable({
 		email: "",
 		password: "",
-		isSaveLoginInfo: false,
-		isLoginSuccess: false,
-		loginRequestedData: {
+		signupRequestedData: {
 			data: null,
 			errors: "",
 			isSuccess: true
@@ -42,20 +39,36 @@ const SignupForm = observer(function Component() {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
+		const payload = {
+			"email": state.email.get(),
+			"password": state.password.get()
+		};
+
+		const url = env.SIGNUP_API_URL || ""
+		const res = await fetch(url, {
+			method: 'POST',
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(payload),
+		})
+		
+		const resData = await res.json()
+		// error response => will work after API is fixed
+		console.log(resData)
+
+		if (!resData.isSuccess) {
+			state.signupRequestedData.isSuccess?.set(false)
+			state.signupRequestedData.errors.set(resData.errors[0].message)
+			return
+		}
+
+		state.signupRequestedData.isSuccess?.set(true)
+		state.signupRequestedData.errors.set("")
+
 		await signIn("credentials", {
 			redirect: false,
 			email: state.email.get(),
 			password: state.password.get()
-		}).then(res => {
-			if (!res?.ok) {
-				state.loginRequestedData.isSuccess?.set(false)
-				state.loginRequestedData.errors?.set(res?.error as string)
-				return
-			}
-
-			state.loginRequestedData.isSuccess?.set(true)
-			router.push('/study-route')
-		})
+		}).then(() => router.push('/study-route'))
 	}
 
 	return <div className="text-sm">
@@ -74,7 +87,7 @@ const SignupForm = observer(function Component() {
 					</label>
 
 					<label htmlFor="password" className="mb-5 relative block">
-						<input type="text" id="password" name="password" placeholder="Mật khẩu" required 
+						<input type="password" id="password" name="password" placeholder="Mật khẩu" required 
 							className="h-12 bg-white min-w-[300px] w-full rounded-full px-12" 
 							value={state.password.get()}
 							onChange={e => state.password.set(e.target.value)}
@@ -92,10 +105,10 @@ const SignupForm = observer(function Component() {
 		</>
 		}
 
-		{state.loginRequestedData.get() && !state.loginRequestedData.isSuccess?.get() && 
+		{state.signupRequestedData.get() && !state.signupRequestedData.isSuccess?.get() && 
 			<div className="toast toast-top toast-end">
 				<div className="alert alert-error">
-					<span>{state.loginRequestedData.errors.get()}</span>
+					<span>{state.signupRequestedData.errors.get()}</span>
 				</div>
 			</div>
 		}
