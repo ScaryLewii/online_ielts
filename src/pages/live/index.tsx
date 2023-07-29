@@ -8,7 +8,7 @@ const LivePage = () => {
 		const handleGetSession = async () => {
 			const session = await getSession()
 			if (!session) {
-				router.push('/login')
+				router.push('/signin')
 			}   
 		}
 		
