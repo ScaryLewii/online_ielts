@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import back from "../../../public/images/back.svg"
 import { ReactSVG } from "react-svg"
+import { nanoid } from "nanoid"
 
 const Breadcrumbs = () => {
 	return <div className="text-sm breadcrumbs mb-10 flex items-center gap-4">
@@ -9,10 +10,10 @@ const Breadcrumbs = () => {
 			<ReactSVG src={back["src"]} width={30} height={30} />
 		</Link>
 		<ul>
-			<li>IELTS VIDEO COURSE</li> 
-			<li>Level 01: KICK OFF (0 - 2.0)</li> 
-			<li>Unit 1: Daily life</li>
-			<li className="text-white font-semibold">Practice 01</li>
+			<li key={nanoid()}>IELTS VIDEO COURSE</li> 
+			<li key={nanoid()}>Level 01: KICK OFF (0 - 2.0)</li> 
+			<li key={nanoid()}>Unit 1: Daily life</li>
+			<li key={nanoid()} className="text-white font-semibold">Practice 01</li>
 		</ul>
 	</div>
 }

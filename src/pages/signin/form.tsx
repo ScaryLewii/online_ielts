@@ -4,7 +4,7 @@ import emailIcon from "../../../public/images/email.svg"
 import lockIcon from "../../../public/images/lock.svg"
 import { useRouter } from 'next/navigation'
 import { useContext } from "react"
-import { getProviders, signIn, useSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { StateContext } from "@/components/common/layout"
 import Link from "next/link"
 
@@ -25,7 +25,6 @@ interface IState {
 }
 
 const SigninForm = observer(function Component() {
-	const {data: session, status} = useSession()
 	const router = useRouter()
 	const context = useContext(StateContext)
 	const state = useObservable({
@@ -53,8 +52,7 @@ const SigninForm = observer(function Component() {
 			}
 
 			state.loginRequestedData.isSuccess?.set(true)
-			console.log("Session", session?.user)
-			// router.push('/study-route')
+			router.push('/study-route')
 		})
 	}
 

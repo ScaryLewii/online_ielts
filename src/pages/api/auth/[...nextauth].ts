@@ -10,6 +10,14 @@ const fetchUserInfo = async (token: string) => {
     return data
 }
 
+const fetchCourseCategories = async (token: string) => {
+	const headers = { 'Authorization': `Bearer ${token}` };
+	const url = env.COURSE_CATEGORIES_API || ""
+	const data = fetch(url, { headers })
+            .then(response => response.json())
+    return data
+}
+
 export const authOptions: any = {
 	secret: env.AUTH_SECRET,
 	session: {
@@ -45,20 +53,22 @@ export const authOptions: any = {
 					throw new Error(resData.errors[0].message)
 				}
 
-				const userData = await fetchUserInfo(resData.data.token)
-
 				return {
-					id: userData.data.id,
-					name: userData.data.displayName,
+					name: resData.data.token,
 					email: credentials?.email,
-					image: null
 				}
 			}
 		})
 	],
 	callbacks: {
 		session: async ({session}: any) => {
-			return session
+			const user =  await fetchUserInfo(session.user.name)
+			const categories = await fetchCourseCategories(session.user.name)
+			return {
+				...session, 
+				user: user.data,
+				courseCategories: categories.data
+			}
 		},
 	},
 	pages: {

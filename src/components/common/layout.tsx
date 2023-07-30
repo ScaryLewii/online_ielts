@@ -1,5 +1,5 @@
-import TopNav from "./topnav"
-import SideNav from "./sidenav"
+import TopNav from "../navigation/topnav"
+import SideNav from "../navigation/sidenav"
 import Image from "next/image";
 import dashboardbg from "../../../public/images/dashboard-bg.svg"
 import React, { PropsWithChildren, createContext, useEffect } from "react";
