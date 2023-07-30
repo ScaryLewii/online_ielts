@@ -6,9 +6,7 @@ import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
 import { useContext } from "react"
 import { StateContext } from "@/components/common/layout"
-import QRBlock from "@/components/gate/scanning-qr"
 import Link from "next/link"
-import GateCta from "@/components/gate/gate-cta"
 import { env } from "process"
 
 interface IRequestedData {
@@ -53,7 +51,6 @@ const SignupForm = observer(function Component() {
 		
 		const resData = await res.json()
 		// error response => will work after API is fixed
-		console.log(resData)
 
 		if (!resData.isSuccess) {
 			state.signupRequestedData.isSuccess?.set(false)

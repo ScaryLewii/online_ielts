@@ -1,9 +1,22 @@
-import NextAuth, { Awaitable, RequestInternal, User } from "next-auth"
+import NextAuth, { Awaitable, RequestInternal, Session, User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { env } from 'process'
 
-// TODO:
-// Using a secret auth token (maybe get from backend/API)
+const fetchUserInfo = async (token: string) => {
+	const headers = { 'Authorization': `Bearer ${token}` };
+	const url = env.USER_INFO_API || ""
+	const data = fetch(url, { headers })
+            .then(response => response.json())
+    return data
+}
+
+const fetchCourseCategories = async (token: string) => {
+	const headers = { 'Authorization': `Bearer ${token}` };
+	const url = env.COURSE_CATEGORIES_API || ""
+	const data = fetch(url, { headers })
+            .then(response => response.json())
+    return data
+}
 
 export const authOptions: any = {
 	secret: env.AUTH_SECRET,
@@ -40,10 +53,24 @@ export const authOptions: any = {
 					throw new Error(resData.errors[0].message)
 				}
 
-				return resData.data.token
+				return {
+					name: resData.data.token,
+					email: credentials?.email,
+				}
 			}
 		})
 	],
+	callbacks: {
+		session: async ({session}: any) => {
+			const user =  await fetchUserInfo(session.user.name)
+			const categories = await fetchCourseCategories(session.user.name)
+			return {
+				...session, 
+				user: user.data,
+				courseCategories: categories.data
+			}
+		},
+	},
 	pages: {
 		signIn: '/signin',
 		// signOut: '/auth/signout',
