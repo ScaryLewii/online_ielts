@@ -28,6 +28,10 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	useEffect(() => {
 		const token = router.query.token as string || router.asPath.split("=")[1]
 		state.session.token.set(token)
+		if (token) {
+			sessionStorage.setItem("token", token)
+		}
+		
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.nav.isOpen.get()])
 

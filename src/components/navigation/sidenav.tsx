@@ -106,7 +106,8 @@ const SideNav = observer(() => {
 
 	useEffect(() => {
 		const fetchCategories = async () => {
-			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Imh1bmdkY0BnaDJ2cy5jb20iLCJlbWFpbCI6Imh1bmdkY0BnaDJ2cy5jb20iLCJqdGkiOiI3NmI5YmI5NS0yYWFiLTQ5MmMtODAzMi01YmQ5MzZhZGNhMmMiLCJyb2xlIjoiQURNSU4iLCJwdXIiOiJTaWduSW4iLCJuYmYiOjE2OTA4MTQwMzEsImV4cCI6MTY5MDg1NzIzMSwiaWF0IjoxNjkwODE0MDMxLCJpc3MiOiJodHRwczovLzl0YWxrLmVkdS52biIsImF1ZCI6Imh0dHBzOi8vOXRhbGsuZWR1LnZuIn0.qAq37a9E99jNFmsP6ImxVtlVeQWwHzUvkHv19sU1Wro"
+			console.log(sessionStorage.getItem("token"))
+			const token = sessionStorage.getItem("token") || context.session.token.get()
 			if (!token) {
 				return
 			}
