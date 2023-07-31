@@ -54,17 +54,15 @@ const HeaderSection = observer(function Component() {
 				</button>
 			</div>
 			<div className={`w-full flex-grow xl:flex xl:items-center xl:w-auto p-5 xl:p-0 bg-slate-600 xl:bg-transparent ${state.menuOpen.get() ? "block" : "hidden"}`}>
-				<div className="xl:flex-grow flex flex-col xl:flex-row gap-10 font-semibold">
+				<div className="xl:flex-grow xl:justify-center xl:-ml-20 flex flex-col xl:flex-row gap-10 font-semibold">
 					{navData.map((data, index) =>
 						<CustomLink key={data.href} to={data.href} spy={true} smooth={true} offset={-100} duration={500} onClick={() => state.menuOpen.set(isOpen => !isOpen)}>
 							{data.title}
 						</CustomLink>
 					)}
 				</div>
-				<div>
-					<Link href="/study-route" className="inline-block px-[27px] py-[14px] leading-none mt-6 xl:mt-0 bg-cyan font-semibold hover:opacity-90">Đăng nhập</Link>
-				</div>
 			</div>
+			<div></div>
 		</nav>
 	</header>
 })
