@@ -35,8 +35,10 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.nav.isOpen.get()])
 
-	if (router.asPath === "/") {
-		return <>{children}</>
+	if (router.pathname === "/") {
+		return <StateContext.Provider value={state}>
+			{children}
+		</StateContext.Provider> 
 	}
 
 	if (router.asPath === "/signup" || router.asPath === "/signin") {

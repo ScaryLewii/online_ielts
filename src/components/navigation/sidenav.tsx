@@ -106,7 +106,6 @@ const SideNav = observer(() => {
 
 	useEffect(() => {
 		const fetchCategories = async () => {
-			console.log(sessionStorage.getItem("token"))
 			const token = sessionStorage.getItem("token") || context.session.token.get()
 			if (!token) {
 				return

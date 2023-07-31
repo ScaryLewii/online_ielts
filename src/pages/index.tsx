@@ -5,8 +5,12 @@ import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
 import Head from 'next/head'
+import { useState } from 'react'
 
 export default function Home() {
+  useState(() => {
+    
+  })
   return (
     <>
       <Head>

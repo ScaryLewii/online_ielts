@@ -62,7 +62,7 @@ const HeaderSection = observer(function Component() {
 					)}
 				</div>
 				<div>
-					<Link href="/signin" className="inline-block px-[27px] py-[14px] leading-none mt-6 xl:mt-0 bg-cyan font-semibold hover:opacity-90">Đăng nhập</Link>
+					<Link href="/study-route" className="inline-block px-[27px] py-[14px] leading-none mt-6 xl:mt-0 bg-cyan font-semibold hover:opacity-90">Đăng nhập</Link>
 				</div>
 			</div>
 		</nav>

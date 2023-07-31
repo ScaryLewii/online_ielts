@@ -27,7 +27,7 @@ const DashboardNav = () => {
 	const router = useRouter()
 
 	const getActiveClass = (url: string) => {
-		if (router.asPath == url) return "is-active"
+		if (router.asPath.includes(url)) return "is-active"
 		return ""
 	}
 
