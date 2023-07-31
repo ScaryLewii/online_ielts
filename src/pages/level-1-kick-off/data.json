@@ -6,44 +6,12 @@
 				"name": "Lesson 01",
 				"time": "50:00",
 				"finish": "80%",
-				"tasks": [
-					{
-						"name": "Reading",
-						"href": "/reading",
-						"time": "20:20"
-					},
-					{
-						"name": "Writing",
-						"href": "/writing",
-						"time": "20:20"
-					},
-					{
-						"name": "Practice",
-						"href": "/practice",
-						"time": "10:20"
-					}
-				]
+				"href": "/writing"
 			},
 			{
 				"name": "Lesson 02",
 				"time": "50:00",
-				"tasks": [
-					{
-						"name": "Reading",
-						"href": "/reading",
-						"time": "20:20"
-					},
-					{
-						"name": "Writing",
-						"href": "/writing",
-						"time": "20:20"
-					},
-					{
-						"name": "Practice",
-						"href": "/practice",
-						"time": "10:20"
-					}
-				]
+				"href": "/practice"
 			}
 		]
 	},
@@ -53,44 +21,13 @@
 			{
 				"name": "Lesson 01",
 				"time": "50:00",
-				"tasks": [
-					{
-						"name": "Reading",
-						"href": "/reading",
-						"time": "20:20"
-					},
-					{
-						"name": "Writing",
-						"href": "/writing",
-						"time": "20:20"
-					},
-					{
-						"name": "Practice",
-						"href": "/practice",
-						"time": "10:20"
-					}
-				]
+				"finish": "80%",
+				"href": "/writing"
 			},
 			{
 				"name": "Lesson 02",
 				"time": "50:00",
-				"tasks": [
-					{
-						"name": "Reading",
-						"href": "/reading",
-						"time": "20:20"
-					},
-					{
-						"name": "Writing",
-						"href": "/writing",
-						"time": "20:20"
-					},
-					{
-						"name": "Practice",
-						"href": "/practice",
-						"time": "10:20"
-					}
-				]
+				"href": "/practice"
 			}
 		]
 	}

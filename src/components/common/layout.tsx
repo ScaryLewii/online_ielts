@@ -19,11 +19,15 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		gate: {
 			isQrScanning: false,
 			isLostPasswordPage: false,
+		},
+		session: {
+			token: ""
 		}
 	})
 
 	useEffect(() => {
-		// do nothing
+		const token = router.query.token as string || router.asPath.split("=")[1]
+		state.session.token.set(token)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.nav.isOpen.get()])
 
@@ -39,8 +43,10 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		</StateContext.Provider>
 	}
 
+	// window.location.assign('https://ant-edu.ai/user/profile')
+
 	return (
-		<StateContext.Provider value={state.nav}>
+		<StateContext.Provider value={state}>
 			<div className="dashboard-wrapper flex">
 				<SideNav />
 				<main className="bg-sea w-full min-h-screen overflow-hidden relative pt-14" style={{gridArea: "dashboard"}}>

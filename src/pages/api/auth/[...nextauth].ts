@@ -37,11 +37,11 @@ export const authOptions: any = {
 					"password": credentials?.password,
 				};
 
-				const url = env.SIGNIN_API_URL || ""
+				const token = window.sessionStorage.getItem('token') || ""
+				const url = env.USER_INFO_API || ""
 				const res = await fetch(url, {
-					method: 'POST',
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify(payload),
+					method: 'GET',
+					headers:  { 'Authorization': `Bearer ${token}` }
 				})
 				
 				const resData = await res.json()
@@ -63,8 +63,9 @@ export const authOptions: any = {
 	],
 	callbacks: {
 		session: async ({session}: any) => {
-			const user =  await fetchUserInfo(session.user.name)
-			const categories = await fetchCourseCategories(session.user.name)
+			const token = window.sessionStorage.getItem('token') || session.user.name
+			const user =  await fetchUserInfo(token)
+			const categories = await fetchCourseCategories(token)
 			return {
 				...session, 
 				user: user.data,

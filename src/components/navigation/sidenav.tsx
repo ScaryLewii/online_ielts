@@ -15,8 +15,17 @@ import { StateContext } from "../common/layout"
 import nav from "../../../public/nav.svg"
 import DashboardNav from "./dashboard-nav"
 import { env } from "process"
-import { useSession } from "next-auth/react"
 import { nanoid } from "nanoid"
+
+interface ICourse {
+	active: boolean,
+	description: string,
+	id: number,
+	level: number,
+	name: string,
+	parent: number,
+	slug: string,
+}
 
 const mainNav = [
 	// {
@@ -84,22 +93,44 @@ const mainNav = [
 
 const SideNav = observer(() => {
 	const router = useRouter()
-	const navState = useContext(StateContext)
-	const {data: session, status} = useSession()
+	const context = useContext(StateContext)
+
+	const categories = useObservable({
+		data: []
+	}) 
 
 	const getActiveClass = (url: string) => {
-		if (router.asPath == url) return "is-active"
+		if (router.asPath.includes(url)) return "is-active"
 		return ""
 	}
 
+	useEffect(() => {
+		const fetchCategories = async () => {
+			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Imh1bmdkY0BnaDJ2cy5jb20iLCJlbWFpbCI6Imh1bmdkY0BnaDJ2cy5jb20iLCJqdGkiOiI3NmI5YmI5NS0yYWFiLTQ5MmMtODAzMi01YmQ5MzZhZGNhMmMiLCJyb2xlIjoiQURNSU4iLCJwdXIiOiJTaWduSW4iLCJuYmYiOjE2OTA4MTQwMzEsImV4cCI6MTY5MDg1NzIzMSwiaWF0IjoxNjkwODE0MDMxLCJpc3MiOiJodHRwczovLzl0YWxrLmVkdS52biIsImF1ZCI6Imh0dHBzOi8vOXRhbGsuZWR1LnZuIn0.qAq37a9E99jNFmsP6ImxVtlVeQWwHzUvkHv19sU1Wro"
+			if (!token) {
+				return
+			}
+			const url = "https://apionline.ant-edu.ai/api/categories"
+			const headers = { 
+				'Content-Type' : 'application/json',
+				'Authorization': 'Bearer ' + token
+			};
+			fetch(url, { headers })
+				.then(res => res.json())
+				.then(data => categories.data.set(data.data))
+		};
+
+		fetchCategories();
+	}, []);
+
 	return <div className={`bg-sea-light text-white fixed z-20 top-0 left-0 lg:relative`}>
-		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${navState.isOpen.get() ? "block" : "hidden"}`}>
+		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${context.nav.isOpen.get() ? "block" : "hidden"}`}>
 			<div className="flex justify-between items-start">
 				<Link href="/" className="inline-block mb-8 px-6">
 					<Image src={logo} width={80} height={75} alt={logo} />
 				</Link>
 
-				<button className="mt-4 mr-3" onClick={() => navState.isOpen.set((v: boolean) => !v)}>
+				<button className="mt-4 mr-3" onClick={() => context.nav.isOpen.set((v: boolean) => !v)}>
 					<Image src={nav} width={23} height={23} alt="nav control" />
 				</button>
 			</div>
@@ -114,8 +145,8 @@ const SideNav = observer(() => {
 						</Link>
 
 						{
-							session && session?.courseCategories.map((course, index) => {
-								if (course.level === 0) {
+							categories.data.get() && categories.data.get().map((course: ICourse, index) => {
+								if (course.level === 1) {
 									return (
 										<ul key={nanoid()} className={`/courses/${course.slug === router.asPath ? "block" : "hidden"}`}>
 											<li className="sidenav-child__item">

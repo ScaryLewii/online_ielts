@@ -6,21 +6,12 @@ import arrow from "../../../public/images/arrow-right.svg"
 import { ReactSVG } from "react-svg"
 import lessonsData from "./data.json"
 import UnitBox from "./unit-box"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/router"
+import { nanoid } from "nanoid"
 
 const KickOffPage = () => {
-	const router = useRouter()
-	const { status } = useSession({
-		required: true,
-		onUnauthenticated() {
-			router.push("/signin")
-		},
-	})
-	
 	return <div className="flex gap-14 flex-wrap text-white">
 		<div className="w-full lg:w-auto lg:min-w-[650px] border border-white py-5 px-5">
-			{lessonsData.map((data, index) => <UnitBox key={`unit-${index}`} props={data} />)}
+			{lessonsData.map((data, index) => <UnitBox key={nanoid()} props={data} />)}
 		</div>
 		<div>
 			<h3 className="text-xl font-semibold">Schedule</h3>

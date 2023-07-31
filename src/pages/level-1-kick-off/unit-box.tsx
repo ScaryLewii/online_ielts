@@ -1,5 +1,6 @@
 import { FC } from "react"
 import LessonBox, { ILesson } from "./lesson-box"
+import { nanoid } from "nanoid"
 
 export interface IUnit {
 	key?: string,
@@ -15,7 +16,7 @@ const UnitBox: FC<IUnitProps> = ({ props }): JSX.Element => {
 	return <section className="text-white">
 		<h3 className="font-semibold mb-5">{props?.name}</h3>
 		{props?.data.map((lesson, index) =>
-			<LessonBox key={`lesson-${index}`} lesson={lesson} />
+			<LessonBox key={nanoid()} lesson={lesson} />
 		)}
 	</section>
 }

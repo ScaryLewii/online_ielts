@@ -8,18 +8,6 @@ import { useEffect } from "react"
 import { getSession } from "next-auth/react"
 
 const PracticePage = () => {
-	const router = useRouter()
-	useEffect(() => {
-		const handleGetSession = async () => {
-			const session = await getSession()
-			if (!session) {
-				router.push('/signin')
-			}   
-		}
-		
-		handleGetSession()
-	}, [])
-
 	return <>
 		<div className="pb-[150px]">
 			<Breadcrumbs />

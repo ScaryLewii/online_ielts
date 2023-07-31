@@ -9,18 +9,6 @@ import { useRouter } from "next/router";
 
 
 const WrittingPage = () => {
-	const router = useRouter()
-	useEffect(() => {
-		const handleGetSession = async () => {
-			const session = await getSession()
-			if (!session) {
-				router.push('/signin')
-			}   
-		}
-		
-		handleGetSession()
-	}, [])
-
 	return <>
 		<Breadcrumbs />
 		<VideoBlock />

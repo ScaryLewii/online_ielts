@@ -5,18 +5,8 @@ import { useEffect } from "react"
 import { useRouter } from "next/router"
 
 const Route = () => {
-	const router = useRouter()
-	useEffect(() => {
-		const handleGetSession = async () => {
-			const session = await getSession()
-			if (!session) {
-				router.push('/signin')
-			}   
-		}
-		
-		handleGetSession()
-	}, [])
 
+	
 	return <div className="relative">
 		<ReactSVG src={route['src']} />
 		<div className="absolute cursor-pointer group top-[45px] left-[250px]">
