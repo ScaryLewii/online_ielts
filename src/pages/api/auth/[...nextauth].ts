@@ -54,6 +54,7 @@ export const authOptions: any = {
 				}
 
 				return {
+					id: resData.data.id || 0,
 					name: resData.data.token,
 					email: credentials?.email,
 				}
