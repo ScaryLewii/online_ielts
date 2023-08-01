@@ -26,7 +26,7 @@ const LessonContent = () => {
 		};
 
 		fetchLessonContent();
-	}, [context.lessons.get()]);
+	}, [context.lessons.get(), content]);
 
 	return <>
 		<Breadcrumbs />

@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 const WrittingPage = () => {
 	return <>
 		<Breadcrumbs />
-		<VideoBlock />
 		<VocabularyBlock />
 	</>
 }
