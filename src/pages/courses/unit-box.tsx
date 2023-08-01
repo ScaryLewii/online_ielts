@@ -28,7 +28,7 @@ export interface ILesson {
 interface IUnitBlock {
 	unit: IUnit,
 	lessons: ILesson[],
-	videos: IVideo
+	videos: IVideo[]
 }
 
 const UnitBox: FC<IUnitBlock> = observer(({ unit, lessons, videos }): JSX.Element => {

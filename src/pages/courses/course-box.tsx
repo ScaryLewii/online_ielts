@@ -39,7 +39,7 @@ const CourseBox = (id: any) => {
 				.then(data => {
 					setUnits(data.data.chapters)
 					const lessonArray = data.data.lessons
-					const videosArray: any = []
+					const videosArray: IVideo[] = []
 					data.data.lessons.forEach(
 						(l: ILesson) => {
 							l.videoUrl && videosArray.push({id: l.id, slug: l.slug, url: l.videoUrl})
