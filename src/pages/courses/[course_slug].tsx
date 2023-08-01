@@ -4,12 +4,39 @@ import hat from "../../../public/images/hat.svg"
 import arrow from "../../../public/images/arrow-right.svg"
 import { ReactSVG } from "react-svg"
 import lessonsData from "./data.json"
-import UnitBox from "./unit-box"
+import { useContext, useEffect } from "react"
+import { observer, useObservable } from "@legendapp/state/react"
+import { StateContext } from "@/components/common/layout"
+import { useRouter } from "next/router"
+import { ICourseCat } from "@/components/navigation/sidenav"
+import { nanoid } from "nanoid"
+import CourseBox from "./course-box"
 
-const CourseContent = () => {	
+const CourseContent = observer(() => {
+	const router = useRouter()
+	const context = useContext(StateContext)
+
+	useEffect(() => {
+		const fetchCourses = () => {
+			context.categories.get().map((cat: ICourseCat) => {
+				if (router.asPath.includes(cat.slug)) {
+					const url = "https://apionline.ant-edu.ai/api/courses/category/" + cat.id
+					const headers = { 
+						'Content-Type' : 'application/json',
+					};
+					fetch(url, { headers })
+						.then(res => res.json())
+						.then(data => context.courses.set(data.data))
+				}
+			})
+		};
+
+		fetchCourses();
+	}, [context.categories.get()]);
+
 	return <div className="flex gap-14 flex-wrap text-white">
 		<div className="w-full lg:w-auto lg:min-w-[650px] border border-white py-5 px-5">
-			{lessonsData.map((data, index) => <UnitBox key={`unit-${index}`} props={data} />)}
+			{context.courses.get().map((course: any) => <CourseBox key={nanoid()} id={course.id} />)}
 		</div>
 		<div>
 			<h3 className="text-xl font-semibold">Schedule</h3>
@@ -28,6 +55,6 @@ const CourseContent = () => {
 			</button>
 		</div>
 	</div>
-}
+})
 
 export default CourseContent

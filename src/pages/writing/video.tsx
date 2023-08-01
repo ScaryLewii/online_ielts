@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import Image from "next/image";
 import playIcon from "../../../public/images/play.svg"
 import { observer, useObservable } from "@legendapp/state/react"
@@ -28,7 +28,12 @@ const subtitleData = [
 	},
 ]
 
-const VideoBlock = observer(() => {
+interface IVideoBlock {
+	video: string | undefined
+}
+
+const VideoBlock: FC<IVideoBlock> = observer(({video}): JSX.Element => {
+	console.log('v',video)
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
 	})
@@ -43,7 +48,7 @@ const VideoBlock = observer(() => {
 		<>
 			<div className="flex gap-5 mb-10 text-white items-start">
 				<div className="w-full">
-					<VideoPlayer playerRef={playerRef} />
+					<VideoPlayer playerRef={playerRef} video={video} />
 					<div className="bg-sea-lighter h-[140px] relative">
 						<p className="text-center absolute px-8 top-1/2 -translate-y-1/2">
 							{state.subtitle.get()}

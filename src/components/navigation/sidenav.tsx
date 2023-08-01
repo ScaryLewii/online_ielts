@@ -14,10 +14,9 @@ import { useContext, useEffect } from "react"
 import { StateContext } from "../common/layout"
 import nav from "../../../public/nav.svg"
 import DashboardNav from "./dashboard-nav"
-import { env } from "process"
 import { nanoid } from "nanoid"
 
-interface ICourse {
+export interface ICourseCat {
 	active: boolean,
 	description: string,
 	id: number,
@@ -28,37 +27,6 @@ interface ICourse {
 }
 
 const mainNav = [
-	// {
-	// 	label: "Khóa học của tôi",
-	// 	url: "/study-route",
-	// 	icon: course,
-	// 	children: [
-	// 		{
-	// 			label: "Lộ trình học",
-	// 			url: "/study-route",
-	// 		},
-	// 		{
-	// 			label: "Level 1: Kick-off",
-	// 			url: "/kick-off",
-	// 		},
-	// 		{
-	// 			label: "Level 2: Speed-up",
-	// 			url: "/speed-up",
-	// 		},
-	// 		{
-	// 			label: "Level 3: Modest",
-	// 			url: "/modest",
-	// 		},
-	// 		{
-	// 			label: "Level 4: Fluent",
-	// 			url: "/fluent",
-	// 		},
-	// 		{
-	// 			label: "Level 5: Advanced",
-	// 			url: "/advanced",
-	// 		}
-	// 	]
-	// },
 	{
 		label: "Live",
 		url: "/live",
@@ -95,29 +63,20 @@ const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(StateContext)
 
-	const categories = useObservable({
-		data: []
-	}) 
-
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active"
 		return ""
 	}
 
 	useEffect(() => {
-		const fetchCategories = async () => {
-			const token = sessionStorage.getItem("token") || context.session.token.get()
-			if (!token) {
-				return
-			}
+		const fetchCategories = () => {
 			const url = "https://apionline.ant-edu.ai/api/categories"
 			const headers = { 
 				'Content-Type' : 'application/json',
-				'Authorization': 'Bearer ' + token
 			};
 			fetch(url, { headers })
 				.then(res => res.json())
-				.then(data => categories.data.set(data.data))
+				.then(data => context.categories.set(data.data))
 		};
 
 		fetchCategories();
@@ -144,15 +103,15 @@ const SideNav = observer(() => {
 							Khóa học của tôi
 						</Link>
 
-						{
-							categories.data.get() && categories.data.get().map((course: ICourse, index) => {
-								if (course.level === 1) {
+						{ context.categories.get() && 
+							context.categories.get().map((cat: ICourseCat) => {
+								if (cat.level === 1 && cat.active) {
 									return (
-										<ul key={nanoid()} className={`/courses/${course.slug === router.asPath ? "block" : "hidden"}`}>
+										<ul key={nanoid()} className={`/courses/${cat.slug === router.asPath ? "block" : "hidden"}`}>
 											<li className="sidenav-child__item">
-												<Link href={`/courses/${course.slug}`}
-													className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + course.slug)}`}>
-														{course.name}
+												<Link href={`/courses/${cat.slug}`}
+													className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.slug)}`}>
+														{cat.name}
 												</Link>
 											</li>
 										</ul>

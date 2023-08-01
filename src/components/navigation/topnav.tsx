@@ -14,7 +14,7 @@ const TopNav = observer(() => {
 	
 	useEffect(() => {
 		const fetchUserData = async () => {
-			const token = sessionStorage.getItem("token") || context.session.token.get()
+			const token = localStorage.getItem("token") || context.session.token.get()
 			if (!token) {
 				return
 			}
