@@ -7,22 +7,31 @@ import doubleCheck from "../../../public/images/double-check.svg"
 import Link from "next/link"
 import { IUnit } from "./course-box"
 import { nanoid } from "nanoid"
+import { IVideo } from "../writing/video"
 
 export interface ILesson {
-	name?: string,
-	time?: string,
-	finish?: string,
-	slug?: string | URL,
-	chapterId: number,
-	videoUrl?: string
+	active: boolean
+	chapterId: number
+	checkpoint:boolean
+	courseId: number
+	description: string
+	displayOrder: number
+	id: number
+	name: string
+	requirePoint: number
+	slug: string
+	timeLength: number
+	type: string
+	videoUrl: string
 }
 
-interface ILessonProps {
-	unit: IUnit
-	lessons: ILesson[]
+interface IUnitBlock {
+	unit: IUnit,
+	lessons: ILesson[],
+	videos: IVideo
 }
 
-const UnitBox: FC<ILessonProps> = observer(({ unit, lessons }): JSX.Element => {
+const UnitBox: FC<IUnitBlock> = observer(({ unit, lessons, videos }): JSX.Element => {
 	const state = useObservable({
 		isExpanded: false,
 	})

@@ -26,7 +26,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		categories: [],
 		courses: [],
 		units: [],
-		lessons: []
+		lessons: [],
+		videos: []
 	})
 
 	useEffect(() => {

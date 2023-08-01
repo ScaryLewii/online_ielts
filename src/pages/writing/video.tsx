@@ -28,12 +28,22 @@ const subtitleData = [
 	},
 ]
 
-interface IVideoBlock {
-	video: string | undefined
+export interface IVideo {
+	id: number,
+	slug: string,
+	url: string
 }
 
-const VideoBlock: FC<IVideoBlock> = observer(({video}): JSX.Element => {
-	console.log('v',video)
+interface IVideoBlock {
+	video: IVideo
+}
+
+interface IVideoUrl {
+	url: string
+}
+
+const VideoBlock: FC<IVideoUrl> = observer(({url}): JSX.Element => {
+	console.log(url)
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
 	})
@@ -48,7 +58,7 @@ const VideoBlock: FC<IVideoBlock> = observer(({video}): JSX.Element => {
 		<>
 			<div className="flex gap-5 mb-10 text-white items-start">
 				<div className="w-full">
-					<VideoPlayer playerRef={playerRef} video={video} />
+					<VideoPlayer playerRef={playerRef} video={url} />
 					<div className="bg-sea-lighter h-[140px] relative">
 						<p className="text-center absolute px-8 top-1/2 -translate-y-1/2">
 							{state.subtitle.get()}
@@ -70,7 +80,7 @@ const VideoBlock: FC<IVideoBlock> = observer(({video}): JSX.Element => {
 					</div>
 				</div>
 			</div>
-			<h2 className="text-xl font-semibold uppercase mt-8 mb-10">Latino or Hispanic? What is the difference?</h2>
+			<h2 className="text-xl font-semibold uppercase mt-8 mb-10 text-white">Latino or Hispanic? What is the difference?</h2>
 		</>
 	)
 })
