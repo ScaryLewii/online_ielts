@@ -13,7 +13,7 @@ const LivePage = () => {
 		}
 		
 		handleGetSession()
-	}, [])
+	})
 
 	return <h1>afasfasf</h1>
 }

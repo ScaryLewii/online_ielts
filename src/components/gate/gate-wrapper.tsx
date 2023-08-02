@@ -27,7 +27,7 @@ const GateWrapper = ({ children }: PropsWithChildren) => {
 		}
 		
 		handleGetSession()
-	}, [])
+	})
 
 	return (
 		<main className="relative bg-sea text-white">

@@ -11,7 +11,7 @@ import { useRouter } from "next/router"
 import { ICourseCat } from "@/components/navigation/sidenav"
 import { nanoid } from "nanoid"
 import CourseBox from "./course-box"
-import { ICourse } from "./types"
+import { ICourse } from "../../components/types/types"
 
 interface ICourseContentState {
 	courses: ICourse[],
@@ -24,6 +24,7 @@ const CourseContent = () => {
 	const [courseIds, setCourseIds] = useState<number[]>([])
 
 	useEffect(() => {
+		console.log(context.categories.get())
 		const categories = Object.values(context.categories.get()) as ICourseCat[]
 		categories.map((cat: ICourseCat) => {
 			if (router.asPath.includes(cat.slug)) {

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
-import { ILesson } from "../types";
+import { ILesson } from "../../../components/types/types";
 
 const LessonContent = () => {
 	const router = useRouter()
@@ -23,7 +23,6 @@ const LessonContent = () => {
 		};
 
 		fetchLessonContent();
-        console.log(content)
 	}, [content, context.lessons, router.asPath]);
 
 	return <>

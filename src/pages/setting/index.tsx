@@ -13,7 +13,7 @@ const SettingPage = () => {
 		}
 		
 		handleGetSession()
-	}, [])
+	})
 
 	return <div className="text-white lg:max-w-[600px]">
 		<div className="pb-10 border-b border-white">

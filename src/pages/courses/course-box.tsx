@@ -3,7 +3,7 @@ import UnitBox from "./unit-box"
 import { StateContext } from "@/components/common/layout"
 import { nanoid } from "nanoid"
 import { IVideo } from "../writing/video"
-import { ICourse, ILesson, IUnit } from "./types"
+import { ICourse, ILesson, IUnit } from "../../components/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { ICourseCat } from "@/components/navigation/sidenav"
 
@@ -35,7 +35,7 @@ const CourseBox: FC<ICouseBox> = ({courseId}) => {
 			}
 			setUnitIds(ids)
 		})
-	}, [])
+	})
 
 	return <section className="text-white">
 		<h3 className="font-semibold mb-5">{course?.name}</h3>

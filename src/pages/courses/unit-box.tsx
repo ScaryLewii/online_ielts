@@ -6,7 +6,7 @@ import playIcon from "../../../public/images/play.svg"
 import Link from "next/link"
 import { nanoid } from "nanoid"
 import { StateContext } from "@/components/common/layout"
-import { ILesson, IUnit } from "./types"
+import { ILesson, IUnit } from "../../components/types/types"
 import { useRouter } from "next/router"
 interface IUnitBlock {
 	unitId: number
