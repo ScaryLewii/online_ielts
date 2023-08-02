@@ -1,11 +1,12 @@
 import TopNav from "../navigation/topnav"
-import SideNav from "../navigation/sidenav"
+import SideNav, { ICourseCat } from "../navigation/sidenav"
 import Image from "next/image";
 import dashboardbg from "../../../public/images/dashboard-bg.svg"
 import React, { PropsWithChildren, createContext, useEffect } from "react";
 import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 import GateWrapper from "../gate/gate-wrapper";
+import { stat } from "fs";
 
 export const StateContext = createContext<any>(null)
 const baseUrl = "https://apionline.ant-edu.ai/api/"
@@ -58,6 +59,17 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 				.then(categories => state.categories.set(categories.data))
 		};
 
+		const _lessonsArray:any = []
+		const _unitsArray:any = []
+		const fetchLessons = (path: string) => {
+			fetch(baseUrl + path, { headers })
+				.then(res => res.json())
+				.then(lessons => {
+					_lessonsArray.push(...lessons.data.lessons)
+					_unitsArray.push(...lessons.data.chapters)
+				})
+		};
+
 		const fetchCourses = (path: string) => {
 			fetch(baseUrl + path, { headers })
 				.then(res => res.json())
@@ -65,6 +77,11 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 					const _coursesArray: any = []
 					courses.data && courses.data.map((c: any) => _coursesArray.push(c.course))
 					state.courses.set(_coursesArray)
+					_coursesArray.map((c: any) => {
+						fetchLessons(`courses/lessons/${c.id}`)
+						state.units.set(_unitsArray)
+						state.lessons.set(_lessonsArray)
+					})
 				})
 		}
 

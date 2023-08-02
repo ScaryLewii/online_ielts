@@ -4,7 +4,7 @@ import hat from "../../../public/images/hat.svg"
 import arrow from "../../../public/images/arrow-right.svg"
 import { ReactSVG } from "react-svg"
 import lessonsData from "./data.json"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { observer, useObservable } from "@legendapp/state/react"
 import { StateContext } from "@/components/common/layout"
 import { useRouter } from "next/router"
@@ -13,30 +13,31 @@ import { nanoid } from "nanoid"
 import CourseBox from "./course-box"
 import { ICourse } from "./types"
 
-const CourseContent = observer(() => {
+interface ICourseContentState {
+	courses: ICourse[],
+	courseIds: number[]
+}
+
+const CourseContent = () => {
 	const router = useRouter()
 	const context = useContext(StateContext)
-
-	const state = useObservable({
-		courses: [],
-		courseIds: []
-	})
+	const [courseIds, setCourseIds] = useState<number[]>([])
 
 	useEffect(() => {
-		context.categories.get().map((cat: ICourseCat) => {
+		const categories = Object.values(context.categories.get()) as ICourseCat[]
+		categories.map((cat: ICourseCat) => {
 			if (router.asPath.includes(cat.slug)) {
 				const courses = context.courses.get().filter((c: ICourse) => c.categoryId === cat.id)
-				state.courses.set(courses)
-				state.courseIds.set(courses.map((c: ICourse) => c.id))
+				setCourseIds(courses.map((c: ICourse) => c.id))
 			}
 		})
-	}, [])
+	}, [context.categories, context.courses, router.asPath])
 
 	return <div className="flex gap-14 flex-wrap text-white">
 		<div className="w-full lg:w-auto lg:min-w-[650px] border border-white py-5 px-5">
-			{state.courseIds.get().map((id: number) => 
-				<CourseBox key={nanoid()} courseId={id} />)
-			}
+			{courseIds.map((id: number) => 
+				<CourseBox key={nanoid()} courseId={id} />
+			)}
 		</div>
 		<div>
 			<h3 className="text-xl font-semibold">Schedule</h3>
@@ -55,6 +56,6 @@ const CourseContent = observer(() => {
 			</button>
 		</div>
 	</div>
-})
+}
 
 export default CourseContent

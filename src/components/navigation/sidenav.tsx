@@ -64,34 +64,8 @@ const SideNav = observer(() => {
 	const context = useContext(StateContext)
 	const baseUrl = "https://apionline.ant-edu.ai/api/"
 
-	useEffect(() => {
-		const headers = { 
-			'Content-Type' : 'application/json',
-			'Authorization': 'Bearer ' + context.token.get()
-		};
-
-		const _lessonsArray:any = []
-		const _unitsArray:any = []
-		const _videosArray:any = []
-		const fetchLessons = (path: string) => {
-			fetch(baseUrl + path, { headers })
-				.then(res => res.json())
-				.then(lessons => {
-					_lessonsArray.push(...lessons.data.lessons)
-					_unitsArray.push(...lessons.data.chapters)
-				})
-		};
-
-		context.courses.get().map((c:any) => {
-			fetchLessons(`courses/lessons/${c.id}`)
-		})
-
-		context.units.set(_unitsArray)
-		context.lessons.set(_lessonsArray)
-	})
-
 	const getActiveClass = (url: string) => {
-		if (router.asPath.includes(url)) return "is-active"
+		if (router.asPath.includes(url)) return "is-active pointer-events-none"
 		return ""
 	}
 

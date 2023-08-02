@@ -1,16 +1,12 @@
 import { getSession } from "next-auth/react"
 import route from "../../../public/images/route.svg"
 import { ReactSVG } from "react-svg"
-import { useEffect } from "react"
-import { useRouter } from "next/router"
 import icon1 from "../../../public/dump/icon-1.svg"
 import icon2 from "../../../public/dump/icon-2.svg"
 import icon3 from "../../../public/dump/icon-3.svg"
 import icon4 from "../../../public/dump/icon-4.svg"
 
 const Route = () => {
-
-	
 	return <div className="relative">
 		<ReactSVG src={route['src']} />
 		<div className="absolute cursor-pointer group top-[45px] left-[250px]">

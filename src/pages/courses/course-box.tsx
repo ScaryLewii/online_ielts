@@ -16,20 +16,15 @@ interface ICourseState {
 	unitIds: number[]
 }
 
-const CourseBox: FC<ICouseBox> = observer(({courseId}) => {
+const CourseBox: FC<ICouseBox> = ({courseId}) => {
 	const context = useContext(StateContext)
 	const [course, setCourse] = useState<ICourse | null>(null)
 	const [unitIds, setUnitIds] = useState<number[]>([])
 
-	const state = useObservable({
-		course: null,
-		unitIds: []
-	} as unknown as ICourseState ) 
-
-	const unitArray = [...context.units.get()] as IUnit[]
-
 	useEffect(() => {
-		context.courses.get().map((c: ICourse) => {
+		const unitArray = Object.values(context.units.get()) as IUnit[]
+		const courses = Object.values(context.courses.get()) as ICourse[]
+		courses.map((c: ICourse) => {
 			c.id === courseId && setCourse(c)
 		})
 
@@ -48,6 +43,6 @@ const CourseBox: FC<ICouseBox> = observer(({courseId}) => {
 			<UnitBox key={nanoid()} unitId={id} />
 		)}
 	</section>
-})
+}
 
 export default CourseBox
