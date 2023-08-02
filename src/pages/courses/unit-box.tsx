@@ -2,7 +2,7 @@ import { FC, useContext, useEffect, useState } from "react"
 import { observer, useObservable } from "@legendapp/state/react"
 import chevron from "../../../public/images/chevron.svg"
 import Image from "next/image"
-import doubleCheck from "../../../public/images/double-check.svg"
+import playIcon from "../../../public/images/play.svg"
 import Link from "next/link"
 import { nanoid } from "nanoid"
 import { StateContext } from "@/components/common/layout"
@@ -10,12 +10,6 @@ import { ILesson, IUnit } from "./types"
 import { useRouter } from "next/router"
 interface IUnitBlock {
 	unitId: number
-}
-
-interface IUnitBlockState {
-	isExpanded: boolean,
-	unit: IUnit,
-	lessons: ILesson[]
 }
 
 const UnitBox: FC<IUnitBlock> = ({ unitId }): JSX.Element => {
@@ -46,8 +40,9 @@ const UnitBox: FC<IUnitBlock> = ({ unitId }): JSX.Element => {
 				{lessons.map(l => 
 					<li key={nanoid()} data-id={l.id} className="list-none flex items-center justify-between pl-10 pr-3">
 						{l.chapterId === unitId &&
-							<Link href={`/courses/lesson/${l.slug}`}
+							<Link href={`/courses/lesson/${l.id}`}
 								className="flex items-center gap-5 mb-3">
+									{l.type === "video" && <Image src={playIcon} width={24} height={24} alt="video" />}
 									{l.name}
 							</Link>
 						}
