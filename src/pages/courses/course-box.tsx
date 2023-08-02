@@ -26,16 +26,19 @@ const CourseBox: FC<ICouseBox> = observer(({courseId}) => {
 		unitIds: []
 	} as unknown as ICourseState ) 
 
+	const unitArray = [...context.units.get()] as IUnit[]
+
 	useEffect(() => {
 		context.courses.get().map((c: ICourse) => {
 			c.id === courseId && setCourse(c)
 		})
 
-		const unitArray = [...context.units.get()] as IUnit[]
+		const ids: number[] = []
 		unitArray.forEach(u => {
 			if (u.courseId === courseId) {
-				console.log(u)
+				ids.push(u.id)
 			}
+			setUnitIds(ids)
 		})
 	}, [])
 

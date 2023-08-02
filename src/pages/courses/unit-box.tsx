@@ -7,6 +7,7 @@ import Link from "next/link"
 import { nanoid } from "nanoid"
 import { StateContext } from "@/components/common/layout"
 import { ILesson, IUnit } from "./types"
+import { useRouter } from "next/router"
 interface IUnitBlock {
 	unitId: number
 }
@@ -18,15 +19,18 @@ interface IUnitBlockState {
 
 const UnitBox: FC<IUnitBlock> = observer(({ unitId }): JSX.Element => {
 	const context = useContext(StateContext)
-	console.log(unitId)
+	const router = useRouter()
 
 	const state = useObservable({
 		isExpanded: false,
 		lessons: []
 	} as unknown as IUnitBlockState)
 
-	const lessons = context.lessons.get().filter((l: ILesson) => l.chapterId === unitId)
-	state.lessons.set(lessons)
+	useEffect(() => {
+		const lessons = context.lessons.get().filter((l: ILesson) => l.chapterId === unitId)
+		console.log(unitId)
+		state.lessons.set(lessons)
+	}, [router.asPath])
 
 	return <>
 		<div className={`flex justify-between items-center mb-5 lg:px-3
