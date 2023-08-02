@@ -24,7 +24,6 @@ const CourseContent = () => {
 	const [courseIds, setCourseIds] = useState<number[]>([])
 
 	useEffect(() => {
-		console.log(context.categories.get())
 		const categories = Object.values(context.categories.get()) as ICourseCat[]
 		categories.map((cat: ICourseCat) => {
 			if (router.asPath.includes(cat.slug)) {

@@ -24,7 +24,7 @@ const UnitBox: FC<IUnitBlock> = ({ unitId }): JSX.Element => {
 
 		const lessons = Object.values(context.lessons.get()) as ILesson[]
 		setLessons(lessons.filter((l: ILesson) => l.chapterId === unitId))
-	}, [])
+	}, [context.lessons, context.units, unitId])
 	
 	return <>
 		<div className={`flex justify-between items-center mb-5 lg:px-3

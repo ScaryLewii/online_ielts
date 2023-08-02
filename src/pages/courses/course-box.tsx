@@ -35,7 +35,7 @@ const CourseBox: FC<ICouseBox> = ({courseId}) => {
 			}
 			setUnitIds(ids)
 		})
-	})
+	}, [context.courses, context.units, courseId])
 
 	return <section className="text-white">
 		<h3 className="font-semibold mb-5">{course?.name}</h3>
