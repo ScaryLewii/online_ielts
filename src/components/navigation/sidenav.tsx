@@ -62,25 +62,38 @@ const mainNav = [
 const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(StateContext)
+	const baseUrl = "https://apionline.ant-edu.ai/api/"
+
+	useEffect(() => {
+		const headers = { 
+			'Content-Type' : 'application/json',
+			'Authorization': 'Bearer ' + context.token.get()
+		};
+
+		const _lessonsArray:any = []
+		const _unitsArray:any = []
+		const _videosArray:any = []
+		const fetchLessons = (path: string) => {
+			fetch(baseUrl + path, { headers })
+				.then(res => res.json())
+				.then(lessons => {
+					_lessonsArray.push(...lessons.data.lessons)
+					_unitsArray.push(...lessons.data.chapters)
+				})
+		};
+
+		context.courses.get().map((c:any) => {
+			fetchLessons(`courses/lessons/${c.id}`)
+		})
+
+		context.units.set(_unitsArray)
+		context.lessons.set(_lessonsArray)
+	})
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active"
 		return ""
 	}
-
-	useEffect(() => {
-		const fetchCategories = () => {
-			const url = "https://apionline.ant-edu.ai/api/categories"
-			const headers = { 
-				'Content-Type' : 'application/json',
-			};
-			fetch(url, { headers })
-				.then(res => res.json())
-				.then(data => context.categories.set(data.data))
-		};
-
-		fetchCategories();
-	}, []);
 
 	return <div className={`bg-sea-light text-white fixed z-20 top-0 left-0 lg:relative`}>
 		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${context.nav.isOpen.get() ? "block" : "hidden"}`}>

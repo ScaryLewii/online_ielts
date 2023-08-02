@@ -1,40 +1,32 @@
-import { FC } from "react"
+import { FC, useContext, useEffect } from "react"
 import { observer, useObservable } from "@legendapp/state/react"
 import chevron from "../../../public/images/chevron.svg"
 import Image from "next/image"
-import check from "../../../public/images/check.svg"
 import doubleCheck from "../../../public/images/double-check.svg"
 import Link from "next/link"
-import { IUnit } from "./course-box"
 import { nanoid } from "nanoid"
-import { IVideo } from "../writing/video"
-
-export interface ILesson {
-	active: boolean
-	chapterId: number
-	checkpoint:boolean
-	courseId: number
-	description: string
-	displayOrder: number
-	id: number
-	name: string
-	requirePoint: number
-	slug: string
-	timeLength: number
-	type: string
-	videoUrl: string
-}
-
+import { StateContext } from "@/components/common/layout"
+import { ILesson, IUnit } from "./types"
 interface IUnitBlock {
-	unit: IUnit,
-	lessons: ILesson[],
-	videos: IVideo[]
+	unitId: number
 }
 
-const UnitBox: FC<IUnitBlock> = observer(({ unit, lessons, videos }): JSX.Element => {
+interface IUnitBlockState {
+	isExpanded: boolean,
+	lessons: ILesson[]
+}
+
+const UnitBox: FC<IUnitBlock> = observer(({ unitId }): JSX.Element => {
+	const context = useContext(StateContext)
+	console.log(unitId)
+
 	const state = useObservable({
 		isExpanded: false,
-	})
+		lessons: []
+	} as unknown as IUnitBlockState)
+
+	const lessons = context.lessons.get().filter((l: ILesson) => l.chapterId === unitId)
+	state.lessons.set(lessons)
 
 	return <>
 		<div className={`flex justify-between items-center mb-5 lg:px-3
@@ -42,17 +34,18 @@ const UnitBox: FC<IUnitBlock> = observer(({ unit, lessons, videos }): JSX.Elemen
 		`}>
 			<button className="flex gap-2 lg:gap-4" onClick={() => state.isExpanded.set(v => !v)}>
 				<Image src={chevron} width={24} height={24} alt="chevron" />
-				<h4>{unit?.name}</h4>
+				<h4>{}</h4>
 			</button>
 		</div>
 		<ul className={`${state.isExpanded.get() ? "block mb-5" : "hidden"}`}>
-			{lessons?.map(lesson => 
-				<li key={nanoid()} className="list-none flex items-center justify-between pl-10 pr-3">
-					{lesson.slug && lesson.chapterId === unit.id &&
+			{state.lessons.get().map(l => 
+				<li key={nanoid()} data-id={l.id} className="list-none flex items-center justify-between pl-10 pr-3">
+					{l.slug && l.chapterId === unitId &&
 						<>
-							<Link href={`/courses/unit/${lesson.slug}`} className="flex items-center gap-5 mb-3">
-								<Image src={doubleCheck} width={24} height={24} alt="done task" />
-								{lesson.name}
+							<Link href={`/courses/lesson/${l.id}`}
+								className="flex items-center gap-5 mb-3">
+									<Image src={doubleCheck} width={24} height={24} alt="done task" />
+									{l.name}
 							</Link>
 						</>
 					}

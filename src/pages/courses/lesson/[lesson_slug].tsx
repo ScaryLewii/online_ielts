@@ -53,12 +53,11 @@ const LessonContent = () => {
 	const router = useRouter()
 	const context = useContext(StateContext)
 	const [video, setVideo] = useState("")
-
+    
 	const [content, setContent] = useState<ILesson | null>(null)
 	
 	useEffect(() => {
 		setVideo(Videos[Math.floor(Math.random() * Videos.length)].url)
-		console.log(context.videos.get())
 		const fetchLessonContent = () => {
 			context.lessons.get().map((lesson: ILesson) => {
 				const url = lesson.slug as string

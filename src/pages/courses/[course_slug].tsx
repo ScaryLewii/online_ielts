@@ -11,32 +11,32 @@ import { useRouter } from "next/router"
 import { ICourseCat } from "@/components/navigation/sidenav"
 import { nanoid } from "nanoid"
 import CourseBox from "./course-box"
+import { ICourse } from "./types"
 
 const CourseContent = observer(() => {
 	const router = useRouter()
 	const context = useContext(StateContext)
 
-	useEffect(() => {
-		const fetchCourses = () => {
-			context.categories.get().map((cat: ICourseCat) => {
-				if (router.asPath.includes(cat.slug)) {
-					const url = "https://apionline.ant-edu.ai/api/courses/category/" + cat.id
-					const headers = { 
-						'Content-Type' : 'application/json',
-					};
-					fetch(url, { headers })
-						.then(res => res.json())
-						.then(data => context.courses.set(data.data))
-				}
-			})
-		};
+	const state = useObservable({
+		courses: [],
+		courseIds: []
+	})
 
-		fetchCourses();
-	}, [context.categories.get()]);
+	useEffect(() => {
+		context.categories.get().map((cat: ICourseCat) => {
+			if (router.asPath.includes(cat.slug)) {
+				const courses = context.courses.get().filter((c: ICourse) => c.categoryId === cat.id)
+				state.courses.set(courses)
+				state.courseIds.set(courses.map((c: ICourse) => c.id))
+			}
+		})
+	}, [])
 
 	return <div className="flex gap-14 flex-wrap text-white">
 		<div className="w-full lg:w-auto lg:min-w-[650px] border border-white py-5 px-5">
-			{context.courses.get().map((course: any) => <CourseBox key={nanoid()} id={course.id} />)}
+			{state.courseIds.get().map((id: number) => 
+				<CourseBox key={nanoid()} courseId={id} />)
+			}
 		</div>
 		<div>
 			<h3 className="text-xl font-semibold">Schedule</h3>

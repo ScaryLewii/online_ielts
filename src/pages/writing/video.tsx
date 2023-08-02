@@ -43,7 +43,6 @@ interface IVideoUrl {
 }
 
 const VideoBlock: FC<IVideoUrl> = observer(({url}): JSX.Element => {
-	console.log(url)
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
 	})

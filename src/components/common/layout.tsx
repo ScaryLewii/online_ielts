@@ -8,6 +8,7 @@ import { observer, useObservable } from "@legendapp/state/react"
 import GateWrapper from "../gate/gate-wrapper";
 
 export const StateContext = createContext<any>(null)
+const baseUrl = "https://apionline.ant-edu.ai/api/"
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const router = useRouter()
@@ -16,13 +17,12 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		nav: {
 			isOpen: true
 		},
+		token: "",
 		gate: {
 			isQrScanning: false,
 			isLostPasswordPage: false,
 		},
-		session: {
-			token: ""
-		},
+		user: {},
 		categories: [],
 		courses: [],
 		units: [],
@@ -31,14 +31,48 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	})
 
 	useEffect(() => {
-		const token = router.query.token as string || router.asPath.split("=")[1]
-		state.session.token.set(token)
-		if (token) {
-			localStorage.setItem("token", token)
+		const _token = router.query.token as string || router.asPath.split("=")[1]
+		const token = _token || localStorage.getItem("token")
+		if (!token) {
+			return
 		}
+
+		localStorage.setItem("token", token)
+		state.token.set(token)
+
+		const headers = { 
+			'Content-Type' : 'application/json',
+			'Authorization': 'Bearer ' + token
+		};
 		
+		const fetchUserData = (path: string) => {
+			fetch(baseUrl + path,{ method: 'POST', headers })
+				.then(res => res.json())
+				.then(user => state.user.set(user.data));
+		};
+
+
+		const fetchCategories = (path: string) => {
+			fetch(baseUrl + path, { headers })
+				.then(res => res.json())
+				.then(categories => state.categories.set(categories.data))
+		};
+
+		const fetchCourses = (path: string) => {
+			fetch(baseUrl + path, { headers })
+				.then(res => res.json())
+				.then(courses => {
+					const _coursesArray: any = []
+					courses.data && courses.data.map((c: any) => _coursesArray.push(c.course))
+					state.courses.set(_coursesArray)
+				})
+		}
+
+		fetchUserData("user/sso-support");
+		fetchCategories("categories");
+		fetchCourses("user/courses");
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.nav.isOpen.get()])
+	}, [])
 
 	if (router.pathname === "/") {
 		return <StateContext.Provider value={state}>
