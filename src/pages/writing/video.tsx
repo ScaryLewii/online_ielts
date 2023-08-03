@@ -3,6 +3,7 @@ import Image from "next/image";
 import playIcon from "../../../public/images/play.svg"
 import { observer, useObservable } from "@legendapp/state/react"
 import dynamic from 'next/dynamic';
+import UpdateBlock from "@/components/common/update";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 const subtitleData = [
@@ -67,7 +68,8 @@ const VideoBlock: FC<IVideoUrl> = observer(({url}): JSX.Element => {
 				<div className="bg-dark-10 rounded-[10px] flex-grow overflow-hidden min-h-full">
 					<h3 className="bg-light p-3 text-black font-semibold text-center">Subtitle Section</h3>
 					<div className="max-h-[500px] overflow-auto">
-					{subtitleData.map((s, index) => 
+						<UpdateBlock />
+					{/* {subtitleData.map((s, index) => 
 						<div className="relative" key={`seek-${s.time}-${index}`}>
 							<label className="relative flex items-start gap-[10px] px-5 py-8 text-left cursor-pointer hover:bg-dark-15 border-l-4 border-transparent hover:border-cyan peer-checked:border-cyan" htmlFor={`seek-${s.time}-${index}`} onClick={() => handleSeekClick(s)}>
 								<Image className="mt-[3px]" src={playIcon} width={20} height={20} alt="play" />
@@ -75,11 +77,11 @@ const VideoBlock: FC<IVideoUrl> = observer(({url}): JSX.Element => {
 							</label>
 							<input className="absolute opacity-0 peer" type="radio" id={`seek-${s.time}-${index}`} name="seek-to-time" />
 						</div>
-					)}
+					)} */}
 					</div>
 				</div>
 			</div>
-			<h2 className="text-xl font-semibold uppercase mt-8 mb-10 text-white">Latino or Hispanic? What is the difference?</h2>
+			{/* <h2 className="text-xl font-semibold uppercase mt-8 mb-10 text-white">Latino or Hispanic? What is the difference?</h2> */}
 		</>
 	)
 })

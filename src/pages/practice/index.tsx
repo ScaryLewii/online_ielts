@@ -10,10 +10,10 @@ import { getSession } from "next-auth/react"
 const PracticePage = () => {
 	return <>
 		<div className="pb-[150px]">
-			<Breadcrumbs />
+			{/* <Breadcrumbs />
 			<RadioGroup />
 			<CheckboxGroup />
-			<TextAreaBox />
+			<TextAreaBox /> */}
 		</div>
 		<Footer />
 	</>

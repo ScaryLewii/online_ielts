@@ -1,3 +1,5 @@
+import UpdateBlock from "@/components/common/update"
+
 const data = [
 	{
 		text: "alternative",
@@ -37,7 +39,9 @@ const VocabularyBlock = () => {
 			<span className="block h-7 w-2 bg-light"></span>
 			Video vocabulary
 		</h3>
-		{data.map((word, index) => 
+
+		<UpdateBlock />
+		{/* {data.map((word, index) => 
 			<div key={`voc-${index}`} className="flex justify-between items-start px-5 py-10 border-t border-white first-of-type:border-0 text-white">
 				<div>
 					<h5 className="flex items-center gap-8 mb-10">
@@ -57,7 +61,7 @@ const VocabularyBlock = () => {
 				</div>
 				<span className="py-1 px-3 border border-cyan text-cyan rounded-md">{word.level}</span>
 			</div>
-		)}
+		)} */}
 	</div>
 }
 

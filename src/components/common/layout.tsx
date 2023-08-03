@@ -1,12 +1,12 @@
 import TopNav from "../navigation/topnav"
-import SideNav, { ICourseCat } from "../navigation/sidenav"
+import SideNav from "../navigation/sidenav"
 import Image from "next/image";
 import dashboardbg from "../../../public/images/dashboard-bg.svg"
 import React, { PropsWithChildren, createContext, useEffect } from "react";
 import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 import GateWrapper from "../gate/gate-wrapper";
-import { stat } from "fs";
+import { ILesson, IQuiz } from "../types/types";
 
 export const StateContext = createContext<any>(null)
 const baseUrl = "https://apionline.ant-edu.ai/api/"
@@ -28,7 +28,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		courses: [],
 		units: [],
 		lessons: [],
-		videos: []
+		quizs: []
 	})
 
 	useEffect(() => {
@@ -61,12 +61,26 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 
 		const _lessonsArray:any = []
 		const _unitsArray:any = []
+		const _quizArray: any = []
 		const fetchLessons = (path: string) => {
 			fetch(baseUrl + path, { headers })
 				.then(res => res.json())
 				.then(lessons => {
 					_lessonsArray.push(...lessons.data.lessons)
 					_unitsArray.push(...lessons.data.chapters)
+
+					const lessonsArr = Object.values(lessons.data.lessons) as ILesson[]
+					lessonsArr.map((l: ILesson) => {
+						fetch(baseUrl + "lessons/" + l.id + "/quizzes", { headers })
+							.then(res => res.json())
+							.then(quiz => {
+								if (quiz.data.length) {
+									let _quiz = Object.values(quiz.data)[0] as IQuiz
+									_quiz.chapterId = l.chapterId
+									_quizArray.push(_quiz)
+								}
+							})
+					})
 				})
 		};
 
@@ -81,6 +95,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 						fetchLessons(`courses/lessons/${c.id}`)
 						state.units.set(_unitsArray)
 						state.lessons.set(_lessonsArray)
+						state.quizs.set(_quizArray)
 					})
 				})
 		}

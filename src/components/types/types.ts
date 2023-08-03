@@ -14,6 +14,32 @@ export interface ILesson {
 	videoUrl: string
 }
 
+export interface IQuiz {
+	id: string,
+    title: string
+    description: string
+    content: string,
+	type: string,
+	lessonId: number,
+	active: boolean
+	time: number
+	chapterId: number
+}
+
+export interface IAnswer {
+	id: string
+	content: string
+	right: boolean
+}
+
+export interface IQuestion {
+	id: string
+	title: string
+	content: string
+	type: string
+	answers: IAnswer[]
+}
+
 export interface IUnit {
 	active: boolean,
 	id: number,
