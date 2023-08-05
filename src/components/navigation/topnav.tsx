@@ -20,7 +20,7 @@ const TopNav = observer(() => {
 		<div className="flex gap-5 items-center">
 			<button className="relative w-[40px] h-[40px] flex justify-center items-center rounded-full hover:bg-sea">
 				<Image src={bellIcon} width={25} height={25} alt="notification" />
-				<span className="flex justify-center items-center text-xs font-semibold w-4 h-4 rounded-full bg-red absolute right-[5px] top-[5px]">3</span>
+				{/* <span className="flex justify-center items-center text-xs font-semibold w-4 h-4 rounded-full bg-red absolute right-[5px] top-[5px]">3</span> */}
 			</button>
 
 			<span className="hidden lg:block h-8 w-[1px] bg-white"></span>
