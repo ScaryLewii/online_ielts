@@ -3,18 +3,6 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 const SettingPage = () => {
-	const router = useRouter()
-	useEffect(() => {
-		const handleGetSession = async () => {
-			const session = await getSession()
-			if (!session) {
-				router.push('/signin')
-			}   
-		}
-		
-		handleGetSession()
-	})
-
 	return <div className="text-white lg:max-w-[600px]">
 		<div className="pb-10 border-b border-white">
 			<h2 className="text-xl font-semibold mb-8">Thông báo cho tôi khi....</h2>
