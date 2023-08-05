@@ -7,9 +7,10 @@ import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 import GateWrapper from "../gate/gate-wrapper";
 import { ILesson, IQuiz } from "../types/types";
+import { baseUrl, fetchData } from "@/base/base";
 
 export const StateContext = createContext<any>(null)
-const baseUrl = "https://apionline.ant-edu.ai/api/"
+
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const router = useRouter()
@@ -39,68 +40,39 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		localStorage.setItem("token", token)
 		state.token.set(token)
 
-		const headers = { 
-			'Content-Type' : 'application/json',
-			'Authorization': 'Bearer ' + token
-		};
-		
-		const fetchUserData = (path: string) => {
-			fetch(baseUrl + path,{ method: 'POST', headers })
-				.then(res => res.json())
-				.then(user => state.user.set(user.data));
-		};
-
-
-		const fetchCategories = (path: string) => {
-			fetch(baseUrl + path, { headers })
-				.then(res => res.json())
-				.then(categories => state.categories.set(categories.data))
-		};
+		fetchData("user/sso-support", token, "POST").then(user => state.user.set(user.data))
+		fetchData("categories", token, "GET").then(categories => state.categories.set(categories.data))
 
 		const _lessonsArray:any = []
 		const _unitsArray:any = []
 		const _quizArray: any = []
-		const fetchLessons = (path: string) => {
-			fetch(baseUrl + path, { headers })
-				.then(res => res.json())
-				.then(lessons => {
-					_lessonsArray.push(...lessons.data.lessons)
-					_unitsArray.push(...lessons.data.chapters)
+		fetchData("user/courses", token, "GET").then(courses => {
+			const _coursesArray: any = []
+			courses.data && courses.data.map((c: any) => _coursesArray.push(c.course))
+			state.courses.set(_coursesArray)
+			_coursesArray.map((c: any) => {
+				fetchData(`courses/lessons/${c.id}`, token, "GET")
+					.then(lessons => {
+						_lessonsArray.push(...lessons.data.lessons)
+						_unitsArray.push(...lessons.data.chapters)
 
-					const lessonsArr = Object.values(lessons.data.lessons) as ILesson[]
-					lessonsArr.map((l: ILesson) => {
-						fetch(baseUrl + "lessons/" + l.id + "/quizzes", { headers })
-							.then(res => res.json())
-							.then(quiz => {
-								if (quiz.data.length) {
-									let _quiz = Object.values(quiz.data)[0] as IQuiz
-									_quiz.chapterId = l.chapterId
-									_quizArray.push(_quiz)
-								}
-							})
+						const lessonsArr = Object.values(lessons.data.lessons) as ILesson[]
+						lessonsArr.map((l: ILesson) => {
+							fetchData("lessons/" + l.id + "/quizzes", token, "GET")
+								.then(quiz => {
+									if (quiz.data.length) {
+										let _quiz = Object.values(quiz.data)[0] as IQuiz
+										_quiz.chapterId = l.chapterId
+										_quizArray.push(_quiz)
+									}
+								})
+						})
 					})
-				})
-		};
-
-		const fetchCourses = (path: string) => {
-			fetch(baseUrl + path, { headers })
-				.then(res => res.json())
-				.then(courses => {
-					const _coursesArray: any = []
-					courses.data && courses.data.map((c: any) => _coursesArray.push(c.course))
-					state.courses.set(_coursesArray)
-					_coursesArray.map((c: any) => {
-						fetchLessons(`courses/lessons/${c.id}`)
-						state.units.set(_unitsArray)
-						state.lessons.set(_lessonsArray)
-						state.quizs.set(_quizArray)
-					})
-				})
-		}
-
-		fetchUserData("user/sso-support");
-		fetchCategories("categories");
-		fetchCourses("user/courses");
+				state.units.set(_unitsArray)
+				state.lessons.set(_lessonsArray)
+				state.quizs.set(_quizArray)
+			})
+		})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -117,8 +89,6 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 			</GateWrapper>
 		</StateContext.Provider>
 	}
-
-	// window.location.assign('https://ant-edu.ai/user/profile')
 
 	return (
 		<StateContext.Provider value={state}>

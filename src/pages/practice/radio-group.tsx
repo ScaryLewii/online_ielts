@@ -11,14 +11,12 @@ interface IRadioGroup {
 	questionContent: IQuestion
 }
 
-const RadioGroup: FC<IRadioGroup> = observer(({ questionContent }) => {
+const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 	const context = useContext(QuizContext)
 	const state = useObservable({
 		isCorrect: false,
 		chosen: ""
 	})
-
-	console.log(questionContent)
 
 	const handleChange = (id: string, answer: IAnswer) => {
 		state.chosen.set(answer.id)

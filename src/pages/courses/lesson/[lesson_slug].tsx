@@ -30,9 +30,9 @@ const LessonContent = () => {
 	}, [content, context.lessons, router, router.asPath]);
 
 	return <>
-		<Breadcrumbs />
+		{content?.name && <Breadcrumbs title={content.name} />}
 		{content?.videoUrl && <VideoBlock url={content.videoUrl} /> }
-		<VocabularyBlock />
+		{content?.id && <VocabularyBlock lessonId={content.id} />}
 	</>
 }
 

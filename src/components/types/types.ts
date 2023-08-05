@@ -60,3 +60,19 @@ export interface IUserAnswer {
 	id: string,
 	correct: boolean
 }
+
+export interface IDefinition {
+	id: string,
+	vocabularyId: string,
+	definition: string,
+	typeOfSpeech: string,
+	exampleSentence: string
+}
+
+export interface IWord {
+	id: string,
+	lessonId: number,
+	word: string,
+	phonemes: string,
+	vocabularyDefinitions: IDefinition[]
+}

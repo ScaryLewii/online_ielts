@@ -30,6 +30,11 @@ const QuizNav = observer(({content}: QuizNavContent) => {
 		state.warning.set(true)
 	}
 
+	const handleCloseToast = () => {
+		state.warning.set(false)
+		context.isSubmit.set(false)
+	}
+
 	const CustomLink = Scroll.Link
 
 	return <div className="sticky bottom-0 -left-14 -right-14">
@@ -52,8 +57,12 @@ const QuizNav = observer(({content}: QuizNavContent) => {
 				)}
 			</div>
 
-			<button className="flex gap-[10px] py-2 px-5 border border-white rounded-md items-center hover:bg-sea"
+			<button className={`
+					flex gap-[10px] py-2 px-5 border border-white rounded-md items-center hover:bg-sea
+					${context.isSubmit?.get() ? "cursor-pointer" : "cursor-not-allowed"}
+				`}
 				onClick={() => handleSubmit()}
+				disabled={context.isSubmit?.get() ? true : false}
 			>
 				<Image src={plane} width={17} height={14} alt="submit" />
 				Submit
@@ -65,7 +74,7 @@ const QuizNav = observer(({content}: QuizNavContent) => {
 				<div className="alert alert-error relative">
 					<span>Chưa hoàn thành hết các câu hỏi</span>
 					<button className="absolute -top-[10px] -left-[10px] bg-white w-6 h-6 rounded-full flex items-center justify-center font-semibold"
-						onClick={() => state.warning.set(false)}>
+						onClick={() => handleCloseToast()}>
 							x
 					</button>
 				</div>
