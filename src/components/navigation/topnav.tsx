@@ -12,8 +12,8 @@ const TopNav = observer(() => {
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
 	}}>
 		<div>
-			<button className={context.nav.isOpen.get() ? "hidden" : "block"}
-				onClick={() => context.nav.isOpen.set((v: any) => !v)}>
+			<button className={context?.isNavOpen.get() ? "hidden" : "block"}
+				onClick={() => context?.isNavOpen.set((v: any) => !v)}>
 				<Image src={nav} width={23} height={23} alt="nav control" />
 			</button>
 		</div>
@@ -26,7 +26,7 @@ const TopNav = observer(() => {
 			<span className="hidden lg:block h-8 w-[1px] bg-white"></span>
 
 			<button className="flex gap-5 items-center group">
-				<h3 className="group-hover:underline">{context.user.displayName.get()}</h3>
+				<h3 className="group-hover:underline">{context?.user.displayName.get()}</h3>
 				<Image className="rounded-full border-2 border-white group-hover:border-cyan" src="https://placehold.co/45x45" width={45} height={45} alt="profile image" unoptimized={true} />
 			</button>
 		</div>

@@ -15,9 +15,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const router = useRouter()
 
 	const state = useObservable({
-		nav: {
-			isOpen: true
-		},
+		isNavOpen: true,
 		token: "",
 		gate: {
 			isQrScanning: false,
@@ -126,7 +124,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		<StateContext.Provider value={state}>
 			<div className="dashboard-wrapper flex">
 				<SideNav />
-				<main className="bg-sea w-full min-h-screen overflow-hidden relative pt-14" style={{gridArea: "dashboard"}}>
+				<main className="bg-sea w-full min-h-screen relative pt-14" style={{gridArea: "dashboard"}}>
 					<Image src={dashboardbg} width={1920} height={1080} alt="background" loading="lazy" className="absolute top-0 left-0 z-0" />
 					<TopNav />
 					<section className="relative z-[1] p-5 xl:p-14">

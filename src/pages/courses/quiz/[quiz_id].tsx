@@ -6,36 +6,48 @@ import RadioGroup from "@/pages/practice/radio-group";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react";
+import QuizNav from "./quiz-nav";
+import { observer, useObservable } from "@legendapp/state/react"
 
-
-const QuizContent = () => {
+const QuizContent = observer(function Component() {
 	const router = useRouter();
 	const context = useContext(StateContext)
-	const [content, setContent] = useState<IQuestion[]>([])
+	const quizId = router.asPath.split("/").pop() || "0"
+
+	const state = useObservable({ questions: [] })
 
 	useEffect(() => {
-        const quizId = router.asPath.split("/").pop() || "0"
-		const fetchQuizContent = async () => {
-			await context.quizs.get().map((q: IQuiz) => {
-				if (q.id === quizId) {
-					setContent(JSON.parse(q.content))
-				}
+		if (!context.quizs.get().length) {
+			router.push("/study-route")
+		}
+
+		const fetchQuizContent = () => {
+	
+			context.quizs.get().forEach((q: IQuiz) => {
+				q.id === quizId && state.questions.set(JSON.parse(q.content))
+				return;
 			})
-		};
+		}
+	
+		fetchQuizContent()
+	}, [context.quizs, quizId, router, state.questions])
+	
 
-		fetchQuizContent();
-	}, [context.quizs, router.asPath]);
-
-	if (!content) {
+	if (!state.questions.get().length) {
 		return <>Loading...</>
 	}
 
 	return <>
 		<Breadcrumbs />
-		{content && content.map(c =>
-			c.type === "SingleChoice" && <RadioGroup key={nanoid()} questionContent={c} />
-		)}
+		<div className="flex gap-10">
+			<div className="xl:flex-grow">
+				{state.questions.get().map((c: IQuestion) =>
+					c.type === "SingleChoice" && <RadioGroup key={nanoid()} questionContent={c} />
+				)}
+			</div>
+			<QuizNav content={state.questions.get()} />
+		</div>
 	</>
-}
+})
 
 export default QuizContent

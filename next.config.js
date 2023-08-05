@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: '/signin',
+        destination: 'https://ant-edu.ai/auth/login',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     return [
       {

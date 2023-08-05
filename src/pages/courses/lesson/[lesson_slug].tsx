@@ -13,6 +13,10 @@ const LessonContent = () => {
 	const [content, setContent] = useState<ILesson | null>(null)
 	
 	useEffect(() => {
+		if (!context.lessons.get().length) {
+			router.push("/study-route")
+		}
+
         const lessonId = parseInt(router.asPath.split("/").pop() || "0")
 		const fetchLessonContent = () => {
 			context.lessons.get().map((lesson: ILesson) => {
@@ -23,7 +27,7 @@ const LessonContent = () => {
 		};
 
 		fetchLessonContent();
-	}, [content, context.lessons, router.asPath]);
+	}, [content, context.lessons, router, router.asPath]);
 
 	return <>
 		<Breadcrumbs />

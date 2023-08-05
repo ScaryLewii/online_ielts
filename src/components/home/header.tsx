@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as Scroll from 'react-scroll';
 import logo from "../../../public/logo.svg"
 import nav from "../../../public/nav.svg"
+import { nanoid } from "nanoid";
 
 interface INav {
 	title: string,
@@ -34,7 +35,7 @@ const navData: INav[] = [
 	},
 ]
 
-const HeaderSection = observer(function Component() {
+const HeaderSection = observer(() => {
 	const state = useObservable({
 		menuOpen: false,
 	})
@@ -55,8 +56,8 @@ const HeaderSection = observer(function Component() {
 			</div>
 			<div className={`w-full flex-grow xl:flex xl:items-center xl:w-auto p-5 xl:p-0 bg-slate-600 xl:bg-transparent ${state.menuOpen.get() ? "block" : "hidden"}`}>
 				<div className="xl:flex-grow xl:justify-center xl:-ml-20 flex flex-col xl:flex-row gap-10 font-semibold">
-					{navData.map((data, index) =>
-						<CustomLink key={data.href} to={data.href} spy={true} smooth={true} offset={-100} duration={500} onClick={() => state.menuOpen.set(isOpen => !isOpen)}>
+					{navData.map(data =>
+						<CustomLink key={nanoid()} to={data.href} spy={true} smooth={true} offset={-100} duration={500} onClick={() => state.menuOpen.set(isOpen => !isOpen)}>
 							{data.title}
 						</CustomLink>
 					)}
