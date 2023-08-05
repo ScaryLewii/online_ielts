@@ -8,7 +8,7 @@ import { observer, useObservable } from "@legendapp/state/react"
 const TopNav = observer(() => {
 	const context = useContext(StateContext)
 
-	return <div className="absolute top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
+	return <div className="sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
 	}}>
 		<div>

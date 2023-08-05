@@ -54,3 +54,9 @@ export interface ICourse {
 	name: string,
 	slug: string
 }
+
+
+export interface IUserAnswer {
+	id: string,
+	correct: boolean
+}
