@@ -1,13 +1,17 @@
-import { FC } from "react";
+import { observer, useObservable } from "@legendapp/state/react";
 import ReactPlayer from "react-player/lazy";
-import { IVideo } from "./video";
 
 interface IPlayer {
 	playerRef: any,
-	video: string
+	video: string,
+	isPlaying: boolean
 }
 
-const VideoPlayer: FC<IPlayer> = ({ playerRef, video }) => {
+const VideoPlayer = observer(({ playerRef, video, isPlaying }: IPlayer) => {
+	const state = useObservable({
+		isPlaying: false,
+	})
+
 	const tempVideo = "//s3.envoy.rocks/bothrs/goud-design-sprint/goud/LhgEcS_GOUD+PROTOTYPE+SHOWCASE.mp4"
 	return (
 		<div className="relative pt-[56.25%]">
@@ -18,9 +22,10 @@ const VideoPlayer: FC<IPlayer> = ({ playerRef, video }) => {
 				controls
 				width="100%"
 				height="100%"
+				playing={isPlaying}
 			/>
 		</div>
 	);
-}
+})
 
 export default VideoPlayer

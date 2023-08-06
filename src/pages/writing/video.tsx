@@ -1,9 +1,19 @@
 import { FC, useRef } from "react";
 import Image from "next/image";
 import playIcon from "../../../public/images/play.svg"
+import repeatIcon from "../../../public/images/repeat.svg"
+import engIcon from "../../../public/images/eng.svg"
+import previousIcon from "../../../public/images/previous.svg"
+import nextIcon from "../../../public/images/next.svg"
+import playVideoIcon from "../../../public/images/play-video.svg"
+import fullscreenIcon from "../../../public/images/full-screen.svg"
 import { observer, useObservable } from "@legendapp/state/react"
 import dynamic from 'next/dynamic';
 import UpdateBlock from "@/components/common/update";
+import { nanoid } from "nanoid";
+import screenfull from "screenfull";
+import { findDOMNode } from "react-dom";
+import ReactPlayer from "react-player";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 const subtitleData = [
@@ -35,17 +45,14 @@ export interface IVideo {
 	url: string
 }
 
-interface IVideoBlock {
-	video: IVideo
-}
-
 interface IVideoUrl {
 	url: string
 }
 
-const VideoBlock: FC<IVideoUrl> = observer(({url}): JSX.Element => {
+const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
+		isPlaying: false
 	})
 
 	const playerRef = useRef<any>(null);
@@ -54,15 +61,54 @@ const VideoBlock: FC<IVideoUrl> = observer(({url}): JSX.Element => {
 		playerRef.current?.seekTo(s.time)
 	}
 
+	const handlePlayClick = () => {
+		playerRef.current?.seekTo(0)
+	}
+
+	const handleClickFullscreen = () => {
+		playerRef.current && screenfull.request(playerRef.current?.wrapper)
+	}
+
 	return (
 		<>
 			<div className="flex gap-5 mb-10 text-white items-start">
 				<div className="w-full">
-					<VideoPlayer playerRef={playerRef} video={url} />
-					<div className="bg-sea-lighter h-[140px] relative">
+					<VideoPlayer playerRef={playerRef} video={url} isPlaying={state.isPlaying.get()} />
+					{/* <div className="bg-sea-lighter h-[140px] relative">
 						<p className="text-center absolute px-8 top-1/2 -translate-y-1/2">
 							{state.subtitle.get()}
 						</p>
+					</div> */}
+					<div className="flex justify-between items-center py-3 px-5 bg-sea-lighter mt-[4px]">
+						<div className="flex gap-5">
+							<button onClick={() => playerRef.current?.seekTo(0)}>
+								<Image src={repeatIcon} width={24} height={24} alt="repeat" />
+							</button>
+
+							<button>
+								<Image src={engIcon} width={24} height={24} alt="change language" />
+							</button>
+						</div>
+
+						<div className="flex gap-5">
+							<button>
+								<Image src={previousIcon} width={35} height={35} alt="previous" />
+							</button>
+
+							<button onClick={() => state.isPlaying.set(v => !v)}>
+								<Image src={playVideoIcon} width={48} height={48} alt="play" className="rounded-full overflow-hidden" />
+							</button>
+
+							<button>
+								<Image src={nextIcon} width={35} height={35} alt="next" />
+							</button>
+						</div>
+
+						<div>
+							<button onClick={() => handleClickFullscreen()}>
+								<Image src={fullscreenIcon} width={24} height={24} alt="fullscreen" />
+							</button>
+						</div>
 					</div>
 				</div>
 				<div className="bg-dark-10 rounded-[10px] flex-grow overflow-hidden min-h-full">
@@ -70,12 +116,12 @@ const VideoBlock: FC<IVideoUrl> = observer(({url}): JSX.Element => {
 					<div className="max-h-[500px] overflow-auto">
 						<UpdateBlock />
 					{/* {subtitleData.map((s, index) => 
-						<div className="relative" key={`seek-${s.time}-${index}`}>
-							<label className="relative flex items-start gap-[10px] px-5 py-8 text-left cursor-pointer hover:bg-dark-15 border-l-4 border-transparent hover:border-cyan peer-checked:border-cyan" htmlFor={`seek-${s.time}-${index}`} onClick={() => handleSeekClick(s)}>
+						<div className="relative" key={nanoid()}>
+							<label className="relative flex items-start gap-[10px] px-5 py-8 text-left cursor-pointer hover:bg-dark-15 border-l-4 border-transparent hover:border-cyan peer-checked:border-cyan" htmlFor={nanoid()} onClick={() => handleSeekClick(s)}>
 								<Image className="mt-[3px]" src={playIcon} width={20} height={20} alt="play" />
 								<span>{s.text}</span>
 							</label>
-							<input className="absolute opacity-0 peer" type="radio" id={`seek-${s.time}-${index}`} name="seek-to-time" />
+							<input className="absolute opacity-0 peer" type="radio" id={nanoid()} name="seek-to-time" />
 						</div>
 					)} */}
 					</div>

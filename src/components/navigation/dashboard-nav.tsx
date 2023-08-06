@@ -7,11 +7,6 @@ import { useRouter } from 'next/router'
 
 const dashboardNav = [
 	{
-		label: "Tài khoản của tôi",
-		url: "/profile",
-		icon: userIcon,
-	},
-	{
 		label: "Cài đặt",
 		url: "/setting",
 		icon: settingIcon,

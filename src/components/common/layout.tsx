@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 import GateWrapper from "../gate/gate-wrapper";
 import { ILesson, IQuiz } from "../types/types";
-import { baseUrl, fetchData } from "@/base/base";
+import { fetchData } from "@/base/base";
 
 export const StateContext = createContext<any>(null)
 
