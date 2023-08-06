@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useContext, useRef } from "react";
 import Image from "next/image";
 import playIcon from "../../../public/images/play.svg"
 import repeatIcon from "../../../public/images/repeat.svg"
@@ -14,6 +14,9 @@ import { nanoid } from "nanoid";
 import screenfull from "screenfull";
 import { findDOMNode } from "react-dom";
 import ReactPlayer from "react-player";
+import { useRouter } from "next/router";
+import { StateContext } from "@/components/common/layout";
+import { ILesson } from "@/components/types/types";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 const subtitleData = [
@@ -50,6 +53,9 @@ interface IVideoUrl {
 }
 
 const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
+	const router = useRouter()
+	const context = useContext(StateContext)
+
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
 		isPlaying: false
@@ -61,12 +67,27 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 		playerRef.current?.seekTo(s.time)
 	}
 
-	const handlePlayClick = () => {
-		playerRef.current?.seekTo(0)
-	}
-
 	const handleClickFullscreen = () => {
 		playerRef.current && screenfull.request(playerRef.current?.wrapper)
+	}
+
+	const checkValidLesson = (lessons: ILesson[], id: number) => {
+		return lessons.some(l => l.id === id)
+	}
+
+	const goToLesson = (isNext: boolean) => {
+		const param = router.asPath.split("/").pop() as string
+		const currentLesson = parseInt(param)
+
+		const previousLesson = checkValidLesson(context.lessons.get(), currentLesson - 1) ? currentLesson - 1 : currentLesson
+		const nextLesson = checkValidLesson(context.lessons.get(), currentLesson + 1) ? currentLesson + 1 : currentLesson
+
+		if (isNext) {
+			router.push("/courses/lesson/" + nextLesson)
+			return
+		}
+
+		router.push("/courses/lesson/" + previousLesson)
 	}
 
 	return (
@@ -91,7 +112,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 						</div>
 
 						<div className="flex gap-5">
-							<button>
+							<button onClick={() => goToLesson(false)}>
 								<Image src={previousIcon} width={35} height={35} alt="previous" />
 							</button>
 
@@ -99,7 +120,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 								<Image src={playVideoIcon} width={48} height={48} alt="play" className="rounded-full overflow-hidden" />
 							</button>
 
-							<button>
+							<button onClick={() => goToLesson(true)}>
 								<Image src={nextIcon} width={35} height={35} alt="next" />
 							</button>
 						</div>
