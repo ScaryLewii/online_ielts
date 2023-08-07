@@ -15,16 +15,7 @@ import { StateContext } from "../common/layout"
 import nav from "../../../public/nav.svg"
 import DashboardNav from "./dashboard-nav"
 import { nanoid } from "nanoid"
-
-export interface ICourseCat {
-	active: boolean,
-	description: string,
-	id: number,
-	level: number,
-	name: string,
-	parent: number,
-	slug: string,
-}
+import { ICourseCat } from "../types/types"
 
 const mainNav = [
 	{

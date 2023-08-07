@@ -5,12 +5,11 @@ import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
 import Head from 'next/head'
-import { useState } from 'react'
+import type { GetServerSideProps } from 'next'
+import { serialize } from 'cookie'
+import { IContext } from '@/components/types/types'
 
 export default function Home() {
-  useState(() => {
-    
-  })
   return (
     <>
       <Head>
@@ -29,4 +28,15 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps<{data: IContext}> = async (context) => {
+  const urlQueryParams = context.query
+  const token = urlQueryParams.token as string
+  const cookie = serialize('token', token, {
+		httpOnly: true
+	})
+  context.res.setHeader("set-Cookie", cookie)
+
+  return { props: {} }
 }

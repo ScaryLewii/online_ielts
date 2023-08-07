@@ -12,9 +12,12 @@
   "dependencies": {
     "@legendapp/state": "^1.4.0",
     "@next/font": "^13.4.10",
+    "@types/cookie": "^0.5.1",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
+    "cookie": "^0.5.0",
+    "cookies": "^0.8.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "nanoid": "^4.0.2",
