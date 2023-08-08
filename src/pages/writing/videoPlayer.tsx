@@ -8,10 +8,6 @@ interface IPlayer {
 }
 
 const VideoPlayer = observer(({ playerRef, video, isPlaying }: IPlayer) => {
-	const state = useObservable({
-		isPlaying: false,
-	})
-
 	const tempVideo = "//s3.envoy.rocks/bothrs/goud-design-sprint/goud/LhgEcS_GOUD+PROTOTYPE+SHOWCASE.mp4"
 	return (
 		<div className="relative pt-[56.25%]">

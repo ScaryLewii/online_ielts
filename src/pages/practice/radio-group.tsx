@@ -2,10 +2,10 @@ import { IAnswer, IQuestion, IUserAnswer } from "@/components/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { FC, useContext } from "react"
-import { QuizContext } from "../courses/quiz/[quiz_id]"
 import Image from "next/image"
 import trueIcon from "../../../public/images/true.svg"
 import falseIcon from "../../../public/images/false.svg"
+import { QuizContext } from "@/context/context"
 
 interface IRadioGroup {
 	questionContent: IQuestion

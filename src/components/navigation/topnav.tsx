@@ -2,8 +2,8 @@ import Image from "next/image"
 import bellIcon from "../../../public/images/bell.svg"
 import nav from "../../../public/nav.svg"
 import { useContext, useEffect } from "react"
-import { StateContext } from "../common/layout"
 import { observer, useObservable } from "@legendapp/state/react"
+import { StateContext } from "@/context/context"
 
 const TopNav = observer(() => {
 	const context = useContext(StateContext)

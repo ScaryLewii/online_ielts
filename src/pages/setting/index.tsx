@@ -20,7 +20,7 @@ const SettingPage = () => {
 			</div>
 			<div className="form-control mb-4">
 				<label className="label cursor-pointer">
-					<span>Bài kiểm tra của tôi đã được chấm xong</span> 
+					<span>Các cập nhật mới về khóa học</span> 
 					<input type="checkbox" className="toggle toggle-cyan" />
 				</label>
 			</div>

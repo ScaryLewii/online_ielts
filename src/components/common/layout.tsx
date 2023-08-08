@@ -8,9 +8,7 @@ import { observer, useObservable } from "@legendapp/state/react"
 import GateWrapper from "../gate/gate-wrapper";
 import { ILesson, IQuiz } from "../types/types";
 import { fetchData } from "@/base/base";
-
-export const StateContext = createContext<any>(null)
-
+import { StateContext } from "@/context/context";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const router = useRouter()
@@ -31,13 +29,10 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	})
 
 	useEffect(() => {
-		const _token = router.query.token as string || router.asPath.split("=")[1]
-		const token = _token || localStorage.getItem("token")
+		const token = localStorage.getItem("token")
 		if (!token) {
 			return
 		}
-
-		localStorage.setItem("token", token)
 		state.token.set(token)
 
 		fetchData("user/sso-support", token, "POST").then(user => state.user.set(user.data))

@@ -5,8 +5,8 @@ import plane from "../../../../public/images/plane.svg"
 import { IQuestion, IUserAnswer } from '@/components/types/types';
 import { nanoid } from 'nanoid';
 import { FC, useContext } from 'react';
-import { QuizContext } from './[quiz_id]';
 import { observer, useObservable } from '@legendapp/state/react';
+import { QuizContext } from '@/context/context';
 
 interface QuizNavContent {
 	content: IQuestion[]

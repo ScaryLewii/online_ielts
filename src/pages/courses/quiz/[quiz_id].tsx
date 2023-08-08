@@ -1,5 +1,4 @@
 import Breadcrumbs from "@/components/common/breadcrumbs";
-import { StateContext } from "@/components/common/layout";
 import { IAnswer, IQuestion, IQuiz, IUserAnswer } from "@/components/types/types";
 import CheckboxGroup from "@/pages/practice/checkbox-group";
 import RadioGroup from "@/pages/practice/radio-group";
@@ -8,6 +7,7 @@ import { useRouter } from "next/router"
 import { createContext, useContext, useEffect, useState } from "react";
 import QuizNav from "./quiz-nav";
 import { observer, useObservable } from "@legendapp/state/react"
+import { QuizContext, StateContext } from "@/context/context";
 
 interface IQuizContent {
 	title: string
@@ -16,8 +16,6 @@ interface IQuizContent {
 	userAnswers: IUserAnswer[]
 	isSubmit: boolean
 }
-
-export const QuizContext = createContext<any>({})
 
 const QuizContent = observer(function Component() {
 	const router = useRouter();

@@ -11,11 +11,11 @@ import { ReactSVG } from "react-svg"
 import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 import { useContext, useEffect } from "react"
-import { StateContext } from "../common/layout"
 import nav from "../../../public/nav.svg"
 import DashboardNav from "./dashboard-nav"
 import { nanoid } from "nanoid"
 import { ICourseCat } from "../types/types"
+import { StateContext } from "@/context/context"
 
 const mainNav = [
 	{

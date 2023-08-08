@@ -74,7 +74,9 @@ export interface ICourse {
 	id: number,
 	categoryId: number,
 	name: string,
-	slug: string
+	slug: string,
+	introVideo: string,
+	description: string
 }
 
 

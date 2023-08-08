@@ -1,11 +1,9 @@
-import { FC, useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import UnitBox from "./unit-box"
-import { StateContext } from "@/components/common/layout"
 import { nanoid } from "nanoid"
-import { IVideo } from "../writing/video"
-import { ICourse, ILesson, IUnit } from "../../components/types/types"
+import { ICourse, IUnit } from "../../components/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
-import { ICourseCat } from "@/components/navigation/sidenav"
+import { StateContext } from "@/context/context"
 
 interface ICouseBox {
 	courseId: number
@@ -16,7 +14,7 @@ interface ICourseState {
 	unitIds: number[]
 }
 
-const CourseBox: FC<ICouseBox> = ({courseId}) => {
+const CourseBox = ({courseId}: ICouseBox) => {
 	const context = useContext(StateContext)
 	const [course, setCourse] = useState<ICourse | null>(null)
 	const [unitIds, setUnitIds] = useState<number[]>([])
