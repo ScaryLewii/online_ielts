@@ -1,3 +1,25 @@
+export interface ICourseCat {
+	active: boolean,
+	description: string,
+	id: number,
+	level: number,
+	name: string,
+	parent: number,
+	slug: string,
+}
+export interface IContext {
+	user: IUser,
+	categories: ICourseCat[],
+	courses: ICourse[],
+	units: IUnit[],
+	lessons: ILesson[],
+	quizs: IQuiz[]
+}
+
+export interface IUser {
+	displayName: string
+}
+
 export interface ILesson {
 	active: boolean
 	chapterId: number
@@ -52,7 +74,9 @@ export interface ICourse {
 	id: number,
 	categoryId: number,
 	name: string,
-	slug: string
+	slug: string,
+	introVideo: string,
+	description: string
 }
 
 

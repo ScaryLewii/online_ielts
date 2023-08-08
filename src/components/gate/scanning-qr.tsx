@@ -1,9 +1,9 @@
 import { observer, useObservable } from "@legendapp/state/react"
 import { useContext, useEffect } from "react"
-import { StateContext } from "../common/layout"
 import Image from "next/image"
 import qr from "../../../public/images/qr.svg"
 import qrwrapper from "../../../public/images/qr-wrapper.svg"
+import { StateContext } from "@/context/context"
 
 const QRBlock = observer(() => {
 	const context = useContext(StateContext)

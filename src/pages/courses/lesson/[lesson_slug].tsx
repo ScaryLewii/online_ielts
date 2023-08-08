@@ -1,10 +1,10 @@
-import { StateContext } from "@/components/common/layout";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
 import { ILesson } from "../../../components/types/types";
+import { StateContext } from "@/context/context";
 
 const LessonContent = () => {
 	const router = useRouter()

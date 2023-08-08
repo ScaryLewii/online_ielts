@@ -2,8 +2,8 @@ import Image from "next/image"
 import qrIcon from "../../../public/images/qr-icon.svg"
 import gplus from "../../../public/images/gplus.svg"
 import { useContext } from "react"
-import { StateContext } from "../common/layout"
 import { observer } from "@legendapp/state/react"
+import { StateContext } from "@/context/context"
 
 const GateCta = observer(() => {
 	const context = useContext(StateContext)

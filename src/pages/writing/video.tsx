@@ -15,8 +15,8 @@ import screenfull from "screenfull";
 import { findDOMNode } from "react-dom";
 import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
-import { StateContext } from "@/components/common/layout";
 import { ILesson } from "@/components/types/types";
+import { StateContext } from "@/context/context";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 const subtitleData = [

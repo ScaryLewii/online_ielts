@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import RouteBox from "./box"
 import Route from "./route"
-import { StateContext } from "@/components/common/layout"
+import { StateContext } from "@/context/context"
 
 const StudyRoutePage = () => {
 	const context = useContext(StateContext)

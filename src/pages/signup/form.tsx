@@ -5,9 +5,9 @@ import lockIcon from "../../../public/images/lock.svg"
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
 import { useContext } from "react"
-import { StateContext } from "@/components/common/layout"
 import Link from "next/link"
 import { env } from "process"
+import { StateContext } from "@/context/context"
 
 interface IRequestedData {
 	data: object,
