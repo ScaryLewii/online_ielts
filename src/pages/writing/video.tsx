@@ -1,4 +1,4 @@
-import { FC, useContext, useRef } from "react";
+import { FC, useContext, useEffect, useRef } from "react";
 import Image from "next/image";
 import playIcon from "../../../public/images/play.svg"
 import repeatIcon from "../../../public/images/repeat.svg"
@@ -58,7 +58,14 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
-		isPlaying: false
+		isPlaying: false,
+		lessonId: 0
+	})
+
+	useEffect(() => {
+		const param = router.asPath.split("/").pop() as string
+		const currentLesson = parseInt(param)
+		state.lessonId.set(currentLesson)
 	})
 
 	const playerRef = useRef<any>(null);
@@ -76,9 +83,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 	}
 
 	const goToLesson = (isNext: boolean) => {
-		const param = router.asPath.split("/").pop() as string
-		const currentLesson = parseInt(param)
-
+		const currentLesson = state.lessonId.get()
 		const previousLesson = checkValidLesson(context.lessons.get(), currentLesson - 1) ? currentLesson - 1 : currentLesson
 		const nextLesson = checkValidLesson(context.lessons.get(), currentLesson + 1) ? currentLesson + 1 : currentLesson
 
@@ -94,7 +99,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 		<>
 			<div className="flex gap-5 mb-10 text-white items-start">
 				<div className="w-full">
-					<VideoPlayer playerRef={playerRef} video={url} isPlaying={state.isPlaying.get()} />
+					<VideoPlayer playerRef={playerRef} video={url} isPlaying={state.isPlaying.get()} lessonId={state.lessonId.get()} />
 					{/* <div className="bg-sea-lighter h-[140px] relative">
 						<p className="text-center absolute px-8 top-1/2 -translate-y-1/2">
 							{state.subtitle.get()}

@@ -37,7 +37,7 @@ export default function Home({token}: IToken) {
 }
 
 export const getServerSideProps = async (req: NextApiRequest, res: NextApiResponse) => {
-	let token = req.query.token
+	let token = req.query.token || ""
 
 	return { props: {token} }
 }

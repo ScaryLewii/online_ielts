@@ -17,7 +17,9 @@ export interface IContext {
 }
 
 export interface IUser {
-	displayName: string
+	id: number,
+	displayName: string,
+	email: string,
 }
 
 export interface ILesson {
@@ -99,4 +101,11 @@ export interface IWord {
 	word: string,
 	phonemes: string,
 	vocabularyDefinitions: IDefinition[]
+}
+
+export interface IProgress {
+	userId: number,
+	lessonId: number,
+	progress: number,
+	completed: boolean
 }

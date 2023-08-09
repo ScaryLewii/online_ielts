@@ -65,7 +65,7 @@ const QuizContent = observer(function Component() {
 	}
 
 	return <>
-		<div className="p-5 xl:p-14">
+		<div className="p-5 xl:px-14 xl:py-5">
 			<Breadcrumbs title="" />
 			<h1 className="text-white font-semibold text-2xl">{state.title.get()}</h1>
 		</div>

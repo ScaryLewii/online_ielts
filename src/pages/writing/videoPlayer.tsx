@@ -1,13 +1,26 @@
+import { fetchData, postData } from "@/base/base";
+import { StateContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
+
+import { useContext } from "react";
 import ReactPlayer from "react-player/lazy";
 
 interface IPlayer {
 	playerRef: any,
 	video: string,
-	isPlaying: boolean
+	isPlaying: boolean,
+	lessonId: number
 }
 
-const VideoPlayer = observer(({ playerRef, video, isPlaying }: IPlayer) => {
+const VideoPlayer = observer(({ playerRef, video, isPlaying, lessonId }: IPlayer) => {
+	const context = useContext(StateContext)
+	const handleLessonStart = () => {
+		postData("user/course", context.token.get(), {"lessonId": lessonId, "progress": 0}).then(res => console.log(res))
+	}
+	const handleLessonFinish = () => {
+		postData("user/course", context.token.get(), {"lessonId": lessonId, "progress": 100}).then(res => console.log(res))
+	}
+
 	const tempVideo = "//s3.envoy.rocks/bothrs/goud-design-sprint/goud/LhgEcS_GOUD+PROTOTYPE+SHOWCASE.mp4"
 	return (
 		<div className="relative pt-[56.25%]">
@@ -19,6 +32,8 @@ const VideoPlayer = observer(({ playerRef, video, isPlaying }: IPlayer) => {
 				width="100%"
 				height="100%"
 				playing={isPlaying}
+				onStart={() => handleLessonStart()}
+				onEnded={() => handleLessonFinish()}
 			/>
 		</div>
 	);

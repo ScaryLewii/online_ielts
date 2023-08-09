@@ -58,8 +58,7 @@ const QuizNav = observer(({content}: QuizNavContent) => {
 			</div>
 
 			<button className={`
-					flex gap-[10px] py-2 px-5 border border-white rounded-md items-center hover:bg-sea
-					${context.isSubmit?.get() ? "cursor-pointer" : "cursor-not-allowed"}
+					flex gap-[10px] py-2 px-5 border border-white font-semibold text-white rounded-md items-center hover:bg-sea cursor-pointer
 				`}
 				onClick={() => handleSubmit()}
 				disabled={context.isSubmit?.get() ? true : false}

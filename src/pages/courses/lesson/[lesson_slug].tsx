@@ -11,12 +11,12 @@ const LessonContent = () => {
 	const context = useContext(StateContext)
     
 	const [content, setContent] = useState<ILesson | null>(null)
+
+	if (!context.lessons.get().length) {
+		router.push("/study-route")
+	}
 	
 	useEffect(() => {
-		if (!context.lessons.get().length) {
-			router.push("/study-route")
-		}
-
         const lessonId = parseInt(router.asPath.split("/").pop() || "0")
 		const fetchLessonContent = () => {
 			context.lessons.get().map((lesson: ILesson) => {

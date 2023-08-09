@@ -9,7 +9,7 @@ interface IBreadcrumbs {
 
 const Breadcrumbs = ({title}: IBreadcrumbs) => {
 	const router = useRouter()
-	return <div className="text-sm breadcrumbs mb-10 flex items-center gap-4">
+	return <div className="text-sm breadcrumbs mb-5 flex items-center gap-4">
 		<button onClick={() => router.back()} className="w-8 h-8 bg-dark inline-flex items-center justify-center rounded hover:opacity-90">
 			<ReactSVG src={back["src"]} width={30} height={30} />
 		</button>
