@@ -25,7 +25,7 @@ const CourseInfo = observer(() => {
 	useEffect(() => {
 		state.activeCourse.set(courseContext.activeCourse.get())
 		state.completeLessons.set(globalContext.progress.get())
-	}, [courseContext.activeCourse, globalContext.progress, state.activeCourse, state.completeLessons])
+	}, [])
 
 	const handleContinueStudy = () => {
 		const userCompleteLessons = globalContext.progress.get().filter((p: IProgress) => p.userId === globalContext.user.id.get())
@@ -48,7 +48,7 @@ const CourseInfo = observer(() => {
 			/>
 		</div>
 		<h3 className="text-xl font-semibold my-5">Video hướng dẫn học</h3>
-		<div dangerouslySetInnerHTML={{__html: courseContext.activeCourse.description.get()}} />
+		<div dangerouslySetInnerHTML={{__html: courseContext?.activeCourse.description.get()}} />
 		<div className="flex items-center gap-2 mt-10">
 			<Image src={pin2} width={24} height={24} alt="start date" />
 			<p>Start date: February 21, 2023</p>
