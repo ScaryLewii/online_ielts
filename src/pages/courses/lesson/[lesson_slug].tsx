@@ -31,8 +31,10 @@ const LessonContent = () => {
 
 	return <>
 		{content?.name && <Breadcrumbs title={content.name} />}
-		{content?.videoUrl && <VideoBlock url={content.videoUrl} /> }
-		{content?.id && <VocabularyBlock lessonId={content.id} />}
+		<div className="p-5 pt-0 xl:px-10 xl:pb-5">
+			{content?.videoUrl && <VideoBlock url={content.videoUrl} /> }
+			{content?.id && <VocabularyBlock lessonId={content.id} />}
+		</div>
 	</>
 }
 

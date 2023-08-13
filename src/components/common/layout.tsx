@@ -116,9 +116,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 				<main className="bg-sea w-full min-h-screen relative" style={{gridArea: "dashboard"}}>
 					<Image src={dashboardbg} width={1920} height={1080} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
 					<TopNav />
-					<div className={`relative z-[1] ${router.asPath.includes("courses/quiz") ? "" : "p-5 xl:px-10 xl:py-5"}`}>
-						{children}
-					</div>
+					{children}
 				</main>
 			</div>
 		</GlobalContext.Provider>

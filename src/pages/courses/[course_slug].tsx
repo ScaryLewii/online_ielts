@@ -36,7 +36,7 @@ const CourseContent = observer(() => {
 		})
 	}, [context.categories, context.courses, router.asPath, state.activeCourse, state.activeCourseId, state.courseIds])
 
-	return <div className="flex gap-10 flex-wrap text-white">
+	return <div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
 		<CourseContext.Provider value={state}>
 			<div className="w-full lg:w-auto lg:min-w-[550px] border border-white py-5 px-5">
 				{state.courseIds.get().map((id: number) => 
