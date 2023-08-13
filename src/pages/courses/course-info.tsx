@@ -5,31 +5,31 @@ import hat from "../../../public/images/hat.svg"
 import arrow from "../../../public/images/arrow-right.svg"
 import { ReactSVG } from "react-svg"
 import { useContext, useEffect } from "react"
-import { CourseContext, StateContext } from "@/context/context"
+import { CourseContext, GlobalContext } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
-import { ICourse, ILesson, IProgress } from "@/components/types/types"
+import { ICourse, ILesson, ILessonProgress } from "@/components/types/types"
 import { useRouter } from "next/router"
 
 const CourseInfo = observer(() => {
 	const router = useRouter()
-	const globalContext = useContext(StateContext)
+	const globalContext = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
 	const state = useObservable({
 		activeCourse: {},
 		completeLessons: []
 	} as unknown as {
 		activeCourse: ICourse,
-		completeLessons: IProgress[]
+		completeLessons: ILessonProgress[]
 	})
 
 	useEffect(() => {
 		state.activeCourse.set(courseContext.activeCourse.get())
-		state.completeLessons.set(globalContext.progress.get())
+		state.completeLessons.set(globalContext.lessonProgress.get())
 	}, [])
 
 	const handleContinueStudy = () => {
-		const userCompleteLessons = globalContext.progress.get().filter((p: IProgress) => p.userId === globalContext.user.id.get())
-		const notCompleteLessons = globalContext.lessons.get().filter((l: ILesson) => !userCompleteLessons.some((p: IProgress) => p.lessonId === l.id)) as ILesson[]
+		const userCompleteLessons = globalContext.lessonProgress.get().filter((p: ILessonProgress) => p.userId === globalContext.user.id.get())
+		const notCompleteLessons = globalContext.lessons.get().filter((l: ILesson) => !userCompleteLessons.some((p: ILessonProgress) => p.lessonId === l.id)) as ILesson[]
 		notCompleteLessons.sort((a, b) => {
 			return a.id - b.id
 		})

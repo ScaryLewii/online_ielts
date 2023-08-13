@@ -15,7 +15,7 @@ import nav from "../../../public/nav.svg"
 import DashboardNav from "./dashboard-nav"
 import { nanoid } from "nanoid"
 import { ICourseCat } from "../types/types"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 const mainNav = [
 	{
@@ -52,7 +52,7 @@ const mainNav = [
 
 const SideNav = observer(() => {
 	const router = useRouter()
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const baseUrl = "https://apionline.ant-edu.ai/api/"
 
 	const getActiveClass = (url: string) => {

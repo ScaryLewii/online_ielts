@@ -6,7 +6,7 @@ import examIcon from "../../../public/images/exam-white.svg"
 import Link from "next/link"
 import { nanoid } from "nanoid"
 import { ICourse, ILesson, IQuiz, IUnit } from "../../components/types/types"
-import { CourseContext, StateContext } from "@/context/context"
+import { CourseContext, GlobalContext } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
 interface IUnitBlock {
 	unitId: number
@@ -20,12 +20,9 @@ interface IUnitBox {
 }
 
 const UnitBox = observer(({ unitId }: IUnitBlock) => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
-	// const [isExpanded, setIsExpanded] = useState(false)
-	// const [unit, setUnit] = useState<IUnit | null>(null)
-	// const [lessons, setLessons] = useState<ILesson[]>([])
-	// const [quizs, setQuizs] = useState<IQuiz[]>([])
+
 
 	const state = useObservable({
 		isExpanded: false,

@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react"
 import { useContext } from "react"
 import Link from "next/link"
 import { env } from "process"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 interface IRequestedData {
 	data: object,
@@ -23,7 +23,7 @@ interface IState {
 
 const SignupForm = observer(function Component() {
 	const router = useRouter()
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const state = useObservable({
 		email: "",
 		password: "",

@@ -3,10 +3,10 @@ import qrIcon from "../../../public/images/qr-icon.svg"
 import gplus from "../../../public/images/gplus.svg"
 import { useContext } from "react"
 import { observer } from "@legendapp/state/react"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 const GateCta = observer(() => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 
 	return <>
 		{!context.isQrScanning.get() && !context.isLostPasswordPage.get() &&

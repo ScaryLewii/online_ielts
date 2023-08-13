@@ -4,11 +4,11 @@ import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
 import { ILesson } from "../../../components/types/types";
-import { StateContext } from "@/context/context";
+import { GlobalContext } from "@/context/context";
 
 const LessonContent = () => {
 	const router = useRouter()
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
     
 	const [content, setContent] = useState<ILesson | null>(null)
 

@@ -1,5 +1,5 @@
 import { fetchData, postData } from "@/base/base";
-import { StateContext } from "@/context/context";
+import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 
 import { useContext } from "react";
@@ -13,7 +13,7 @@ interface IPlayer {
 }
 
 const VideoPlayer = observer(({ playerRef, video, isPlaying, lessonId }: IPlayer) => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const handleLessonStart = () => {
 		postData("user/course", context.token.get(), {"lessonId": lessonId, "progress": 0}).then(res => console.log(res))
 	}

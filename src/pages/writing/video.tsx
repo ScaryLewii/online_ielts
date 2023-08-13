@@ -16,7 +16,7 @@ import { findDOMNode } from "react-dom";
 import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
 import { ILesson } from "@/components/types/types";
-import { StateContext } from "@/context/context";
+import { GlobalContext } from "@/context/context";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 const subtitleData = [
@@ -54,7 +54,7 @@ interface IVideoUrl {
 
 const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 	const router = useRouter()
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 
 	const state = useObservable({
 		subtitle: subtitleData[0].text,

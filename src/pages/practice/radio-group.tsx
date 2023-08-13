@@ -24,7 +24,7 @@ const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 		const userAnswers = context.userAnswers.get()
 		if (context.answers.get().some((_a: IAnswer) => _a.id === answer.id)) {
 			state.isCorrect.set(true)
-			const _userAnswer = { id: id, correct: true }
+			const _userAnswer = { id: id, answer: answer.id ,correct: true }
 			if (userAnswers.some((a: IUserAnswer) => a.id === id)) {
 				userAnswers.forEach((a: IUserAnswer) => {
 					if (a.id === id) {
@@ -46,6 +46,7 @@ const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 
 		context.userAnswers.set([...new Set([...context.userAnswers.get(), {
 			id: id,
+			answer: answer.id,
 			correct: false
 		}])])
 		state.isCorrect.set(false)

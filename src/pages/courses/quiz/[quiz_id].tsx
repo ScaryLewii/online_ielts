@@ -4,12 +4,13 @@ import CheckboxGroup from "@/pages/practice/checkbox-group";
 import RadioGroup from "@/pages/practice/radio-group";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router"
-import { createContext, useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import QuizNav from "./quiz-nav";
 import { observer, useObservable } from "@legendapp/state/react"
-import { QuizContext, StateContext } from "@/context/context";
+import { QuizContext, GlobalContext } from "@/context/context";
 
 interface IQuizContent {
+	id: string,
 	title: string
 	questions: IQuestion[]
 	answers: IAnswer[]
@@ -19,10 +20,11 @@ interface IQuizContent {
 
 const QuizContent = observer(function Component() {
 	const router = useRouter();
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const quizId = router.asPath.split("/").pop() || "0"
 
 	const state = useObservable({
+		id: "",
 		title: "",
 		questions: [],
 		answers: [],
@@ -65,17 +67,17 @@ const QuizContent = observer(function Component() {
 	}
 
 	return <>
-		<div className="p-5 xl:px-14 xl:py-5">
+		<div className="p-5 xl:px-10 xl:py-5">
 			<Breadcrumbs title="" />
-			<h1 className="text-white font-semibold text-2xl">{state.title.get()}</h1>
+			<h1 className="text-white font-semibold text-2xl" data-id={quizId}>{state.title.get()}</h1>
 		</div>
 		<QuizContext.Provider value={state}>
-			<div className="p-5 xl:p-14 xl:pt-0">
+			<div className="p-5 xl:p-10 xl:pt-0">
 				{state.questions.get().map((c: IQuestion) =>
 					c.type === "SingleChoice" && <RadioGroup key={nanoid()} questionContent={c} />
 				)}
 			</div>
-			<QuizNav content={state.questions.get()} />
+			<QuizNav id={quizId} content={state.questions.get()} />
 		</QuizContext.Provider>
 	</>
 })

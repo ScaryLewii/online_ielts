@@ -3,10 +3,10 @@ import { useContext, useEffect } from "react"
 import Image from "next/image"
 import qr from "../../../public/images/qr.svg"
 import qrwrapper from "../../../public/images/qr-wrapper.svg"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 const QRBlock = observer(() => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 
 	return (
 		<>

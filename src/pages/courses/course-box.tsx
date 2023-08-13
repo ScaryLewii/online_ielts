@@ -3,7 +3,7 @@ import UnitBox from "./unit-box"
 import { nanoid } from "nanoid"
 import { ICourse, IUnit } from "../../components/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 interface ICouseBox {
 	courseId: number
@@ -15,7 +15,7 @@ interface ICourseState {
 }
 
 const CourseBox = ({courseId}: ICouseBox) => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const [course, setCourse] = useState<ICourse | null>(null)
 	const [unitIds, setUnitIds] = useState<number[]>([])
 
@@ -35,12 +35,12 @@ const CourseBox = ({courseId}: ICouseBox) => {
 		})
 	}, [context.courses, context.units, courseId])
 
-	return <section className="text-white">
+	return <div className="text-white">
 		<h3 className="font-semibold mb-5">{course?.name}</h3>
 		{unitIds && unitIds.map((id: number) =>
 			<UnitBox key={nanoid()} unitId={id} />
 		)}
-	</section>
+	</div>
 }
 
 export default CourseBox

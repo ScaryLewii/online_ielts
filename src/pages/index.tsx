@@ -37,7 +37,7 @@ export default function Home({token}: IToken) {
 }
 
 export const getServerSideProps = async (req: NextApiRequest, res: NextApiResponse) => {
-	let token = req.query.token || ""
+	let token = req.query.token || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Imh1bmdkY0BnaDJ2cy5jb20iLCJlbWFpbCI6Imh1bmdkY0BnaDJ2cy5jb20iLCJqdGkiOiJhMWYxNDllNC01OTUxLTRmZTEtOTM2OS05NjZiNjA5NTgzYTAiLCJyb2xlIjoiQURNSU4iLCJwdXIiOiJTaWduSW4iLCJuYmYiOjE2OTE5MjQ4ODYsImV4cCI6MTY5MTk2ODA4NiwiaWF0IjoxNjkxOTI0ODg2LCJpc3MiOiJodHRwczovLzl0YWxrLmVkdS52biIsImF1ZCI6Imh0dHBzOi8vOXRhbGsuZWR1LnZuIn0.A8eUUw1OZQ7vk0kn9caqQykn-fCpY-xwbsoplk06DGU"
 
 	return { props: {token} }
 }

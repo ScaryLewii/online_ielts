@@ -6,11 +6,12 @@ import React, { PropsWithChildren, createContext, useEffect } from "react";
 import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 import GateWrapper from "../gate/gate-wrapper";
-import { ICourse, ICourseCat, ILesson, IProgress, IQuiz, IUnit, IUser } from "../types/types";
+import { ICourse, ICourseCat, ILesson, ILessonProgress, IQuiz, IUnit, IUser } from "../types/types";
 import { fetchData } from "@/base/base";
-import { StateContext } from "@/context/context";
+import { GlobalContext } from "@/context/context";
 
-const Layout = observer(({ children }: PropsWithChildren) => {
+
+const Layout = ({ children }: PropsWithChildren) => {
 	const router = useRouter()
 
 	const state = useObservable({
@@ -26,7 +27,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		units: [],
 		lessons: [],
 		quizs: [],
-		progress: []
+		lessonProgress: []
 	} as unknown as {
 		isNavOpen: boolean,
 		token: string,
@@ -40,7 +41,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		units: IUnit[],
 		lessons: ILesson[],
 		quizs: IQuiz[],
-		progress: IProgress[]
+		lessonProgress: ILessonProgress[]
 	})
 
 	useEffect(() => {
@@ -59,7 +60,13 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		const _progressArray: any = []
 		fetchData("user/courses", token, "GET").then(courses => {
 			const _coursesArray: any = []
-			courses.data && courses.data.map((c: any) => _coursesArray.push(c.course))
+			courses.data && courses.data.map((c: any) => {
+				const data = {
+					...c.course,
+					isComplete: c.userCourse.completed
+				}
+				_coursesArray.push(data)
+			})
 			state.courses.set(_coursesArray)
 			_coursesArray.map((c: any) => {
 				fetchData(`courses/lessons/${c.id}`, token, "GET")
@@ -83,40 +90,39 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 				state.units.set(_unitsArray)
 				state.lessons.set(_lessonsArray)
 				state.quizs.set(_quizArray)
-				state.progress.set(_progressArray)
+				state.lessonProgress.set(_progressArray)
 			})
 		})
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [state.categories, state.courses, state.lessons, state.lessonProgress, state.quizs, state.token, state.units, state.user])
 
 	if (router.pathname === "/") {
-		return <StateContext.Provider value={state}>
+		return <GlobalContext.Provider value={state}>
 			{children}
-		</StateContext.Provider> 
+		</GlobalContext.Provider> 
 	}
 
 	if (router.asPath === "/signup" || router.asPath === "/signin") {
-		return <StateContext.Provider value={state.gate}>
+		return <GlobalContext.Provider value={state.gate}>
 			<GateWrapper>
 				{children}
 			</GateWrapper>
-		</StateContext.Provider>
+		</GlobalContext.Provider>
 	}
 
 	return (
-		<StateContext.Provider value={state}>
+		<GlobalContext.Provider value={state}>
 			<div className="dashboard-wrapper flex">
 				<SideNav />
 				<main className="bg-sea w-full min-h-screen relative" style={{gridArea: "dashboard"}}>
 					<Image src={dashboardbg} width={1920} height={1080} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
 					<TopNav />
-					<section className={`relative z-[1] ${router.asPath.includes("courses/quiz") ? "" : "p-5 xl:px-14 xl:py-5"}`}>
+					<div className={`relative z-[1] ${router.asPath.includes("courses/quiz") ? "" : "p-5 xl:px-10 xl:py-5"}`}>
 						{children}
-					</section>
+					</div>
 				</main>
 			</div>
-		</StateContext.Provider>
+		</GlobalContext.Provider>
 	)
-})
+}
 
 export default Layout

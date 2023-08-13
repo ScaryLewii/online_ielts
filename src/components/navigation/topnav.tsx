@@ -3,10 +3,10 @@ import bellIcon from "../../../public/images/bell.svg"
 import nav from "../../../public/nav.svg"
 import { useContext, useEffect } from "react"
 import { observer, useObservable } from "@legendapp/state/react"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 const TopNav = observer(() => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 
 	return <div className="sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
@@ -27,7 +27,7 @@ const TopNav = observer(() => {
 
 			<button className="flex gap-5 items-center group">
 				<h3 className="group-hover:underline">{context?.user.displayName.get()}</h3>
-				<Image className="rounded-full border-2 border-white group-hover:border-cyan" src="https://placehold.co/45x45" width={45} height={45} alt="profile image" unoptimized={true} />
+				<Image className="rounded-full border-2 border-white group-hover:border-cyan" src={context.user.avartar.get() || "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
 			</button>
 		</div>
 	</div>

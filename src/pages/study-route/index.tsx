@@ -1,10 +1,10 @@
 import { useContext } from "react"
 import RouteBox from "./box"
 import Route from "./route"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 const StudyRoutePage = () => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 
 	return <div className="text-white">
 		<h2 className="font-semibold text-3xl mb-10">Chào mừng, {context.user.displayName.get()}</h2>

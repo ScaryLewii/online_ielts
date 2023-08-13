@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useContext } from "react"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 
 interface IError {
 	code: number,
@@ -26,7 +26,7 @@ interface IState {
 
 const SigninForm = observer(function Component() {
 	const router = useRouter()
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const state = useObservable({
 		email: "",
 		password: "",

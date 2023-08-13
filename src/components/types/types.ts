@@ -20,6 +20,7 @@ export interface IUser {
 	id: number,
 	displayName: string,
 	email: string,
+	avatar: string
 }
 
 export interface ILesson {
@@ -78,12 +79,14 @@ export interface ICourse {
 	name: string,
 	slug: string,
 	introVideo: string,
-	description: string
+	description: string,
+	isComplete: boolean
 }
 
 
 export interface IUserAnswer {
 	id: string,
+	answer: string,
 	correct: boolean
 }
 
@@ -103,9 +106,16 @@ export interface IWord {
 	vocabularyDefinitions: IDefinition[]
 }
 
-export interface IProgress {
+export interface ILessonProgress {
 	userId: number,
 	lessonId: number,
 	progress: number,
 	completed: boolean
+}
+
+export interface IQuizProgress {
+	id: string,
+	quizId: string,
+	lessonId: number,
+	content: string
 }

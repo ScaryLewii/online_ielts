@@ -6,7 +6,7 @@ import icon2 from "../../../public/dump/icon-2.svg"
 import icon3 from "../../../public/dump/icon-3.svg"
 import icon4 from "../../../public/dump/icon-4.svg"
 import { useContext } from "react"
-import { StateContext } from "@/context/context"
+import { GlobalContext } from "@/context/context"
 import { nanoid } from "nanoid"
 import { ICourseCat } from "@/components/types/types"
 import Link from "next/link"
@@ -31,7 +31,7 @@ const PlainContent = () => {
 }
 
 const Route = () => {
-	const context = useContext(StateContext)
+	const context = useContext(GlobalContext)
 	const Items = [
 		{
 			color: "text-light",
