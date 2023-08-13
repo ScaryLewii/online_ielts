@@ -67,7 +67,7 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 				)}
 			</div>
 
-			{!quizContext.isSubmit.get() &&
+			{!quizContext.isSubmit?.get() &&
 				<button className={`
 						flex gap-[10px] py-2 px-5 border border-white font-semibold text-white rounded-md items-center hover:bg-sea cursor-pointer
 					`}
@@ -80,7 +80,7 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 				</button>
 			}
 
-			{quizContext.isSubmit.get() &&
+			{quizContext.isSubmit?.get() &&
 				<button className={`
 						flex gap-[10px] py-2 px-5 border border-white font-semibold text-white rounded-md items-center hover:bg-sea cursor-pointer
 					`}
