@@ -39,7 +39,7 @@ const CourseBox = ({courseId}: ICouseBox) => {
 			}
 			setUnitIds(ids)
 		})
-	}, [context.courses, context.units, courseId, courseContext.activeCourse])
+	}, [context.courses, context.units, courseId])
 
 	return <>
 		{ course &&
