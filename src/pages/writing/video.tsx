@@ -105,7 +105,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 							{state.subtitle.get()}
 						</p>
 					</div> */}
-					<div className="flex justify-between items-center py-3 px-5 bg-sea-lighter mt-[4px]">
+					<div className="flex justify-between items-center py-3 px-5 bg-sea-lighter mt-[4px] relative z-[1]">
 						<div className="flex gap-5">
 							<button onClick={() => playerRef.current?.seekTo(0)}>
 								<Image src={repeatIcon} width={24} height={24} alt="repeat" />

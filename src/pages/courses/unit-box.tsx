@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import chevron from "../../../public/images/chevron.svg"
 import Image from "next/image"
 import playIcon from "../../../public/images/play.svg"
 import examIcon from "../../../public/images/exam-white.svg"
 import Link from "next/link"
 import { nanoid } from "nanoid"
-import { ICourse, ILesson, IQuiz, IUnit } from "../../components/types/types"
-import { CourseContext, GlobalContext } from "@/context/context"
+import { ILesson, IQuiz, IUnit } from "../../components/types/types"
+import { GlobalContext } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
 interface IUnitBlock {
 	unitId: number
@@ -21,8 +21,6 @@ interface IUnitBox {
 
 const UnitBox = observer(({ unitId }: IUnitBlock) => {
 	const context = useContext(GlobalContext)
-	const courseContext = useContext(CourseContext)
-
 
 	const state = useObservable({
 		isExpanded: false,
@@ -37,8 +35,6 @@ const UnitBox = observer(({ unitId }: IUnitBlock) => {
 
 	const handleUnitClick = () => {
 		state.isExpanded.set(v => !v)
-		const activeCourse = context.courses.get().filter((c: ICourse) => c.id === state.unit.courseId.get())[0]
-		courseContext.activeCourse.set(activeCourse)
 	}
 
 	return <>

@@ -25,7 +25,7 @@ const CourseInfo = observer(() => {
 	useEffect(() => {
 		state.activeCourse.set(courseContext.activeCourse.get())
 		state.completeLessons.set(globalContext.lessonProgress.get())
-	}, [])
+	}, [courseContext.activeCourse, globalContext.lessonProgress, state.activeCourse, state.completeLessons])
 
 	const handleContinueStudy = () => {
 		const userCompleteLessons = globalContext.lessonProgress.get().filter((p: ILessonProgress) => p.userId === globalContext.user.id.get())
