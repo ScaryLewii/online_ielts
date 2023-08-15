@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 const SettingPage = () => {
-	return <div className="text-white lg:max-w-[600px]">
+	return <div className="text-white lg:max-w-[600px] relative z-[1] p-5 xl:p-10">
 		<div className="pb-10 border-b border-white">
 			<h2 className="text-xl font-semibold mb-8">Thông báo cho tôi khi....</h2>
 			<div className="form-control mb-4">

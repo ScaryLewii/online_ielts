@@ -38,7 +38,7 @@ const CourseInfo = observer(() => {
 	}
 
 	return <>
-		<div className="relative pt-[56.25%]">
+		<div className="relative pt-[56.25%]" data-video={state.activeCourse.introVideo.get()}>
 			<ReactPlayer
 				url={state.activeCourse.introVideo.get()}
 				className="react-player absolute top-0 left-0"
