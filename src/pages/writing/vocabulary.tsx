@@ -20,7 +20,7 @@ const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
 
 	state.token.set((typeof window !== "undefined" && localStorage.getItem("token")) || "0")
 	fetchData(`vocabularies/lesson/${lessonId}`, state.token.get(), "GET")
-		.then(words => state.data.set(words.data))
+		.then(words => state.data.set(words ? words.data : {}))
 
 	return <div className="bg-dark p-5">
 		<h3 className="text-lg text-light font-semibold flex items-center gap-3 mb-5">
