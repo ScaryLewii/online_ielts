@@ -68,7 +68,7 @@ const SideNav = observer(() => {
 		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${context.isNavOpen.get() ? "block" : "hidden"}`}>
 			<div className="flex justify-between items-start">
 				<Link href="/" className="inline-block mb-8 px-6">
-					<Image src={logo} width={80} height={75} alt={logo} />
+					<Image src={logo} alt={logo} />
 				</Link>
 
 				<button className="mt-4 mr-3" onClick={() => context.isNavOpen.set((v: boolean) => !v)}>
@@ -89,10 +89,10 @@ const SideNav = observer(() => {
 							context.categories.get().map((cat: ICourseCat) => {
 								if (cat.level === 1 && cat.active) {
 									return (
-										<ul key={nanoid()} className={`/courses/${cat.slug === router.asPath ? "block" : "hidden"}`}>
+										<ul key={nanoid()} className={`/courses/${cat.id === +router.asPath ? "block" : "hidden"}`}>
 											<li className="sidenav-child__item">
-												<Link href={`/courses/${cat.slug}`}
-													className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.slug)}`}>
+												<Link href={`/courses/${cat.id}`}
+													className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.id)}`}>
 														{cat.name}
 												</Link>
 											</li>

@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import chevron from "../../../public/images/chevron.svg"
 import Image from "next/image"
 import playIcon from "../../../public/images/play.svg"
@@ -29,9 +29,14 @@ const UnitBox = observer(({ unitId }: IUnitBlock) => {
 		quizs: []
 	} as unknown as IUnitBox)
 
-	state.unit.set(context.units.get().filter((u: IUnit) => u.id === unitId)[0])
-	state.lessons.set(context.lessons.get().filter((l: ILesson) => l.chapterId === unitId))
-	state.quizs.set(context.quizs.get().filter((q: IQuiz) => q.chapterId === unitId))
+	useEffect(() => {
+		state.unit.set(context.units.get().find((u: IUnit) => u.id === unitId))
+		state.lessons.set(context.lessons.get().filter((l: ILesson) => l.chapterId === unitId))
+		state.quizs.set(context.quizs.get().filter((q: IQuiz) => q.chapterId === unitId))
+
+		console.log(state.unit.get())
+		console.log(unitId)
+	})
 
 	const handleUnitClick = () => {
 		state.isExpanded.set(v => !v)

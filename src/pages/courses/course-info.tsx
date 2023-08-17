@@ -1,4 +1,4 @@
-import ReactPlayer from "react-player"
+import ReactPlayer from "react-player/lazy"
 import Image from "next/image"
 import pin2 from "../../../public/images/pin2.svg"
 import hat from "../../../public/images/hat.svg"
@@ -16,16 +16,22 @@ const CourseInfo = observer(() => {
 	const courseContext = useContext(CourseContext)
 	const state = useObservable({
 		activeCourse: {},
-		completeLessons: []
+		completeLessons: [],
+		hasWindow: false
 	} as unknown as {
 		activeCourse: ICourse,
-		completeLessons: ILessonProgress[]
+		completeLessons: ILessonProgress[],
+		hasWindow: boolean
 	})
 
 	useEffect(() => {
 		state.activeCourse.set(courseContext?.activeCourse.get())
 		state.completeLessons.set(globalContext?.lessonProgress.get())
-	}, [])
+
+		if (typeof window !== "undefined") {
+			state.hasWindow.set(true);
+		}
+	})
 
 	const handleContinueStudy = () => {
 		const userCompleteLessons = globalContext.lessonProgress.get().filter((p: ILessonProgress) => p.userId === globalContext.user.id.get())
@@ -39,13 +45,15 @@ const CourseInfo = observer(() => {
 
 	return <>
 		<div className="relative pt-[56.25%]" data-video={courseContext?.activeCourse.introVideo.get()}>
-			<ReactPlayer
-				url={courseContext?.activeCourse.introVideo.get()}
-				className="react-player absolute top-0 left-0"
-				controls
-				width="100%"
-				height="100%"
-			/>
+			{state.hasWindow.get() &&
+				<ReactPlayer
+					url={courseContext?.activeCourse.introVideo.get()}
+					className="react-player absolute top-0 left-0"
+					controls
+					width="100%"
+					height="100%"
+				/>
+			}
 		</div>
 		<h3 className="text-xl font-semibold my-5">Video hướng dẫn học</h3>
 		<div dangerouslySetInnerHTML={{__html: courseContext?.activeCourse.description.get()}} />

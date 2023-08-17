@@ -11,14 +11,19 @@ interface ICouseBox {
 
 interface ICourseState {
 	course: ICourse,
-	unitIds: number[]
+	unitIds: number[],
+	hasWindow: boolean
 }
 
-const CourseBox = ({courseId}: ICouseBox) => {
+const CourseBox = observer(({courseId}: ICouseBox) => {
 	const context = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
-	const [course, setCourse] = useState<ICourse | null>(null)
-	const [unitIds, setUnitIds] = useState<number[]>([])
+
+	const state = useObservable({
+		course: {},
+		unitIds: [],
+		hasWindow: false,
+	} as unknown as ICourseState)
 
 	const setActiveCourse = () => {
 		const activeCourse = context.courses.get().filter((c: ICourse) => c.id === courseId)[0]
@@ -26,33 +31,37 @@ const CourseBox = ({courseId}: ICouseBox) => {
 	}
 
 	useEffect(() => {
-		const unitArray = Object.values(context.units.get()) as IUnit[]
-		const courses = Object.values(context.courses.get()) as ICourse[]
-		courses.map((c: ICourse) => {
-			c.id === courseId && setCourse(c)
+		context.courses.get().map((c: ICourse) => {
+			c.id === courseId && state.course.set(c)
 		})
-
+	
 		const ids: number[] = []
-		unitArray.forEach(u => {
+		context.units.get().forEach((u: IUnit) => {
 			if (u.courseId === courseId) {
 				ids.push(u.id)
 			}
-			setUnitIds(ids)
+			state.unitIds.set(ids)
 		})
-	}, [context.courses, context.units, courseId])
+
+		if (typeof window !== "undefined") {
+			state.hasWindow.set(true);
+		}
+
+		console.log(context.units.get())
+	}, [context.courses, context.units, courseId, state.course, state.hasWindow, state.unitIds])
 
 	return <>
-		{ course &&
+		{ state.course.get() &&
 			<div className="text-white">
 				<button className="mb-5 cursor-pointer" onClick={() => setActiveCourse()}>
-					<h3 className={`font-semibold ${courseContext.activeCourse.id.get() === courseId ? "text-cyan" : ""}`}>{course.name}</h3>
+					<h3 className={`font-semibold ${courseContext.activeCourse.id.get() === courseId ? "text-cyan" : ""}`}>{state.course.name.get()}</h3>
 				</button>
-				{unitIds && unitIds.map((id: number) =>
+				{state.unitIds.get().length && state.unitIds.get().map((id: number) =>
 					<UnitBox key={nanoid()} unitId={id} />
 				)}
 			</div>
 		}
 	</>
-}
+})
 
 export default CourseBox
