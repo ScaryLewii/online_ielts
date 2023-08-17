@@ -4,6 +4,7 @@ import { nanoid } from "nanoid"
 import { ICourse, IUnit } from "../../components/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { CourseContext, GlobalContext } from "@/context/context"
+import { fetchData } from "@/base/base"
 
 interface ICouseBox {
 	courseId: number
@@ -12,7 +13,6 @@ interface ICouseBox {
 interface ICourseState {
 	course: ICourse,
 	unitIds: number[],
-	hasWindow: boolean
 }
 
 const CourseBox = observer(({courseId}: ICouseBox) => {
@@ -22,8 +22,10 @@ const CourseBox = observer(({courseId}: ICouseBox) => {
 	const state = useObservable({
 		course: {},
 		unitIds: [],
-		hasWindow: false,
-	} as unknown as ICourseState)
+	} as unknown as {
+		course: ICourse,
+		unitIds: number[],
+	})
 
 	const setActiveCourse = () => {
 		const activeCourse = context.courses.get().filter((c: ICourse) => c.id === courseId)[0]
@@ -35,29 +37,45 @@ const CourseBox = observer(({courseId}: ICouseBox) => {
 			c.id === courseId && state.course.set(c)
 		})
 	
-		const ids: number[] = []
-		context.units.get().forEach((u: IUnit) => {
-			if (u.courseId === courseId) {
-				ids.push(u.id)
+		const getUnitIds = async () => {
+			const ids: number[] = []
+			if (context.units.get().length) {
+				context.units.get().forEach((u: IUnit) => {
+					if (u.courseId === courseId) {
+						ids.push(u.id)
+					}
+					state.unitIds.set(ids)
+				})
+	
+				return
 			}
-			state.unitIds.set(ids)
-		})
-
-		if (typeof window !== "undefined") {
-			state.hasWindow.set(true);
+			
+			if (!context.units.get().length) {
+				const token = localStorage.getItem("token")
+				if (!token) {
+					return
+				}
+	
+				await fetchData(`courses/lessons/${courseId}`, token, "GET")
+					.then(lessons => lessons.data.chapters.forEach((data: IUnit) => {
+						ids.push(data.id)
+					}))
+	
+				state.unitIds.set(unitIds => [...new Set([...unitIds, ...ids])])
+			}
 		}
 
-		console.log(context.units.get())
-	}, [context.courses, context.units, courseId, state.course, state.hasWindow, state.unitIds])
+		getUnitIds()
+	}, [context.courses, context.units, courseId, state.course, state.unitIds])
 
 	return <>
 		{ state.course.get() &&
 			<div className="text-white">
 				<button className="mb-5 cursor-pointer" onClick={() => setActiveCourse()}>
-					<h3 className={`font-semibold ${courseContext.activeCourse.id.get() === courseId ? "text-cyan" : ""}`}>{state.course.name.get()}</h3>
+					<h3 className={`font-semibold ${courseContext?.activeCourse.id.get() === courseId ? "text-cyan" : ""}`}>{state.course.name.get()}</h3>
 				</button>
-				{state.unitIds.get().length && state.unitIds.get().map((id: number) =>
-					<UnitBox key={nanoid()} unitId={id} />
+				{state.unitIds.get().map((id: number) =>
+					<UnitBox key={nanoid()} unitId={id} courseId={courseId} />
 				)}
 			</div>
 		}

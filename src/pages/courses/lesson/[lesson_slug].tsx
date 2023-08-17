@@ -13,20 +13,28 @@ const LessonContent = () => {
 	const [content, setContent] = useState<ILesson | null>(null)
 
 	useEffect(() => {
-		if (!context.lessons.get().length) {
-			router.push("/study-route")
-		}
-
         const lessonId = parseInt(router.asPath.split("/").pop() || "0")
-		const fetchLessonContent = () => {
+		const getLessonContent = () => {
 			context.lessons.get().map((lesson: ILesson) => {
 				if (lesson.id === lessonId) {
 					setContent(lesson)
 				}
 			})
-		};
+		}
 
-		fetchLessonContent();
+		const fetchLessonContent = async () => {
+			
+		}
+
+		if (context.lessons.get().length) {
+			getLessonContent();
+			return
+		}
+		
+
+		if (!context.lessons.get().length) {
+			router.push("/study-route");
+		}
 	}, [content, context.lessons, router, router.asPath]);
 
 	return <>

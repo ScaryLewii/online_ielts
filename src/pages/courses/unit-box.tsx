@@ -8,35 +8,59 @@ import { nanoid } from "nanoid"
 import { ILesson, IQuiz, IUnit } from "../../components/types/types"
 import { GlobalContext } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
+import { fetchData } from "@/base/base"
 interface IUnitBlock {
-	unitId: number
+	unitId: number,
+	courseId: number
 }
 
 interface IUnitBox {
 	isExpanded: boolean,
 	unit: IUnit,
 	lessons: ILesson[],
-	quizs: IQuiz[]
+	quiz: IQuiz
 }
 
-const UnitBox = observer(({ unitId }: IUnitBlock) => {
+const UnitBox = observer(({ unitId, courseId }: IUnitBlock) => {
 	const context = useContext(GlobalContext)
 
 	const state = useObservable({
 		isExpanded: false,
 		unit: {},
 		lessons: [],
-		quizs: []
+		quiz: {}
 	} as unknown as IUnitBox)
 
 	useEffect(() => {
 		state.unit.set(context.units.get().find((u: IUnit) => u.id === unitId))
 		state.lessons.set(context.lessons.get().filter((l: ILesson) => l.chapterId === unitId))
-		state.quizs.set(context.quizs.get().filter((q: IQuiz) => q.chapterId === unitId))
 
-		console.log(state.unit.get())
-		console.log(unitId)
-	})
+		const fetchQuiz = async () => {
+			const token = localStorage.getItem("token")
+			if (!token) {
+				return
+			}
+			const _quizArray: any = []
+			state.lessons.get().map(async (l: ILesson) => {
+				await fetchData("lessons/" + l.id + "/quizzes", token, "GET")
+					.then(quiz => {
+						if (quiz.data.length) {
+							let _quiz = Object.values(quiz.data)[0] as IQuiz
+							_quiz.chapterId = l.chapterId
+							state.quiz.set(_quiz)
+						}
+					})
+			})
+		}
+
+		if (context.quizs.get().length) {
+			state.quiz.set(context.quizs.get().find((q: IQuiz) => q.chapterId === unitId))
+		}
+
+		if (!context.quizs.get().length) {
+			fetchQuiz()
+		}
+	}, [context.lessons, context.quiz, context.quizs, context.units, state.lessons, state.quiz, state.unit, unitId])
 
 	const handleUnitClick = () => {
 		state.isExpanded.set(v => !v)
@@ -51,7 +75,7 @@ const UnitBox = observer(({ unitId }: IUnitBlock) => {
 				{state.unit.name.get()}
 			</button>
 		</div>
-		{(state.lessons.get() || state.quizs.get()) &&
+		{(state.lessons.get() || state.quiz.get()) &&
 			<ul className={`${state.isExpanded.get() ? "block mb-5" : "hidden"}`}>
 				{state.lessons.get().map(l => 
 					<li key={nanoid()} data-lesson-id={l.id} className="list-none flex items-center justify-between pl-10 pr-3">
@@ -64,17 +88,15 @@ const UnitBox = observer(({ unitId }: IUnitBlock) => {
 						}
 					</li>
 				)}
-				{state.quizs.get().map(q => 
-					<li key={nanoid()} data-quiz-id={q.id} className="list-none flex items-center justify-between pl-10 pr-3">
-						{q.chapterId === unitId &&
-							<Link href={`/courses/quiz/${q.id}`}
-								className="flex items-center gap-5 my-2">
-									<Image src={examIcon} width={24} height={24} alt="quiz" />
-									{q.title}
-							</Link>
-						}
+				{state.quiz.get() &&
+					<li key={nanoid()} data-quiz-id={state.quiz.get().id} className="list-none flex items-center justify-between pl-10 pr-3">
+						<Link href={`/courses/quiz/${state.quiz.get().id}`}
+							className="flex items-center gap-5 my-2">
+								<Image src={examIcon} width={24} height={24} alt="quiz" />
+								{state.quiz.get().title}
+						</Link>
 					</li>
-				)}
+				}
 			</ul>
 		}
 	</>

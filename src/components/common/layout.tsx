@@ -101,13 +101,13 @@ const Layout = ({ children }: PropsWithChildren) => {
 		</GlobalContext.Provider> 
 	}
 
-	if (router.asPath === "/signup" || router.asPath === "/signin") {
-		return <GlobalContext.Provider value={state.gate}>
-			<GateWrapper>
-				{children}
-			</GateWrapper>
-		</GlobalContext.Provider>
-	}
+	// if (router.asPath === "/signup" || router.asPath === "/signin") {
+	// 	return <GlobalContext.Provider value={state.gate}>
+	// 		<GateWrapper>
+	// 			{children}
+	// 		</GateWrapper>
+	// 	</GlobalContext.Provider>
+	// }
 
 	return (
 		<GlobalContext.Provider value={state}>
@@ -116,7 +116,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 				<main className="bg-sea w-full min-h-screen relative" style={{gridArea: "dashboard"}}>
 					<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
 					<TopNav />
-					{children}
+						<>{children}</>
 				</main>
 			</div>
 		</GlobalContext.Provider>
