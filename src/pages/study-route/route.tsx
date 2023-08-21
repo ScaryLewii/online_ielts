@@ -8,7 +8,7 @@ import icon4 from "../../../public/dump/icon-4.svg"
 import { useContext } from "react"
 import { GlobalContext } from "@/context/context"
 import { nanoid } from "nanoid"
-import { ICourseCat } from "@/components/types/types"
+import { ICourseCat } from "@/types/types"
 import Link from "next/link"
 
 const PlainContent = () => {

@@ -1,5 +1,5 @@
 import Breadcrumbs from "@/components/common/breadcrumbs";
-import { IAnswer, IQuestion, IQuiz, IUserAnswer } from "@/components/types/types";
+import { IAnswer, IQuestion, IQuiz, IUserAnswer } from "@/types/types";
 import CheckboxGroup from "@/pages/practice/checkbox-group";
 import RadioGroup from "@/pages/practice/radio-group";
 import { nanoid } from "nanoid";

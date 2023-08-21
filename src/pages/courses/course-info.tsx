@@ -7,7 +7,7 @@ import { ReactSVG } from "react-svg"
 import { useContext, useEffect } from "react"
 import { CourseContext, GlobalContext } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
-import { ICourse, ILesson, ILessonProgress } from "@/components/types/types"
+import { ICourse, ILesson, ILessonProgress } from "@/types/types"
 import { useRouter } from "next/router"
 
 const CourseInfo = observer(() => {

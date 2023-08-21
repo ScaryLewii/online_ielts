@@ -15,7 +15,7 @@ import screenfull from "screenfull";
 import { findDOMNode } from "react-dom";
 import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
-import { ILesson } from "@/components/types/types";
+import { ILesson } from "@/types/types";
 import { GlobalContext } from "@/context/context";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 

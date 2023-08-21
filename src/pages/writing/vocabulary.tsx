@@ -1,6 +1,6 @@
 import { getHeaderAuth } from "@/base/base"
 import UpdateBlock from "@/components/common/update"
-import { IWord } from "@/components/types/types"
+import { IWord } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { fetchData } from "@/base/base"
 import { nanoid } from "nanoid"

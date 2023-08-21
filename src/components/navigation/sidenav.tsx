@@ -14,8 +14,9 @@ import { useContext, useEffect } from "react"
 import nav from "../../../public/nav.svg"
 import DashboardNav from "./dashboard-nav"
 import { nanoid } from "nanoid"
-import { ICourseCat } from "../types/types"
+import { ICourseCat } from "../../types/types"
 import { GlobalContext } from "@/context/context"
+import { useCategoriesQuery } from "@/base/query"
 
 const mainNav = [
 	{
@@ -53,7 +54,7 @@ const mainNav = [
 const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const baseUrl = "https://apionline.ant-edu.ai/api/"
+	const categories = useCategoriesQuery().data as ICourseCat[]
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"
@@ -85,22 +86,20 @@ const SideNav = observer(() => {
 							Khóa học của tôi
 						</Link>
 
-						{ context.categories.get() && 
-							context.categories.get().map((cat: ICourseCat) => {
-								if (cat.level === 1 && cat.active) {
-									return (
-										<ul key={nanoid()} className={`/courses/${cat.id === +router.asPath ? "block" : "hidden"}`}>
-											<li className="sidenav-child__item">
-												<Link href={`/courses/${cat.id}`}
-													className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.id)}`}>
-														{cat.name}
-												</Link>
-											</li>
-										</ul>
-									)
-								}
-							})
-						}
+						{ categories && categories.map((cat: ICourseCat) => {
+							if (cat.level === 1 && cat.active) {
+								return (
+									<ul key={nanoid()} className={`/courses/${cat.id === +router.asPath ? "block" : "hidden"}`}>
+										<li className="sidenav-child__item">
+											<Link href={`/courses/${cat.id}`}
+												className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.id)}`}>
+													{cat.name}
+											</Link>
+										</li>
+									</ul>
+								)
+							}
+						})}
 					</li>
 
 					{mainNav.map(nav =>

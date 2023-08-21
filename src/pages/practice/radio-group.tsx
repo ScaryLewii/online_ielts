@@ -1,4 +1,4 @@
-import { IAnswer, IQuestion, IUserAnswer } from "@/components/types/types"
+import { IAnswer, IQuestion, IUserAnswer } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { FC, useContext } from "react"

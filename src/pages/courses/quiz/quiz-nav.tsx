@@ -2,7 +2,7 @@ import * as Scroll from 'react-scroll';
 import Image from 'next/image';
 import clock from "../../../../public/images/clock.svg"
 import plane from "../../../../public/images/plane.svg"
-import { IQuestion, IUserAnswer } from '@/components/types/types';
+import { IQuestion, IUserAnswer } from '@/types/types';
 import { nanoid } from 'nanoid';
 import { useContext } from 'react';
 import { observer, useObservable } from '@legendapp/state/react';

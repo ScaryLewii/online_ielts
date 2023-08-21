@@ -1,85 +1,54 @@
 import { useContext, useEffect, useState } from "react"
 import UnitBox from "./unit-box"
 import { nanoid } from "nanoid"
-import { ICourse, IUnit } from "../../components/types/types"
+import { ICourse, ILesson, IUnit } from "../../types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { CourseContext, GlobalContext } from "@/context/context"
 import { fetchData } from "@/base/base"
+import { useCoursesQuery, useLessonsQuery, useUnitsQuery } from "@/base/query"
 
 interface ICouseBox {
 	courseId: number
 }
 
-interface ICourseState {
-	course: ICourse,
-	unitIds: number[],
-}
-
-const CourseBox = observer(({courseId}: ICouseBox) => {
-	const context = useContext(GlobalContext)
+const CourseBox = ({courseId}: ICouseBox) => {
 	const courseContext = useContext(CourseContext)
-
-	const state = useObservable({
-		course: {},
-		unitIds: [],
-	} as unknown as {
-		course: ICourse,
-		unitIds: number[],
-	})
+	const courses = useCoursesQuery().data as ICourse[]
+	const allLessons = useLessonsQuery().data as ILesson[]
+	const units = useUnitsQuery().data as IUnit[]
+	const [course, setCourse] = useState<ICourse | null>(null)
+	const [lessons, setLessons] = useState<ILesson[]>([])
+	const [unitIds, setUnitIds] = useState<number[]>([])
 
 	const setActiveCourse = () => {
-		const activeCourse = context.courses.get().filter((c: ICourse) => c.id === courseId)[0]
+		const activeCourse = courses?.find((c: ICourse) => c.id === courseId)
 		courseContext.activeCourse.set(activeCourse)
 	}
 
 	useEffect(() => {
-		context.courses.get().map((c: ICourse) => {
-			c.id === courseId && state.course.set(c)
-		})
-	
-		const getUnitIds = async () => {
-			const ids: number[] = []
-			if (context.units.get().length) {
-				context.units.get().forEach((u: IUnit) => {
-					if (u.courseId === courseId) {
-						ids.push(u.id)
-					}
-					state.unitIds.set(ids)
-				})
-	
-				return
-			}
-			
-			if (!context.units.get().length) {
-				const token = localStorage.getItem("token")
-				if (!token) {
-					return
-				}
-	
-				await fetchData(`courses/lessons/${courseId}`, token, "GET")
-					.then(lessons => lessons.data.chapters.forEach((data: IUnit) => {
-						ids.push(data.id)
-					}))
-	
-				state.unitIds.set(unitIds => [...new Set([...unitIds, ...ids])])
-			}
-		}
+		const _course = courses?.find((c: ICourse) => c.id === courseId)
+		_course && setCourse(_course)
 
-		getUnitIds()
-	}, [context.courses, context.units, courseId, state.course, state.unitIds])
+		const _lessons = allLessons?.filter((l: ILesson) => l.courseId === courseId)
+		console.log(allLessons)
+
+		console.log(units)
+		const ids = units?.filter((u: IUnit) => u.courseId === courseId).map((u: IUnit) => u.id)
+		ids && setUnitIds(ids)
+	}, [courseId, courses, units])
 
 	return <>
-		{ state.course.get() &&
+		{ course &&
 			<div className="text-white">
 				<button className="mb-5 cursor-pointer" onClick={() => setActiveCourse()}>
-					<h3 className={`font-semibold ${courseContext?.activeCourse.id.get() === courseId ? "text-cyan" : ""}`}>{state.course.name.get()}</h3>
+					<h3 className={`font-semibold ${courseContext?.activeCourse.id.get() === courseId ? "text-cyan" : ""}`}>{course?.name}</h3>
 				</button>
-				{state.unitIds.get().map((id: number) =>
+				{unitIds?.map((id: number) =>
 					<UnitBox key={nanoid()} unitId={id} courseId={courseId} />
 				)}
 			</div>
 		}
 	</>
-})
+}
 
 export default CourseBox

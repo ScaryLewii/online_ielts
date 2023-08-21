@@ -1,4 +1,4 @@
-import { IAnswer, IQuestion } from "@/components/types/types"
+import { IAnswer, IQuestion } from "@/types/types"
 import { nanoid } from "nanoid"
 import { FC } from "react"
 

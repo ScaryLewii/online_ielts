@@ -4,7 +4,7 @@ import conquer from "../../../public/images/conquer.svg"
 import contract from "../../../public/images/contract.svg"
 import { useContext, useEffect } from "react"
 import { GlobalContext } from "@/context/context"
-import { ICourse, ILesson, ILessonProgress, IUnit } from "@/components/types/types"
+import { ICourse, ILesson, ILessonProgress, IUnit } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 
 const RouteBox = observer(() => {
