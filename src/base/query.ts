@@ -57,56 +57,41 @@ export const useCoursesQuery = () => {
 	})
 }
 
-const fetchLessons = async (token: string, ids: number[]) => {
-	const _lessonsArray: ILesson[] = []
-	ids.map(async id => {
-		const lessonDatas = await fetchData(`courses/lessons/${id}`, token, "GET")
-		_lessonsArray.push(lessonDatas.data.lessons)
-	})
-	return _lessonsArray
+const fetchLessons = async (token: string, id: number) => {
+	const lessonDatas = await fetchData(`courses/lessons/${id}`, token, "GET")
+	return lessonDatas.data.lessons
 }
-export const useLessonsQuery = () => {
+export const useLessonsQuery = (id: number) => {
 	const token = useValidToken().data as string
-	const courseIds = useCoursesQuery().data.map((course: ICourse) => course.id)
 	return useQuery({
 		queryKey: ['lessons', token],
-		queryFn: () => fetchLessons(token, courseIds),
-		enabled: !!courseIds
+		queryFn: () => fetchLessons(token, id),
+		enabled: !!id && !!token
 	})
 }
 
-const fetchUnits = async (token: string, ids: number[]) => {
-	const _unitArray: IUnit[] = []
-	ids.map(async id => {
-		const unitDatas = await fetchData(`courses/lessons/${id}`, token, "GET")
-		_unitArray.push(unitDatas.data.chapters)
-	})
-	return _unitArray
+const fetchUnits = async (token: string, id: number) => {
+	const unitDatas = await fetchData(`courses/lessons/${id}`, token, "GET")
+	return unitDatas.data.chapters
 }
-export const useUnitsQuery = () => {
+export const useUnitsQuery = (id: number) => {
 	const token = useValidToken().data as string
-	const lessonIds = useLessonsQuery().data?.map((l: ILesson) => l.id)
 	return useQuery({
 		queryKey: ['units', token],
-		queryFn: () => lessonIds && fetchUnits(token, lessonIds),
-		enabled: !!lessonIds
+		queryFn: () => fetchUnits(token, id),
+		enabled: !!id && !!token
 	})
 }
 
-const fetchQuizs = async (token: string, ids: number[]) => {
-	const _quizArray: IQuiz[] = []
-	ids.map(async id => {
-		const quizDatas = await fetchData(`lessons/${id}/quizzes`, token, "GET")
-		_quizArray.push(quizDatas.data.chapters)
-	})
-	return _quizArray
+const fetchQuizs = async (token: string, id: number) => {
+	const quizDatas = await fetchData(`lessons/${id}/quizzes`, token, "GET")
+	return quizDatas.data
 }
-export const useQuizsQuery = () => {
+export const useQuizsQuery = (id: number) => {
 	const token = useValidToken().data as string
-	const lessonIds = useLessonsQuery().data?.map((lesson: ILesson) => lesson.id)
 	return useQuery({
-		queryKey: ['units', token],
-		queryFn: () => lessonIds && fetchQuizs(token, lessonIds),
-		enabled: !!lessonIds
+		queryKey: [`quizs${id}`, token],
+		queryFn: () => fetchQuizs(token, id),
+		enabled: !!id && !!token
 	})
 }
