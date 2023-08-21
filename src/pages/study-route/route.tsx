@@ -10,6 +10,7 @@ import { GlobalContext } from "@/context/context"
 import { nanoid } from "nanoid"
 import { ICourseCat } from "@/types/types"
 import Link from "next/link"
+import { useCategoriesQuery } from "@/base/query"
 
 const PlainContent = () => {
 	return <>
@@ -31,7 +32,8 @@ const PlainContent = () => {
 }
 
 const Route = () => {
-	const context = useContext(GlobalContext)
+	const allCategories = useCategoriesQuery().data as ICourseCat[]
+
 	const Items = [
 		{
 			color: "text-light",
@@ -57,8 +59,8 @@ const Route = () => {
 
 	return <div className="relative">
 		<ReactSVG src={route['src']} />
-		{ context.categories.get() && 
-			context.categories.get().map((cat: ICourseCat, index: number) => {
+		{ allCategories && 
+			allCategories.map((cat: ICourseCat, index: number) => {
 				if (cat.active) {
 					return (
 						<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].position}`}>

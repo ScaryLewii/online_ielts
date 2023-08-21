@@ -6,15 +6,18 @@ import { useContext, useEffect } from "react"
 import { GlobalContext } from "@/context/context"
 import { ICourse, ILesson, ILessonProgress, IUnit } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
+import { useCoursesQuery } from "@/base/query"
 
 const RouteBox = observer(() => {
 	const context = useContext(GlobalContext)
-
+	const allCourses = useCoursesQuery().data as ICourse[]
 	const state = useObservable(0)
 	
 	const units = context.units.get()
 	const userLessons = context.lessonProgress.get()
 	const lessons = context.lessons.get()
+
+	const completeCourses = allCourses.filter(course => course.isComplete === true)
 
 	useEffect(() => {
 		units.map((u: IUnit) => {
@@ -33,7 +36,7 @@ const RouteBox = observer(() => {
 			<Image src={contract} width={35} height={35} alt="course" />
 
 			<div className="font-semibold mb-14">
-				<h4 className="text-cyan text-[36px] mb-2 leading-7">{context.courses.get().length}</h4>
+				<h4 className="text-cyan text-[36px] mb-2 leading-7">{allCourses?.length}</h4>
 				<p>Khóa học đã đăng kí</p>
 			</div>
 		</div>
@@ -43,7 +46,7 @@ const RouteBox = observer(() => {
 
 			<div className="font-semibold mb-14">
 				<h4 className="text-cyan text-[36px] mb-2 leading-7">
-					{state.get()}
+					{completeCourses?.length}
 				</h4>
 				<p>Khóa học đã hoàn thành</p>
 			</div>
