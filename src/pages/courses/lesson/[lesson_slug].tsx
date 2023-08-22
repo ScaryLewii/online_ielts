@@ -12,30 +12,25 @@ const LessonContent = () => {
     
 	const [content, setContent] = useState<ILesson | null>(null)
 
+	const lessonId = parseInt(router.asPath.split("/").pop() || "0")
+	const getLessonContent = () => {
+		context.lessons.get().map((lesson: ILesson) => {
+			if (lesson.id === lessonId) {
+				setContent(lesson)
+			}
+		})
+	}
+
 	useEffect(() => {
-        const lessonId = parseInt(router.asPath.split("/").pop() || "0")
-		const getLessonContent = () => {
-			context.lessons.get().map((lesson: ILesson) => {
-				if (lesson.id === lessonId) {
-					setContent(lesson)
-				}
-			})
-		}
-
-		const fetchLessonContent = async () => {
-			
-		}
-
 		if (context.lessons.get().length) {
 			getLessonContent();
 			return
 		}
-		
-
+	
 		if (!context.lessons.get().length) {
 			router.push("/study-route");
 		}
-	}, [content, context.lessons, router, router.asPath]);
+	})
 
 	return <>
 		{content?.name && <Breadcrumbs title={content.name} />}
