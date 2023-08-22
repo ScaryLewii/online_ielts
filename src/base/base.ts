@@ -44,8 +44,8 @@ export const postData = async (path: string, token: string, body: object = {}) =
 	)
 
 	if (!request.ok) {
-		console.log('please login again')
-		// window.location.assign('https://ant-edu.ai/auth/login')
+		window.location.assign('https://ant-edu.ai/auth/login')
+		// console.log('please login again')
 		return null
 	}
 	
