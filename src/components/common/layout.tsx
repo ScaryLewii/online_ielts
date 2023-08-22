@@ -77,7 +77,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 				state.lessonProgress.set(_progressArray)
 			})
 		})
-	}, [state.categories, state.courses, state.lessons, state.lessonProgress, state.quizs, state.units, state.user, token])
+	}, [state.categories, state.courses, state.lessons, state.lessonProgress, state.quizs, state.units, token])
 
 	if (router.pathname === "/") {
 		return <GlobalContext.Provider value={state}>
