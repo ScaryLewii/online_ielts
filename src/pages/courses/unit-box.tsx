@@ -22,9 +22,9 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 	const [lessons, setLessons] = useState<ILesson[]>([])
 
 	useEffect(() => {
-		const _lessons = allLessons?.filter(l => l.chapterId === unit.id)
+		const _lessons = allLessons?.filter(l => l.chapterId === unit?.id)
 		_lessons && setLessons(_lessons)
-	}, [allLessons, unit.id])
+	}, [allLessons, unit?.id])
 
 	const handleUnitClick = () => {
 		setIsExpanded(v => !v)
@@ -34,9 +34,9 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 		<div className={`flex justify-between items-center mb-5 lg:px-3
 			${isExpanded && "py-3 bg-dark border border-white pr-3"}
 		`}>
-			<button data-id={unit.id} className="flex gap-2 lg:gap-4" onClick={() => handleUnitClick()}>
+			<button data-id={unit?.id} className="flex gap-2 lg:gap-4" onClick={() => handleUnitClick()}>
 				<Image src={chevron} width={24} height={24} alt="chevron" />
-				{unit.name}
+				{unit?.name}
 			</button>
 		</div>
 		<ul className={`${isExpanded ? "block mb-5" : "hidden"}`}>
