@@ -17,7 +17,7 @@ const RouteBox = observer(() => {
 	const userLessons = context.lessonProgress.get()
 	const lessons = context.lessons.get()
 
-	const completeCourses = allCourses.filter(course => course.isComplete === true)
+	const completeCourses = allCourses?.filter(course => course.isComplete === true)
 
 	useEffect(() => {
 		units.map((u: IUnit) => {
