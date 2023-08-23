@@ -20,10 +20,10 @@ export const fetchData = async (path: string, token: string, method: string) => 
 	)
 
 	if (!request.ok) {
-		window.location.assign('https://ant-edu.ai/auth/login')
+		// window.location.assign('https://ant-edu.ai/auth/login')
 
 		// debug only
-		// console.log('please login again')
+		console.log('please login again')
 		return null
 	}
 	
@@ -44,8 +44,8 @@ export const postData = async (path: string, token: string, body: object = {}) =
 	)
 
 	if (!request.ok) {
-		window.location.assign('https://ant-edu.ai/auth/login')
-		// console.log('please login again')
+		// window.locati0on.assign('https://ant-edu.ai/auth/login')
+		console.log('please login again')
 		return null
 	}
 	

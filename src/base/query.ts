@@ -51,7 +51,7 @@ const fetchCourses = async (token: string) => {
 export const useCoursesQuery = () => {
 	const token = useValidToken().data as string
 	return useQuery({
-		queryKey: ['courses', token],
+		queryKey: ['courses'],
 		queryFn: () => fetchCourses(token),
 		enabled: !!token
 	})
@@ -64,7 +64,7 @@ export const fetchLessons = async (token: string, id: number) => {
 export const useLessonsQuery = (id: number) => {
 	const token = useValidToken().data as string
 	return useQuery({
-		queryKey: [`lessons-of-course-${id}`, token],
+		queryKey: ['lessons-of-course', id],
 		queryFn: () => fetchLessons(token, id),
 		enabled: !!id && !!token
 	})
@@ -108,7 +108,7 @@ const fetchQuizs = async (token: string, id: number) => {
 export const useQuizsQuery = (id: number) => {
 	const token = useValidToken().data as string
 	return useQuery({
-		queryKey: [`quizs${id}`, token],
+		queryKey: ['quizs', id],
 		queryFn: () => fetchQuizs(token, id),
 		enabled: !!id && !!token
 	})

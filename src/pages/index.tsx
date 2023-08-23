@@ -8,13 +8,29 @@ import Head from 'next/head'
 import { serialize } from 'cookie'
 import { ParsedUrlQuery } from 'querystring'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { useUserQuery, useValidToken } from '@/base/query'
+import { useEffect } from 'react'
 
-interface IToken {
-	token: string
-}
+export default function Home() {
+	const token = useValidToken().data as string
 
-export default function Home({token}: IToken) {
-	typeof window !== "undefined" && token && localStorage.setItem("token", token)
+	useEffect(() => {
+		if (typeof window == undefined) {
+			return
+		}
+
+		const params = new URLSearchParams(window.location.pathname)
+		const tokenParm = params.get("token")
+
+		if (!token && !tokenParm) {
+			console.log("please login again")
+			return
+		}
+
+		if (tokenParm && tokenParm.length) {
+			typeof window !== undefined && localStorage.setItem("token", tokenParm)
+		}
+	}, [token])
 
 	return (
 		<>
@@ -34,10 +50,4 @@ export default function Home({token}: IToken) {
 		</main>
 		</>
 	)
-}
-
-export const getServerSideProps = async (req: NextApiRequest, res: NextApiResponse) => {
-	let token = req.query.token || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Imh1bmdkY0BnaDJ2cy5jb20iLCJlbWFpbCI6Imh1bmdkY0BnaDJ2cy5jb20iLCJqdGkiOiI1MGZiYTYzNC1hMTU5LTQ4YjYtODI4Zi0zZDBjYzExMDYzNGEiLCJyb2xlIjoiQURNSU4iLCJwdXIiOiJTaWduSW4iLCJuYmYiOjE2OTI2MjEzMTQsImV4cCI6MTY5MjY2NDUxNCwiaWF0IjoxNjkyNjIxMzE0LCJpc3MiOiJodHRwczovLzl0YWxrLmVkdS52biIsImF1ZCI6Imh0dHBzOi8vOXRhbGsuZWR1LnZuIn0.6vY_cn9xkQ-b2to7VAZD_Z91V-rbX-Us_dFpDoH4FSg"
-
-	return { props: {token} }
 }

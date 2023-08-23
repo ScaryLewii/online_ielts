@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { useObservable } from "@legendapp/state/react"
 import { ICourse, ICourseCat, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
 import { GlobalContext } from "@/context/context";
-import { fetchLessons, useCoursesQuery, useLessonsQuery, useValidToken } from "@/base/query";
+import { fetchLessons, useCategoriesQuery, useCoursesQuery, useLessonsQuery, useValidToken } from "@/base/query";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "@/base/base";
 
@@ -16,10 +16,8 @@ const Layout = ({ children }: PropsWithChildren) => {
 	const token = useValidToken().data as string
 	const allCourses = useCoursesQuery().data as ICourse[]
 
-
 	const state = useObservable({
 		isNavOpen: true,
-		categories: [],
 		courses: [],
 		units: [],
 		lessons: [],
@@ -27,7 +25,6 @@ const Layout = ({ children }: PropsWithChildren) => {
 		lessonProgress: []
 	} as unknown as {
 		isNavOpen: boolean,
-		categories: ICourseCat[],
 		courses: ICourse[],
 		units: IUnit[],
 		lessons: ILesson[],
@@ -36,8 +33,6 @@ const Layout = ({ children }: PropsWithChildren) => {
 	})
 
 	useEffect(() => {
-		fetchData("categories", token, "GET").then(categories => state.categories.set(categories.data.filter((cat: ICourseCat) => cat.level === 1)))
-
 		const _lessonsArray:any = []
 		const _unitsArray:any = []
 		const _quizArray: any = []
