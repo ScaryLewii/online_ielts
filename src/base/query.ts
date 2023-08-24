@@ -10,8 +10,19 @@ export const useValidToken = () => {
 }
 
 const authUser = async (token: string) => {
-	const user = await fetchData("user/sso-support", token, "POST")
-	return user.data
+	if (localStorage.getItem("user") !== null) {
+		return localStorage.getItem("user") as string
+	}
+
+	const user = await fetchData("user/sso-support", "POST", token)
+	const userData = {
+		id: user.data.id,
+		displayName: user.data.displayName,
+		email: user.data.email,
+		avatar: user.data.avatar || ""
+	}
+	localStorage.setItem("userID", JSON.stringify(userData))
+	return JSON.stringify(userData)
 }
 export const useUserQuery = () => {
 	const token = useValidToken().data as string
@@ -22,22 +33,22 @@ export const useUserQuery = () => {
 	})
 }
 
-const fetchCategories = async (token: string) => {
-	const allCatgories = await fetchData("categories", token, "GET")
+export const fetchCategories = async () => {
+	const allCatgories = await fetchData("categories", "GET")
 	return allCatgories.data.filter((cat: ICourseCat) => cat.level === 1)
 }
 export const useCategoriesQuery = () => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['categories', token],
-		queryFn: () => fetchCategories(token),
+		queryFn: () => fetchCategories(),
 		enabled: !!token
 	})
 }
 
-const fetchCourses = async (token: string) => {
+export const fetchCourses = async () => {
 	const _coursesArray: any = []
-	const courses = await fetchData("user/courses", token, "GET")
+	const courses = await fetchData("user/courses", "GET")
 	courses.data && courses.data.map((c: any) => {
 		const data = {
 			...c.course,
@@ -52,20 +63,20 @@ export const useCoursesQuery = () => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['courses'],
-		queryFn: () => fetchCourses(token),
+		queryFn: () => fetchCourses(),
 		enabled: !!token
 	})
 }
 
-export const fetchLessons = async (token: string, id: number) => {
-	const lessonDatas = await fetchData(`courses/lessons/${id}`, token, "GET")
+export const fetchLessons = async (id: number) => {
+	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET")
 	return lessonDatas.data.lessons
 }
 export const useLessonsQuery = (id: number) => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['lessons-of-course', id],
-		queryFn: () => fetchLessons(token, id),
+		queryFn: () => fetchLessons(id),
 		enabled: !!id && !!token
 	})
 }
@@ -88,28 +99,28 @@ export const useLessonsQuery = (id: number) => {
 // 	})
 // }
 
-const fetchUnits = async (token: string, id: number) => {
-	const unitDatas = await fetchData(`courses/lessons/${id}`, token, "GET")
+export const fetchUnits = async (id: number) => {
+	const unitDatas = await fetchData(`courses/lessons/${id}`, "GET")
 	return unitDatas.data.chapters
 }
 export const useUnitsQuery = (id: number) => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['units', token],
-		queryFn: () => fetchUnits(token, id),
+		queryFn: () => fetchUnits(id),
 		enabled: !!id && !!token
 	})
 }
 
-const fetchQuizs = async (token: string, id: number) => {
-	const quizDatas = await fetchData(`lessons/${id}/quizzes`, token, "GET")
+export const fetchQuizs = async (id: number) => {
+	const quizDatas = await fetchData(`lessons/${id}/quizzes`, "GET")
 	return quizDatas.data
 }
 export const useQuizsQuery = (id: number) => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['quizs', id],
-		queryFn: () => fetchQuizs(token, id),
+		queryFn: () => fetchQuizs(id),
 		enabled: !!id && !!token
 	})
 }

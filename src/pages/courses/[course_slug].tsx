@@ -7,19 +7,19 @@ import { ICourse, ICourseCat } from "../../types/types"
 import { useRouter } from "next/router"
 import { CourseContext, GlobalContext } from "@/context/context"
 import CourseInfo from "./course-info"
-import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import { fetchCourses, useCategoriesQuery, useCoursesQuery } from "@/base/query"
 
+interface ICoursePage {
+	allCourses: ICourse[]
+}
 interface ICourseContent {
 	activeCourse: ICourse,
 	courseIds: number[]
 }
 
-const CourseContent = observer(() => {
+export default function CourseContent({ allCourses }: ICoursePage) {
 	const router = useRouter()
-	const context = useContext(GlobalContext)
 	const categories = useCategoriesQuery().data as ICourseCat[]
-	const allCourses = useCoursesQuery().data as ICourse[]
-
 	const [courses, setCourses] = useState<ICourse[]>([])
 
 	const state = useObservable({
@@ -28,6 +28,7 @@ const CourseContent = observer(() => {
 	} as unknown as ICourseContent)
 
 	useEffect(() => {
+		console.log(allCourses)
 		categories?.map((cat: ICourseCat) => {
 			if (router.asPath.includes('' + cat.id)) {
 				const _courses = allCourses?.filter((c: ICourse) => c.categoryId === cat.id)
@@ -55,6 +56,14 @@ const CourseContent = observer(() => {
 			</div>
 		</CourseContext.Provider>
 	</div>
-})
+}
 
-export default CourseContent
+export const getStaticProps = async () => {
+	const allCourses = await fetchCourses()
+
+	return {
+		props: {
+			allCourses
+		}
+	}
+}

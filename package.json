@@ -9,6 +9,7 @@
     "lint": "next lint",
     "watch": "node-sass scss/ -o src/styles --source-map true --output-style compressed --indent-type tab --indent-width 1 -w"
   },
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "@legendapp/state": "^1.4.0",
     "@tanstack/react-query": "^4.33.0",

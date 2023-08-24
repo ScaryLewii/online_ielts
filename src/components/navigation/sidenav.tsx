@@ -16,7 +16,7 @@ import DashboardNav from "./dashboard-nav"
 import { nanoid } from "nanoid"
 import { ICourseCat } from "../../types/types"
 import { GlobalContext } from "@/context/context"
-import { useCategoriesQuery } from "@/base/query"
+import { fetchCategories, useCategoriesQuery } from "@/base/query"
 
 const mainNav = [
 	{
@@ -51,10 +51,13 @@ const mainNav = [
 	}
 ]
 
-const SideNav = observer(() => {
+interface ISideNav {
+	allCategories: ICourseCat[]
+}
+
+const SideNav = observer(({ allCategories }: ISideNav) => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const categories = useCategoriesQuery().data as ICourseCat[]
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"
@@ -86,20 +89,16 @@ const SideNav = observer(() => {
 							Khóa học của tôi
 						</Link>
 
-						{ categories && categories.map((cat: ICourseCat) => {
-							if (cat.level === 1 && cat.active) {
-								return (
-									<ul key={nanoid()} className={`/courses/${cat.id === +router.asPath ? "block" : "hidden"}`}>
-										<li className="sidenav-child__item">
-											<Link href={`/courses/${cat.id}`}
-												className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.id)}`}>
-													{cat.name}
-											</Link>
-										</li>
-									</ul>
-								)
-							}
-						})}
+						{ allCategories && allCategories.map(cat => (
+							<ul key={nanoid()} className={`/courses/${cat.id === +router.asPath ? "block" : "hidden"}`}>
+								<li className="sidenav-child__item">
+									<Link href={`/courses/${cat.id}`}
+										className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.id)}`}>
+											{cat.name}
+									</Link>
+								</li>
+							</ul>
+						))}
 					</li>
 
 					{mainNav.map(nav =>
@@ -129,3 +128,13 @@ const SideNav = observer(() => {
 })
 
 export default SideNav
+
+export async function getStaticProps() {
+	const allCategories = await fetchCategories()
+
+	return {
+		props: {
+			allCategories
+		}
+	}
+}

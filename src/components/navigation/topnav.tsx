@@ -1,7 +1,7 @@
 import Image from "next/image"
 import bellIcon from "../../../public/images/bell.svg"
 import nav from "../../../public/nav.svg"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { observer, useObservable } from "@legendapp/state/react"
 import { GlobalContext } from "@/context/context"
 import { useUserQuery } from "@/base/query"
@@ -9,7 +9,8 @@ import { IUser } from "@/types/types"
 
 const TopNav = observer(() => {
 	const context = useContext(GlobalContext)
-	const user = useUserQuery().data as IUser
+	const userInfo = useUserQuery().data as string
+	const user: IUser = userInfo ? JSON.parse(userInfo) : {}
 
 	return <div className="sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",

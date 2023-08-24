@@ -7,11 +7,15 @@ export const getHeaderAuth = (token: string) => {
 	}
 }
 
-export const fetchData = async (path: string, token: string, method: string) => {
-	const headers = getHeaderAuth(token)
-	const data = { 
-		method: method, 
-		headers: headers
+export const fetchData = async (path: string, method: string, token: string = "") => {
+	const data: RequestInit = { 
+		method: method,
+		credentials: "include"
+	}
+
+	if (token) {
+		const headers = getHeaderAuth(token)
+		data.headers = headers
 	}
 	
 	const request = await fetch(
@@ -44,7 +48,7 @@ export const postData = async (path: string, token: string, body: object = {}) =
 	)
 
 	if (!request.ok) {
-		// window.locati0on.assign('https://ant-edu.ai/auth/login')
+		// window.location.assign('https://ant-edu.ai/auth/login')
 		console.log('please login again')
 		return null
 	}

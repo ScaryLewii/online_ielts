@@ -4,16 +4,6 @@ import { useEffect } from "react"
 
 const LivePage = () => {
 	const router = useRouter()
-	useEffect(() => {
-		const handleGetSession = async () => {
-			const session = await getSession()
-			if (!session) {
-				router.push('/signin')
-			}   
-		}
-		
-		handleGetSession()
-	})
 
 	return <h1>afasfasf</h1>
 }
