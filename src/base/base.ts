@@ -10,6 +10,7 @@ export const getHeaderAuth = (token: string) => {
 export const fetchData = async (path: string, method: string, token: string = "") => {
 	const data: RequestInit = { 
 		method: method,
+		mode: 'cors',
 		credentials: "include"
 	}
 
@@ -19,7 +20,7 @@ export const fetchData = async (path: string, method: string, token: string = ""
 	}
 	
 	const request = await fetch(
-		baseUrl + path,
+		"/api/" + path,
 		data
 	)
 
