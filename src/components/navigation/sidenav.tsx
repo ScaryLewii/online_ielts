@@ -55,9 +55,10 @@ interface ISideNav {
 	allCategories: ICourseCat[]
 }
 
-const SideNav = observer(({ allCategories }: ISideNav) => {
+const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
+	const allCategories = useCategoriesQuery().data as ICourseCat[]
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"
@@ -128,13 +129,3 @@ const SideNav = observer(({ allCategories }: ISideNav) => {
 })
 
 export default SideNav
-
-export async function getStaticProps() {
-	const allCategories = await fetchCategories()
-
-	return {
-		props: {
-			allCategories
-		}
-	}
-}

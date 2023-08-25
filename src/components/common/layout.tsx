@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { useObservable } from "@legendapp/state/react"
 import { ICourse, ICourseCat, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
 import { GlobalContext } from "@/context/context";
-import { fetchLessons, useCategoriesQuery, useCoursesQuery, useLessonsQuery, useUserQuery, useValidToken } from "@/base/query";
+import { fetchCategories, fetchLessons, useCategoriesQuery, useCoursesQuery, useLessonsQuery, useUserQuery, useValidToken } from "@/base/query";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "@/base/base";
 

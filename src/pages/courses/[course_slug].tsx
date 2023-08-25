@@ -17,7 +17,7 @@ interface ICourseContent {
 	courseIds: number[]
 }
 
-export default function CourseContent({ allCourses }: ICoursePage) {
+export default function CourseContent() {
 	const router = useRouter()
 	const categories = useCategoriesQuery().data as ICourseCat[]
 	const [courses, setCourses] = useState<ICourse[]>([])
@@ -27,18 +27,18 @@ export default function CourseContent({ allCourses }: ICoursePage) {
 		courseIds: []
 	} as unknown as ICourseContent)
 
-	useEffect(() => {
-		console.log(allCourses)
-		categories?.map((cat: ICourseCat) => {
-			if (router.asPath.includes('' + cat.id)) {
-				const _courses = allCourses?.filter((c: ICourse) => c.categoryId === cat.id)
-				if (_courses) {
-					setCourses(_courses)
-					state.activeCourse.set(_courses[0])
-				}
-			}
-		})
-	}, [allCourses, categories, router.asPath, state.activeCourse])
+	// useEffect(() => {
+	// 	console.log(allCourses)
+	// 	categories?.map((cat: ICourseCat) => {
+	// 		if (router.asPath.includes('' + cat.id)) {
+	// 			const _courses = allCourses?.filter((c: ICourse) => c.categoryId === cat.id)
+	// 			if (_courses) {
+	// 				setCourses(_courses)
+	// 				state.activeCourse.set(_courses[0])
+	// 			}
+	// 		}
+	// 	})
+	// }, [categories, router.asPath, state.activeCourse])
 
 	return <div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
 		<CourseContext.Provider value={state}>
@@ -56,14 +56,4 @@ export default function CourseContent({ allCourses }: ICoursePage) {
 			</div>
 		</CourseContext.Provider>
 	</div>
-}
-
-export const getStaticProps = async () => {
-	const allCourses = await fetchCourses()
-
-	return {
-		props: {
-			allCourses
-		}
-	}
 }

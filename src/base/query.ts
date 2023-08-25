@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { UseQueryResult, useQueries, useQuery } from "@tanstack/react-query"
 import { fetchData } from "./base"
 import { ICourse, ICourseCat, ILesson, IQuiz, IUnit } from "@/types/types"
 
@@ -33,22 +33,21 @@ export const useUserQuery = () => {
 	})
 }
 
-export const fetchCategories = async () => {
-	const allCatgories = await fetchData("categories", "GET")
+export const fetchCategories = async (token: string) => {
+	const allCatgories = await fetchData("categories", "GET", token)
 	return allCatgories.data.filter((cat: ICourseCat) => cat.level === 1)
 }
 export const useCategoriesQuery = () => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['categories', token],
-		queryFn: () => fetchCategories(),
-		enabled: !!token
+		queryFn: () => fetchCategories(token)
 	})
 }
 
-export const fetchCourses = async () => {
+export const fetchCourses = async (token: string) => {
 	const _coursesArray: any = []
-	const courses = await fetchData("user/courses", "GET")
+	const courses = await fetchData("user/courses", "GET", token)
 	courses.data && courses.data.map((c: any) => {
 		const data = {
 			...c.course,
@@ -63,20 +62,20 @@ export const useCoursesQuery = () => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['courses'],
-		queryFn: () => fetchCourses(),
+		queryFn: () => fetchCourses(token),
 		enabled: !!token
 	})
 }
 
-export const fetchLessons = async (id: number) => {
-	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET")
+export const fetchLessons = async (id: number, token: string) => {
+	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET", token)
 	return lessonDatas.data.lessons
 }
 export const useLessonsQuery = (id: number) => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['lessons-of-course', id],
-		queryFn: () => fetchLessons(id),
+		queryFn: () => fetchLessons(id, token),
 		enabled: !!id && !!token
 	})
 }
@@ -91,13 +90,19 @@ export const useLessonsQuery = (id: number) => {
 	
 // 	return lessons
 // }
-// export const useAllLessonsQuery = (ids: number[]) => {
-// 	return useQuery({
-// 		queryKey: ['allLessons'],
-// 		queryFn: () => fetchAllLessons(ids),
-// 		enabled: !!ids
-// 	})
-// }
+export const useAllLessonsQuery = (ids: number[]) => {
+	const token = useValidToken().data as string
+	return useQueries({
+		queries: ids.map(id => {
+			return {
+				queryKey: ['lessons-all', id],
+				queryFn: () => fetchLessons(id, token),
+				enabled: !!id,
+				staleTime: Infinity
+			}
+		})
+	})
+}
 
 export const fetchUnits = async (id: number) => {
 	const unitDatas = await fetchData(`courses/lessons/${id}`, "GET")
