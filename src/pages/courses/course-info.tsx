@@ -40,7 +40,7 @@ const CourseInfo = observer(() => {
 			return a.id - b.id
 		})
 		const nextLesson = notCompleteLessons[0]
-		router.push("/courses/lesson/" + (nextLesson.id))
+		router.push("/courses/lessons/" + (nextLesson.id))
 	}
 
 	return <>

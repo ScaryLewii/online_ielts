@@ -7,11 +7,15 @@ export const getHeaderAuth = (token: string) => {
 	}
 }
 
-export const fetchData = async (path: string, token: string, method: string) => {
+export const fetchData = async (path: string, method: string, token: string = "") => {
 	const headers = getHeaderAuth(token)
-	const data = { 
-		method: method, 
-		headers: headers
+	const data: RequestInit = { 
+		method: method,
+		credentials: "include"
+	}
+
+	if (token) {
+		data.headers = getHeaderAuth(token)
 	}
 	
 	const request = await fetch(
@@ -20,10 +24,8 @@ export const fetchData = async (path: string, token: string, method: string) => 
 	)
 
 	if (!request.ok) {
-		window.location.assign('https://ant-edu.ai/auth/login')
-
-		// debug only
-		// console.log('please login again')
+		// window.location.assign('https://ant-edu.ai/auth/login')
+		console.log('please login again')
 		return null
 	}
 	
@@ -44,8 +46,8 @@ export const postData = async (path: string, token: string, body: object = {}) =
 	)
 
 	if (!request.ok) {
-		window.location.assign('https://ant-edu.ai/auth/login')
-		// console.log('please login again')
+		// window.location.assign('https://ant-edu.ai/auth/login')
+		console.log('please login again')
 		return null
 	}
 	

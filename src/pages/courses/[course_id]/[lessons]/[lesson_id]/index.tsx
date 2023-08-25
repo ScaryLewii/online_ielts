@@ -3,38 +3,25 @@ import { useContext, useEffect, useState } from "react";
 import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
-import { ILesson } from "../../../../types/types";
+import { ILesson } from "@/types/types";
 import { GlobalContext } from "@/context/context";
 import { useLessonsQuery } from "@/base/query";
 
 const LessonContent = () => {
 	const router = useRouter()
-	const context = useContext(GlobalContext)
-    
 	const [content, setContent] = useState<ILesson | null>(null)
 
-	const lessonId = parseInt(router.asPath.split("/").pop() || "0")
-	const lessons = useLessonsQuery(lessonId)
+	const courseId = router.query.course_id as string
+	const lessonsId = router.query.lesson_id as string
+	const lessons = useLessonsQuery(+courseId).data as ILesson[]
 
 	useEffect(() => {
-		const getLessonContent = () => {
-			context.lessons.get().map((lesson: ILesson) => {
-				if (lesson?.id === lessonId) {
-					setContent(lesson)
-				}
-			})
-		}
-
-		if (context.lessons.get().length) {
-			getLessonContent();
-			return
-		}
-		console.log(lessons.data)
-
-		// if (!context.lessons.get().length) {
-		// 	router.push("/study-route");
-		// }
-	}, [context.lessons, lessons.data])
+		lessons?.map((lesson: ILesson) => {
+			if (lesson?.id === +lessonsId) {
+				setContent(lesson)
+			}
+		})
+	}, [lessons, lessonsId])
 
 	return <>
 		{content?.name && <Breadcrumbs title={content.name} />}

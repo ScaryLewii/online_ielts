@@ -5,9 +5,10 @@ import RadioGroup from "@/pages/practice/radio-group";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router"
 import { useContext, useEffect } from "react";
-import QuizNav from "./quiz-nav";
+import QuizNav from "../../../../quiz/quiz-nav";
 import { observer, useObservable } from "@legendapp/state/react"
 import { QuizContext, GlobalContext } from "@/context/context";
+import { useQuizsQuery } from "@/base/query";
 
 interface IQuizContent {
 	id: string,
@@ -21,9 +22,12 @@ interface IQuizContent {
 const QuizContent = observer(function Component() {
 	const router = useRouter();
 	const context = useContext(GlobalContext)
-	const quizId = router.asPath.split("/").pop() || "0"
+	
+	const lessonId = router.query.lesson_id as string
+	const quizId = router.query.quiz_id as string
+	const quiz = useQuizsQuery(+lessonId).data[0] as IQuiz
 
-	const state = useObservable({
+	const state = useObservable({	
 		id: "",
 		title: "",
 		questions: [],
@@ -33,38 +37,20 @@ const QuizContent = observer(function Component() {
 	} as unknown as IQuizContent)
 
 	useEffect(() => {
-		if (!context.quizs.get().length) {
-			router.push("/study-route")
-		}
-
-		const fetchQuizContent = () => {
-			context.quizs.get().forEach((q: IQuiz) => {
-				if (q.id === quizId) {
-					const content = JSON.parse(q.content)
-					state.questions.set(content)
-					state.title.set(q.title)
+		const content = JSON.parse(quiz?.content)
+		state.questions.set(content)
+		state.title.set(quiz.title)
 	
-					const answers: any = []
-					content.map((c: IQuestion) => {
-						const _a = c.answers.filter(a => a.right)[0]
-						answers.push({
-							id: _a.id,
-							content: _a.content
-						})
-					})
-					state.answers.set(answers)
-	
-					return;
-				}
+		const answers: any = []
+		content.map((c: IQuestion) => {
+			const _a = c.answers.filter(a => a.right)[0]
+			answers.push({
+				id: _a.id,
+				content: _a.content
 			})
-		}
-	
-		fetchQuizContent()
-	}, [context.quizs, quizId, router, state.answers, state.questions, state.title])
-
-	if (!state.questions.get().length) {
-		return <>Loading...</>
-	}
+		})
+		state.answers.set(answers)
+	}, [quiz, state.answers, state.questions, state.title])
 
 	return <>
 		<Breadcrumbs title="" />

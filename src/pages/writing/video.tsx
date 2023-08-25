@@ -17,6 +17,7 @@ import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
 import { ILesson } from "@/types/types";
 import { GlobalContext } from "@/context/context";
+import { useLessonsQuery } from "@/base/query";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 const subtitleData = [
@@ -54,7 +55,9 @@ interface IVideoUrl {
 
 const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 	const router = useRouter()
-	const context = useContext(GlobalContext)
+	
+	const courseId = router.query.course_id as string
+	const lessons = useLessonsQuery(+courseId).data as ILesson[]
 
 	const state = useObservable({
 		subtitle: subtitleData[0].text,
@@ -67,6 +70,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 		const currentLesson = parseInt(param)
 		state.lessonId.set(currentLesson)
 	})
+
 
 	const playerRef = useRef<any>(null);
 	const handleSeekClick = (s: any) => {
@@ -84,15 +88,15 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 
 	const goToLesson = (isNext: boolean) => {
 		const currentLesson = state.lessonId.get()
-		const previousLesson = checkValidLesson(context.lessons.get(), currentLesson - 1) ? currentLesson - 1 : currentLesson
-		const nextLesson = checkValidLesson(context.lessons.get(), currentLesson + 1) ? currentLesson + 1 : currentLesson
+		const previousLesson = checkValidLesson(lessons, currentLesson - 1) ? currentLesson - 1 : currentLesson
+		const nextLesson = checkValidLesson(lessons, currentLesson + 1) ? currentLesson + 1 : currentLesson
 
 		if (isNext) {
-			router.push("/courses/lesson/" + nextLesson)
+			router.push(`/courses/${courseId}/lessons/${nextLesson}`)
 			return
 		}
-
-		router.push("/courses/lesson/" + previousLesson)
+		
+		router.push(`/courses/${courseId}/lessons/${previousLesson}`)
 	}
 
 	return (

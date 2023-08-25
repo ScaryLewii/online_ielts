@@ -42,7 +42,7 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 		<ul className={`${isExpanded ? "block mb-5" : "hidden"}`}>
 			{lessons?.map(l => 
 				<li key={nanoid()} data-lesson-id={l.id} className="list-none flex items-center justify-between pl-10 pr-3">
-					<Link href={`/courses/lesson/${l.id}`}
+					<Link href={`/courses/${l.courseId}/lessons/${l.id}`}
 						className="flex items-center gap-5 my-2">
 							{l.type === "video" && <Image src={playIcon} width={24} height={24} alt="video" />}
 							{l.name}
@@ -50,7 +50,7 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 				</li>
 			)}
 
-			{lessons?.map(l => <QuizLink key={nanoid()} lessonId={l.id} unitId={unit.id} />)}
+			{lessons?.map(l => <QuizLink key={nanoid()} courseId={l.courseId} lessonId={l.id} />)}
 		</ul>
 	</>
 }

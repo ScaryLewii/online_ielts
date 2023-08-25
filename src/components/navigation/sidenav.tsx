@@ -14,7 +14,7 @@ import { useContext, useEffect } from "react"
 import nav from "../../../public/nav.svg"
 import DashboardNav from "./dashboard-nav"
 import { nanoid } from "nanoid"
-import { ICourseCat } from "../../types/types"
+import { ICategory } from "../../types/types"
 import { GlobalContext } from "@/context/context"
 import { useCategoriesQuery } from "@/base/query"
 
@@ -54,7 +54,7 @@ const mainNav = [
 const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const categories = useCategoriesQuery().data as ICourseCat[]
+	const categories = useCategoriesQuery().data as ICategory[]
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"
@@ -86,7 +86,7 @@ const SideNav = observer(() => {
 							Khóa học của tôi
 						</Link>
 
-						{ categories && categories.map((cat: ICourseCat) => {
+						{ categories && categories.map((cat: ICategory) => {
 							if (cat.level === 1 && cat.active) {
 								return (
 									<ul key={nanoid()} className={`/courses/${cat.id === +router.asPath ? "block" : "hidden"}`}>

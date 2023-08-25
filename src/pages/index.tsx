@@ -5,16 +5,31 @@ import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
 import Head from 'next/head'
-import { serialize } from 'cookie'
-import { ParsedUrlQuery } from 'querystring'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { useValidToken } from '@/base/query'
+import { useEffect } from 'react'
 
 interface IToken {
 	token: string
 }
 
 export default function Home({token}: IToken) {
-	typeof window !== "undefined" && token && localStorage.setItem("token", token)
+	const saveToken = useValidToken().data as string
+
+	useEffect(() => {
+		if (typeof window == undefined) {
+			return
+		}
+
+		if (!token && !saveToken) {
+			console.log("please login again")
+			// window.location.assign('https://ant-edu.ai/auth/login')
+			return
+		}
+
+		if (token && token.length) {
+			typeof window !== undefined && localStorage.setItem("token", token)
+		}
+	}, [saveToken, token])
 
 	return (
 		<>

@@ -1,4 +1,4 @@
-export interface ICourseCat {
+export interface ICategory {
 	active: boolean,
 	description: string,
 	id: number,
@@ -9,7 +9,7 @@ export interface ICourseCat {
 }
 export interface IContext {
 	user: IUser,
-	categories: ICourseCat[],
+	categories: ICategory[],
 	courses: ICourse[],
 	units: IUnit[],
 	lessons: ILesson[],

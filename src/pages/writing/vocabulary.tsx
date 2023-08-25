@@ -4,12 +4,14 @@ import { IWord } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { fetchData } from "@/base/base"
 import { nanoid } from "nanoid"
+import { useVocalbularyQuery } from "@/base/query"
 
 interface IVocabulary {
 	lessonId: number
 }
 
 const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
+	const vocabulary = useVocalbularyQuery(lessonId).data as IWord
 	const state = useObservable({
 		data: [],
 		token: ""
@@ -18,9 +20,7 @@ const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
 		token: string
 	})
 
-	state.token.set((typeof window !== "undefined" && localStorage.getItem("token")) || "0")
-	fetchData(`vocabularies/lesson/${lessonId}`, state.token.get(), "GET")
-		.then(words => state.data.set(words ? words.data : {}))
+	console.log(vocabulary)
 
 	return <div className="bg-dark p-5">
 		<h3 className="text-lg text-light font-semibold flex items-center gap-3 mb-5">

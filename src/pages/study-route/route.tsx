@@ -8,7 +8,7 @@ import icon4 from "../../../public/dump/icon-4.svg"
 import { useContext } from "react"
 import { GlobalContext } from "@/context/context"
 import { nanoid } from "nanoid"
-import { ICourseCat } from "@/types/types"
+import { ICategory } from "@/types/types"
 import Link from "next/link"
 import { useCategoriesQuery } from "@/base/query"
 
@@ -32,7 +32,7 @@ const PlainContent = () => {
 }
 
 const Route = () => {
-	const allCategories = useCategoriesQuery().data as ICourseCat[]
+	const allCategories = useCategoriesQuery().data as ICategory[]
 
 	const Items = [
 		{
@@ -60,7 +60,7 @@ const Route = () => {
 	return <div className="relative">
 		<ReactSVG src={route['src']} />
 		{ allCategories && 
-			allCategories.map((cat: ICourseCat, index: number) => {
+			allCategories.map((cat: ICategory, index: number) => {
 				if (cat.active) {
 					return (
 						<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].position}`}>

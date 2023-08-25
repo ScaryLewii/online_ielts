@@ -2,12 +2,12 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
-import CourseBox from "./course-box"
-import { ICourse, ICourseCat } from "../../types/types"
+import CourseBox from "./../course-box"
 import { useRouter } from "next/router"
 import { CourseContext, GlobalContext } from "@/context/context"
-import CourseInfo from "./course-info"
+import CourseInfo from "./../course-info"
 import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import { ICategory, ICourse } from "@/types/types"
 
 interface ICourseContent {
 	activeCourse: ICourse,
@@ -17,7 +17,7 @@ interface ICourseContent {
 const CourseContent = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const categories = useCategoriesQuery().data as ICourseCat[]
+	const categories = useCategoriesQuery().data as ICategory[]
 	const allCourses = useCoursesQuery().data as ICourse[]
 
 	const [courses, setCourses] = useState<ICourse[]>([])
@@ -28,7 +28,7 @@ const CourseContent = observer(() => {
 	} as unknown as ICourseContent)
 
 	useEffect(() => {
-		categories?.map((cat: ICourseCat) => {
+		categories?.map((cat: ICategory) => {
 			if (router.asPath.includes('' + cat.id)) {
 				const _courses = allCourses?.filter((c: ICourse) => c.categoryId === cat.id)
 				if (_courses) {
@@ -37,7 +37,7 @@ const CourseContent = observer(() => {
 				}
 			}
 		})
-	}, [allCourses, categories, router.asPath, state.activeCourse])
+	}, [allCourses, categories, context.categories, context.lessons, router.asPath, state.activeCourse])
 
 	return <div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
 		<CourseContext.Provider value={state}>
