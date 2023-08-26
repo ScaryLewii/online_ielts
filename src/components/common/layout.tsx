@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { observer, useObservable } from "@legendapp/state/react"
 import { ICourse, ICategory, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
 import { GlobalContext } from "@/context/context";
-import { fetchLessons, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useLessonsQuery, useUnitsQuery, useValidToken } from "@/base/query";
+import { fetchLessons, useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useLessonsQuery, useUnitsQuery, useValidToken } from "@/base/query";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "@/base/base";
 
@@ -17,6 +17,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const allCategories = useCategoriesQuery().data as ICategory[]
 	const allCourses = useCoursesQuery().data as ICourse[]
 	const allLessons = useAllLessonsQuery(allCourses)
+	const lessonsProgress = useAllLessonsProgressQuery(allCourses)
+	const allUnits = useAllUnitsQuery(allCourses)
 
 	const state = useObservable({
 		isNavOpen: true,
@@ -39,7 +41,11 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	state.categories.set(allCategories)
 	state.courses.set(allCourses)
 	const allLessonsData = allLessons.map(array => array.data)
-	state.lessons.set(allLessonsData)
+	state.lessons.set(Object.values(allLessonsData).flat())
+	const allLessonsProgressData = lessonsProgress.map(array => array.data)
+	state.lessonProgress.set(Object.values(allLessonsProgressData).flat())
+	const allUnitsData = allUnits.map(array => array.data)
+	state.units.set(Object.values(allUnitsData).flat())
 
 	if (router.pathname === "/") {
 		return <GlobalContext.Provider value={state}>

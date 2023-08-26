@@ -20,8 +20,6 @@ const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
 		token: string
 	})
 
-	console.log(vocabulary)
-
 	return <div className="bg-dark p-5">
 		<h3 className="text-lg text-light font-semibold flex items-center gap-3 mb-5">
 			<span className="block h-7 w-2 bg-light"></span>

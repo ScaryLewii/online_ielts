@@ -83,6 +83,25 @@ export const useAllLessonsQuery = (courses: ICourse[]) => {
 	})
 }
 
+export const fetchLessonsProgress = async (id: number, token: string) => {
+	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET", token)
+	return lessonDatas.data.userLessons
+}
+export const useAllLessonsProgressQuery = (courses: ICourse[]) => {
+	const token = useValidToken().data as string
+	courses = courses || []
+	return useQueries({
+		queries: courses.map(c => {
+			return {
+				queryKey: ['lessons', 'progress', c.id],
+				queryFn: () => fetchLessonsProgress(c.id, token),
+				enabled: !!c.id,
+				staleTime: Infinity
+			}
+		})
+	})
+}
+
 const fetchUnits = async (id: number, token: string) => {
 	const unitDatas = await fetchData(`courses/lessons/${id}`, "GET", token)
 	return unitDatas.data.chapters
@@ -95,9 +114,9 @@ export const useUnitsQuery = (id: number) => {
 		enabled: !!id && !!token
 	})
 }
-export const useAllUnitsQuery = () => {
+export const useAllUnitsQuery = (courses: ICourse[]) => {
 	const token = useValidToken().data as string
-	const courses = useCoursesQuery().data as ICourse[]
+	courses = courses || []
 	return useQueries({
 		queries: courses.map(c => {
 			return {

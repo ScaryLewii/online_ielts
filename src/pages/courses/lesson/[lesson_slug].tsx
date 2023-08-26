@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
-import { ILesson } from "../../../../types/types";
+import { ILesson } from "@/types/types";
 import { GlobalContext } from "@/context/context";
 import { useLessonsQuery } from "@/base/query";
 
@@ -29,12 +29,11 @@ const LessonContent = () => {
 			getLessonContent();
 			return
 		}
-		console.log(lessons.data)
 
-		// if (!context.lessons.get().length) {
-		// 	router.push("/study-route");
-		// }
-	}, [context.lessons, lessons.data])
+		if (!context.lessons.get().length) {
+			router.push("/study-route");
+		}
+	}, [context.lessons, lessonId, lessons.data, router])
 
 	return <>
 		{content?.name && <Breadcrumbs title={content.name} />}

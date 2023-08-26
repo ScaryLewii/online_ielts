@@ -89,10 +89,10 @@ const SideNav = observer(() => {
 						{ categories && categories.map((cat: ICategory) => {
 							if (cat.level === 1 && cat.active) {
 								return (
-									<ul key={nanoid()} className={`/courses/${cat.id === +router.asPath ? "block" : "hidden"}`}>
+									<ul key={nanoid()} className={`/categories/${cat.id === +router.asPath ? "block" : "hidden"}`}>
 										<li className="sidenav-child__item">
-											<Link href={`/courses/${cat.id}`}
-												className={`sidenav-child__link hover:text-cyan ${getActiveClass('/courses/' + cat.id)}`}>
+											<Link href={`/categories/${cat.id}`}
+												className={`sidenav-child__link hover:text-cyan ${getActiveClass('/categories/' + cat.id)}`}>
 													{cat.name}
 											</Link>
 										</li>

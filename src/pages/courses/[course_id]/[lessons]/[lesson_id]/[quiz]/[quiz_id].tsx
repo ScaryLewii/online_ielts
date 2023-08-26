@@ -21,7 +21,6 @@ interface IQuizContent {
 
 const QuizContent = observer(function Component() {
 	const router = useRouter();
-	const context = useContext(GlobalContext)
 	
 	const lessonId = router.query.lesson_id as string
 	const quizId = router.query.quiz_id as string

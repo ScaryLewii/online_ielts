@@ -7,9 +7,13 @@ import { GlobalContext } from "@/context/context"
 import { ICourse, ILesson, ILessonProgress, IUnit } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { useCoursesQuery } from "@/base/query"
+import { useRouter } from "next/router"
 
 const RouteBox = observer(() => {
 	const context = useContext(GlobalContext)
+	const router = useRouter();
+	const courseId = router.query.course_id as string
+
 	const allCourses = useCoursesQuery().data as ICourse[]
 	const state = useObservable(0)
 	
@@ -21,7 +25,7 @@ const RouteBox = observer(() => {
 
 	useEffect(() => {
 		units.map((u: IUnit) => {
-			const lessonCount = lessons.filter((l: ILesson) => l.courseId === u.courseId)
+			const lessonCount = lessons?.filter((l: ILesson) => l.courseId === u.courseId)
 			lessons.map((l: ILesson) => {
 				const lessonCompletes = userLessons.filter((ul: ILessonProgress) => ul.lessonId === l.id)
 				if (lessonCompletes.length === lessonCount.length) {
