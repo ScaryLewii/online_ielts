@@ -10,8 +10,7 @@ export const getHeaderAuth = (token: string) => {
 export const fetchData = async (path: string, method: string, token: string = "") => {
 	const headers = getHeaderAuth(token)
 	const data: RequestInit = { 
-		method: method,
-		credentials: "include"
+		method: method
 	}
 
 	if (token) {

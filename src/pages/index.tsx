@@ -7,7 +7,7 @@ import MissionSection from '@/components/home/mission'
 import Head from 'next/head'
 import { useValidToken } from '@/base/query'
 import { useEffect } from 'react'
-import { NextApiRequest } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 interface IToken {
 	token: string
