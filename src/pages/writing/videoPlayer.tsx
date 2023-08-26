@@ -1,4 +1,5 @@
 import { fetchData, postData } from "@/base/base";
+import { useValidToken } from "@/base/query";
 import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 
@@ -13,12 +14,12 @@ interface IPlayer {
 }
 
 const VideoPlayer = observer(({ playerRef, video, isPlaying, lessonId }: IPlayer) => {
-	const context = useContext(GlobalContext)
+	const token = useValidToken().data as string
 	const handleLessonStart = () => {
-		postData("user/course", context.token.get(), {"lessonId": lessonId, "progress": 0}).then(res => console.log(res))
+		postData("user/course", token, {"lessonId": lessonId, "progress": 0}).then(res => console.log(res))
 	}
 	const handleLessonFinish = () => {
-		postData("user/course", context.token.get(), {"lessonId": lessonId, "progress": 100}).then(res => console.log(res))
+		postData("user/course", token, {"lessonId": lessonId, "progress": 100}).then(res => console.log(res))
 	}
 
 	const tempVideo = "//s3.envoy.rocks/bothrs/goud-design-sprint/goud/LhgEcS_GOUD+PROTOTYPE+SHOWCASE.mp4"
