@@ -18,7 +18,8 @@ export const useUserQuery = () => {
 	return useQuery({
 		queryKey: ['user', token],
 		queryFn: () => authUser(token),
-		enabled: !!token
+		enabled: !!token,
+		staleTime: Infinity
 	})
 }
 
@@ -30,7 +31,8 @@ export const useCategoriesQuery = () => {
 	const token = useValidToken().data as string
 	return useQuery({
 		queryKey: ['categories', token],
-		queryFn: () => fetchCategories(token)
+		queryFn: () => fetchCategories(token),
+		staleTime: Infinity
 	})
 }
 
@@ -52,7 +54,8 @@ export const useCoursesQuery = () => {
 	return useQuery({
 		queryKey: ['courses', token],
 		queryFn: () => fetchCourses(token),
-		enabled: !!token
+		enabled: !!token,
+		staleTime: Infinity
 	})
 }
 
@@ -65,7 +68,8 @@ export const useLessonsQuery = (id: number) => {
 	return useQuery({
 		queryKey: ['lessons', id],
 		queryFn: () => fetchLessons(id, token),
-		enabled: !!id && !!token
+		enabled: !!id && !!token,
+		staleTime: Infinity
 	})
 }
 export const useAllLessonsQuery = (courses: ICourse[]) => {
@@ -111,7 +115,8 @@ export const useUnitsQuery = (id: number) => {
 	return useQuery({
 		queryKey: ['units', id],
 		queryFn: () => fetchUnits(id, token),
-		enabled: !!id && !!token
+		enabled: !!id && !!token,
+		staleTime: Infinity
 	})
 }
 export const useAllUnitsQuery = (courses: ICourse[]) => {
@@ -138,7 +143,8 @@ export const useQuizsQuery = (id: number) => {
 	return useQuery({
 		queryKey: ['quiz', 'lesson', id],
 		queryFn: () => fetchQuizs(id, token),
-		enabled: !!id && !!token
+		enabled: !!id && !!token,
+		staleTime: Infinity
 	})
 }
 
@@ -151,7 +157,8 @@ export const useVocalbularyQuery = (id: number) => {
 	return useQuery({
 		queryKey: ['vocabulary', 'lesson', id],
 		queryFn: () => fetchVocabulary(id, token),
-		enabled: !!id && !!token
+		enabled: !!id && !!token,
+		staleTime: Infinity
 	})
 }
 
