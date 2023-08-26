@@ -13,7 +13,6 @@ import { fetchData } from "@/base/base";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const router = useRouter()
-	const token = useValidToken().data as string
 	const allCategories = useCategoriesQuery().data as ICategory[]
 	const allCourses = useCoursesQuery().data as ICourse[]
 	const allLessons = useAllLessonsQuery(allCourses)
@@ -21,6 +20,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const allUnits = useAllUnitsQuery(allCourses)
 
 	const state = useObservable({
+		isSessonValid: true,
 		isNavOpen: true,
 		categories: [],
 		courses: [],
@@ -29,6 +29,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		quizs: [],
 		lessonProgress: []
 	} as unknown as {
+		isSessonValid: boolean,
 		isNavOpen: boolean,
 		categories: ICategory[],
 		courses: ICourse[],

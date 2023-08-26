@@ -7,6 +7,7 @@ import MissionSection from '@/components/home/mission'
 import Head from 'next/head'
 import { useValidToken } from '@/base/query'
 import { useEffect } from 'react'
+import { NextApiRequest } from 'next'
 
 interface IToken {
 	token: string
@@ -21,7 +22,7 @@ export default function Home({token}: IToken) {
 		}
 
 		if (!token && !saveToken) {
-			console.log("please login again")
+			// console.log("please login again")
 			window.location.assign('https://ant-edu.ai/auth/login')
 			return
 		}
@@ -52,7 +53,7 @@ export default function Home({token}: IToken) {
 }
 
 export const getServerSideProps = async (req: NextApiRequest, res: NextApiResponse) => {
-	let token = req.query.token || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Imh1bmdkY0BnaDJ2cy5jb20iLCJlbWFpbCI6Imh1bmdkY0BnaDJ2cy5jb20iLCJqdGkiOiI1MGZiYTYzNC1hMTU5LTQ4YjYtODI4Zi0zZDBjYzExMDYzNGEiLCJyb2xlIjoiQURNSU4iLCJwdXIiOiJTaWduSW4iLCJuYmYiOjE2OTI2MjEzMTQsImV4cCI6MTY5MjY2NDUxNCwiaWF0IjoxNjkyNjIxMzE0LCJpc3MiOiJodHRwczovLzl0YWxrLmVkdS52biIsImF1ZCI6Imh0dHBzOi8vOXRhbGsuZWR1LnZuIn0.6vY_cn9xkQ-b2to7VAZD_Z91V-rbX-Us_dFpDoH4FSg"
+	let token = req.query.token || ""
 
 	return { props: {token} }
 }
