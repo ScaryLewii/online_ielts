@@ -24,6 +24,9 @@ const RouteBox = observer(() => {
 	const completeCourses = allCourses?.filter(course => course.isComplete === true)
 
 	useEffect(() => {
+		if (!lessons) {
+			return
+		}
 		units.map((u: IUnit) => {
 			const lessonCount = lessons?.filter((l: ILesson) => l.courseId === u.courseId)
 			lessons.map((l: ILesson) => {
