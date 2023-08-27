@@ -24,7 +24,7 @@ export const fetchData = async (path: string, method: string, token: string = ""
 
 	if (!request.ok) {
 		window.location.assign('https://ant-edu.ai/auth/login')
-		// console.log('please login again')
+		console.log('please login again')
 		return null
 	}
 	

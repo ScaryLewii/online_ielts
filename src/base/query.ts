@@ -162,3 +162,17 @@ export const useVocalbularyQuery = (id: number) => {
 	})
 }
 
+const fetchSubtitles = async (id: number, token: string) => {
+	const vocabularies = await fetchData(`subtitles/lesson/${id}`, "GET", token)
+	return vocabularies.data
+}
+export const useSubtitleQuery = (id: number) => {
+	const token = useValidToken().data as string
+	return useQuery({
+		queryKey: ['subtitles', 'lesson', id],
+		queryFn: () => fetchSubtitles(id, token),
+		enabled: !!id && !!token,
+		staleTime: Infinity
+	})
+}
+

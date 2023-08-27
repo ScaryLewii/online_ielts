@@ -119,3 +119,18 @@ export interface IQuizProgress {
 	lessonId: number,
 	content: string
 }
+
+export interface ISubtitle {
+	id: string,
+	content: string,
+	lessonId: number,
+	startAt: number,
+	endAt: number
+}
+
+export interface IVideoProgessData {
+	loaded: number,
+	loadedSeconds: number,
+	played: number,
+	playedSeconds: number,
+}

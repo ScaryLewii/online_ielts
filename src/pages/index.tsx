@@ -17,19 +17,24 @@ export default function Home({token}: IToken) {
 	const saveToken = useValidToken().data as string
 
 	useEffect(() => {
-		if (typeof window == undefined) {
-			return
+		const handleSesson = () => {
+			if (typeof window == undefined) {
+				return
+			}
+	
+			if (token && token.length) {
+				typeof window !== undefined && localStorage.setItem("token", token)
+				return
+			}
+	
+			if (!token && !saveToken) {
+				// console.log("please login again")
+				window.location.assign('https://ant-edu.ai/auth/login')
+				return
+			}
 		}
 
-		if (!token && !saveToken) {
-			// console.log("please login again")
-			window.location.assign('https://ant-edu.ai/auth/login')
-			return
-		}
-
-		if (token && token.length) {
-			typeof window !== undefined && localStorage.setItem("token", token)
-		}
+		handleSesson()
 	}, [saveToken, token])
 
 	return (

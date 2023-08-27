@@ -1,10 +1,9 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
 import { ILesson } from "@/types/types";
-import { GlobalContext } from "@/context/context";
 import { useLessonsQuery } from "@/base/query";
 
 const LessonContent = () => {
