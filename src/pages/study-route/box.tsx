@@ -25,13 +25,12 @@ const RouteBox = observer(() => {
 
 	useEffect(() => {
 		const handleBoxState = () => {
-			if (!lessons) {
-				return
-			}
-			units.map((u: IUnit) => {
-				const lessonCount = lessons?.filter((l: ILesson) => l?.courseId === u.courseId)
+			units?.map((u: IUnit) => {
+				if (!u) return
+				const lessonCount = lessons?.filter((l: ILesson) => l && l?.courseId === u.courseId)
 				lessons.map((l: ILesson) => {
-					const lessonCompletes = userLessons.filter((ul: ILessonProgress) => ul.lessonId === l.id)
+					if (!l) return
+					const lessonCompletes = userLessons?.filter((ul: ILessonProgress) => ul && ul.lessonId === l.id)
 					if (lessonCompletes.length === lessonCount.length) {
 						state.set(v => v+1)
 					}

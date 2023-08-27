@@ -5,14 +5,15 @@ import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
 import Head from 'next/head'
-import { useValidToken } from '@/base/query'
+import { useUserQuery, useValidToken } from '@/base/query'
 import { useEffect } from 'react'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { useRouter } from 'next/router'
 
-export default function Home() {
-	const router = useRouter()
-	const token = router.query.token as string
+interface IToken {
+	token: string
+}
+
+export default function Home({token}: IToken) {
 	const saveToken = useValidToken().data as string
 
 	useEffect(() => {
@@ -28,7 +29,7 @@ export default function Home() {
 	
 			if (!token && !saveToken) {
 				// console.log("please login again")
-				window.location.assign('https://ant-edu.ai/auth/login')
+				// window.location.assign('https://ant-edu.ai/auth/login')
 				return
 			}
 		}
@@ -54,4 +55,10 @@ export default function Home() {
 		</main>
 		</>
 	)
+}
+
+export const getServerSideProps = async (req: NextApiRequest, res: NextApiResponse) => {
+	let token = req.query.token || ""
+
+	return { props: {token} }
 }

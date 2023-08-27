@@ -49,9 +49,9 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	state.units.set(Object.values(allUnitsData).flat())
 
 	if (router.pathname === "/") {
-		return <GlobalContext.Provider value={state}>
+		return <>
 			{children}
-		</GlobalContext.Provider>
+		</>
 	}
 
 	return (
