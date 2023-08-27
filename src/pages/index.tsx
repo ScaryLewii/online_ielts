@@ -8,12 +8,11 @@ import Head from 'next/head'
 import { useValidToken } from '@/base/query'
 import { useEffect } from 'react'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { useRouter } from 'next/router'
 
-interface IToken {
-	token: string
-}
-
-export default function Home({token}: IToken) {
+export default function Home() {
+	const router = useRouter()
+	const token = router.query.token as string
 	const saveToken = useValidToken().data as string
 
 	useEffect(() => {
@@ -55,10 +54,4 @@ export default function Home({token}: IToken) {
 		</main>
 		</>
 	)
-}
-
-export const getServerSideProps = async (req: NextApiRequest, res: NextApiResponse) => {
-	let token = req.query.token || ""
-
-	return { props: {token} }
 }
