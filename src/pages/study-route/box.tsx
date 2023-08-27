@@ -24,18 +24,22 @@ const RouteBox = observer(() => {
 	const completeCourses = allCourses?.filter(course => course.isComplete === true)
 
 	useEffect(() => {
-		if (!lessons) {
-			return
-		}
-		units.map((u: IUnit) => {
-			const lessonCount = lessons?.filter((l: ILesson) => l.courseId === u.courseId)
-			lessons.map((l: ILesson) => {
-				const lessonCompletes = userLessons.filter((ul: ILessonProgress) => ul.lessonId === l.id)
-				if (lessonCompletes.length === lessonCount.length) {
-					state.set(v => v+1)
-				}
+		const handleBoxState = () => {
+			if (!lessons) {
+				return
+			}
+			units.map((u: IUnit) => {
+				const lessonCount = lessons?.filter((l: ILesson) => l?.courseId === u.courseId)
+				lessons.map((l: ILesson) => {
+					const lessonCompletes = userLessons.filter((ul: ILessonProgress) => ul.lessonId === l.id)
+					if (lessonCompletes.length === lessonCount.length) {
+						state.set(v => v+1)
+					}
+				})
 			})
-		})
+		}
+
+		handleBoxState()
 	}, [lessons, state, units, userLessons])
 
 	return <div className="border border-white bg-dark rounded-lg p-8">
