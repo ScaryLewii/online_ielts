@@ -7,16 +7,13 @@ export const getHeaderAuth = (token: string) => {
 	}
 }
 
-export const fetchData = async (path: string, method: string, token: string = "") => {
-	const headers = getHeaderAuth(token)
-	const data: RequestInit = { 
-		method: method
+export const fetchDataNoToken = async (path: string, method: string) => {
+	const data: RequestInit = {
+		headers: {'Content-Type' : 'application/json'},
+		method: method,
+		credentials: 'include'
 	}
 
-	if (token) {
-		data.headers = getHeaderAuth(token)
-	}
-	
 	const request = await fetch(
 		baseUrl + path,
 		data
@@ -31,6 +28,49 @@ export const fetchData = async (path: string, method: string, token: string = ""
 	return request.json()
 }
 
+export const fetchData = async (path: string, method: string, token: string = "") => {
+	const data: RequestInit = { 
+		method: method
+	}
+
+	if (token) {
+		data.headers = getHeaderAuth(token)
+	}
+	
+	const request = await fetch(
+		baseUrl + path,
+		data
+	)
+
+	if (!request.ok || request.status === 401) {
+		fetchDataNoToken(path, method)
+		return
+	}
+	
+	return request.json()
+}
+
+
+export const postDataNoToken = async (path: string, body: object = {}) => {
+	const data = { 
+		method: "POST", 
+		headers: {'Content-Type' : 'application/json'},
+		body: JSON.stringify(body)
+	}
+
+	const request = await fetch(
+		baseUrl + path,
+		data
+	)
+
+	if (!request.ok) {
+		window.location.assign('https://ant-edu.ai/auth/login')
+		console.log('please login again')
+		return null
+	}
+	
+	return request.json()
+}
 export const postData = async (path: string, token: string, body: object = {}) => {
 	const headers = getHeaderAuth(token)
 	const data = { 
@@ -44,10 +84,9 @@ export const postData = async (path: string, token: string, body: object = {}) =
 		data
 	)
 
-	if (!request.ok) {
-		window.location.assign('https://ant-edu.ai/auth/login')
-		// console.log('please login again')
-		return null
+	if (!request.ok || request.status === 401) {
+		postDataNoToken(path, body)
+		return
 	}
 	
 	return request.json()

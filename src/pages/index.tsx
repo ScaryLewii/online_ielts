@@ -28,8 +28,8 @@ export default function Home({token}: IToken) {
 			}
 	
 			if (!token && !saveToken) {
-				// console.log("please login again")
-				// window.location.assign('https://ant-edu.ai/auth/login')
+				console.log("please login again")
+				window.location.assign('https://ant-edu.ai/auth/login')
 				return
 			}
 		}
