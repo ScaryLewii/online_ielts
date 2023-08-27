@@ -18,8 +18,7 @@ export const useUserQuery = () => {
 	return useQuery({
 		queryKey: ['user', token],
 		queryFn: () => authUser(token),
-		enabled: !!token,
-		staleTime: Infinity
+		enabled: !!token
 	})
 }
 
