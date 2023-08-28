@@ -8,34 +8,25 @@ import Head from 'next/head'
 import { useUserQuery, useValidToken } from '@/base/query'
 import { useEffect } from 'react'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { IUser } from '@/types/types'
 
 interface IToken {
 	token: string
 }
 
 export default function Home({token}: IToken) {
-	const saveToken = useValidToken().data as string
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const { isFetched: isFinishSignup, data: newUser } = useUserQuery(token)
+	const { isFetched: isFinishFetchOldUser, data: oldUser  } = useUserQuery(saveToken)
 
-	useEffect(() => {
-		const handleSesson = () => {
-			if (typeof window == undefined) {
-				return
-			}
-	
-			if (token && token.length) {
-				typeof window !== undefined && localStorage.setItem("token", token)
-				return
-			}
-	
-			if (!token && !saveToken) {
-				console.log("please login again")
-				window.location.assign('https://ant-edu.ai/auth/login')
-				return
-			}
-		}
+	if (isFinishFetchToken && !saveToken && typeof window !== undefined) {
+		token && localStorage.setItem("token", token)
+	}
 
-		handleSesson()
-	}, [saveToken, token])
+	if (isFinishSignup && !newUser && isFinishFetchOldUser && !oldUser) {
+		window.location.assign('https://ant-edu.ai/auth/login')
+		return <></>
+	}
 
 	return (
 		<>

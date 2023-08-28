@@ -1,8 +1,5 @@
-import { getHeaderAuth } from "@/base/base"
-import UpdateBlock from "@/components/common/update"
 import { IWord } from "@/types/types"
-import { observer, useObservable } from "@legendapp/state/react"
-import { fetchData } from "@/base/base"
+import { observer } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { useVocalbularyQuery } from "@/base/query"
 
@@ -11,14 +8,7 @@ interface IVocabulary {
 }
 
 const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
-	const vocabulary = useVocalbularyQuery(lessonId).data as IWord
-	const state = useObservable({
-		data: [],
-		token: ""
-	} as unknown as {
-		data: IWord[],
-		token: string
-	})
+	const vocabulary = useVocalbularyQuery(lessonId).data as IWord[]
 
 	return <div className="bg-dark p-5">
 		<h3 className="text-lg text-light font-semibold flex items-center gap-3 mb-5">
@@ -26,7 +16,7 @@ const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
 			Video vocabulary
 		</h3>
 
-		{state.data.get().map(word => 
+		{vocabulary?.map(word => 
 			<div key={nanoid()} className="flex justify-between items-start px-5 py-10 border-t border-white first-of-type:border-0 text-white">
 				<div>
 					<h5 className="flex items-center gap-8 mb-5">

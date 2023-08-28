@@ -13,10 +13,9 @@ const authUser = async (token: string) => {
 	const user = await fetchData("user/sso-support", "POST", token)
 	return user.data
 }
-export const useUserQuery = () => {
-	const token = useValidToken().data as string
+export const useUserQuery = (token: string = "") => {
 	return useQuery({
-		queryKey: ['user', token],
+		queryKey: ['user'],
 		queryFn: () => authUser(token),
 		enabled: !!token
 	})

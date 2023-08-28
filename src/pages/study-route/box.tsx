@@ -9,7 +9,7 @@ import { observer, useObservable } from "@legendapp/state/react"
 import { useCoursesQuery } from "@/base/query"
 import { useRouter } from "next/router"
 
-const RouteBox = observer(() => {
+const RouteBox = () => {
 	const context = useContext(GlobalContext)
 	const router = useRouter();
 	const courseId = router.query.course_id as string
@@ -73,6 +73,6 @@ const RouteBox = observer(() => {
 			</div>
 		</div>
 	</div>
-})
+}
 
 export default RouteBox
