@@ -1,14 +1,12 @@
+import { useUserQuery, useValidToken } from '@/base/query'
 import Banner from '@/components/home/banner'
 import ContactSection from '@/components/home/contact'
 import HeaderSection from '@/components/home/header'
 import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
-import Head from 'next/head'
-import { useUserQuery, useValidToken } from '@/base/query'
-import { useEffect } from 'react'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { IUser } from '@/types/types'
+import Head from 'next/head'
 
 interface IToken {
 	token: string
@@ -24,7 +22,7 @@ export default function Home({token}: IToken) {
 	}
 
 	if (isFinishSignup && !newUser && isFinishFetchOldUser && !oldUser) {
-		window.location.assign('https://ant-edu.ai/auth/login')
+		// window.location.assign('https://ant-edu.ai/auth/login')
 		return <></>
 	}
 

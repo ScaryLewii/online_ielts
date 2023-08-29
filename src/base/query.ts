@@ -1,6 +1,6 @@
+import { ICategory, ICourse } from "@/types/types"
 import { useQueries, useQuery } from "@tanstack/react-query"
 import { fetchData } from "./base"
-import { ICourse, ICategory, ILesson, IQuiz, IUnit } from "@/types/types"
 
 export const useValidToken = () => {
 	return useQuery(
@@ -37,7 +37,7 @@ export const useCategoriesQuery = () => {
 const fetchCourses = async (token: string) => {
 	const _coursesArray: any = []
 	const courses = await fetchData("user/courses", "GET", token)
-	courses.data && courses.data.map((c: any) => {
+	courses && courses.data && courses.data.map((c: any) => {
 		const data = {
 			...c.course,
 			isComplete: c.userCourse.completed

@@ -1,20 +1,17 @@
-import { getSession } from "next-auth/react"
-import route from "../../../public/images/route.svg"
+import { useCategoriesQuery } from "@/base/query"
+import { ICategory } from "@/types/types"
+import { nanoid } from "nanoid"
+import Link from "next/link"
 import { ReactSVG } from "react-svg"
 import icon1 from "../../../public/dump/icon-1.svg"
 import icon2 from "../../../public/dump/icon-2.svg"
 import icon3 from "../../../public/dump/icon-3.svg"
-import icon4 from "../../../public/dump/icon-4.svg"
-import { useContext } from "react"
-import { GlobalContext } from "@/context/context"
-import { nanoid } from "nanoid"
-import { ICategory } from "@/types/types"
-import Link from "next/link"
-import { useCategoriesQuery } from "@/base/query"
+import routeMobile from "../../../public/images/route-mobile.svg"
+import route from "../../../public/images/route.svg"
 
 const PlainContent = () => {
 	return <>
-		<div className="flex items-center gap-2 mt-5 opacity-0 group-hover:opacity-100 whitespace-nowrap">
+		<div className="hidden md:flex items-center gap-2 mt-5 opacity-0 group-hover:opacity-100 whitespace-nowrap">
 			<button className="px-5 py-2 border border-[#51C84E] rounded-full inline-flex gap-2 items-center">
 				<ReactSVG src={icon1["src"]} width={24} height={24} />
 				Lý thuyết
@@ -37,34 +34,40 @@ const Route = () => {
 	const Items = [
 		{
 			color: "text-light",
-			position: "top-[45px] left-[250px]",
+			position: "md:top-[45px] md:left-[250px]",
+			positionMb: "top-[8px] left-[135px]"
 		},
 		{
 			color: "text-[#53CBED]",
-			position: "top-[285px] left-[100px] flex flex-col items-end",
+			position: "md:top-[285px] md:left-[100px] md:flex flex-col items-end",
+			positionMb: "top-[130px] left-[135px]"
 		},
 		{
 			color: "text-[#FF64AE]",
-			position: "top-[520px] left-[200px]",
+			position: "md:top-[520px] md:left-[200px]",
+			positionMb: "top-[285px] left-[135px]"
 		},
 		{
 			color: "text-[#AFCD58]",
-			position: "top-[765px] left-[80px] flex flex-col items-end",
+			position: "md:top-[765px] md:left-[80px] md:flex flex-col items-end",
+			positionMb: "top-[423px] left-[135px]"
 		},
 		{
 			color: "text-[#AE59F0]",
-			position: "top-[1030px] left-[420px]",
+			position: "md:top-[1030px] md:left-[420px]",
+			positionMb: "top-[568px] left-[135px]"
 		},
 	]
 
 	return <div className="relative">
-		<ReactSVG src={route['src']} />
+		<ReactSVG className="hidden md:block" src={route['src']} />
+		<ReactSVG className="block md:hidden" src={routeMobile['src']} />
 		{ allCategories && 
 			allCategories.map((cat: ICategory, index: number) => {
 				if (cat.active) {
 					return (
-						<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].position}`}>
-							<Link href={`/courses/${cat.slug}`} className={`${Items[index].color} font-semibold text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
+						<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].positionMb} ${Items[index].position}`}>
+							<Link href={`/courses/${cat.slug}`} className={`${Items[index].color} font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
 							<PlainContent />
 						</div>
 					)

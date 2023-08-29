@@ -1,7 +1,5 @@
 import { observer, useObservable } from "@legendapp/state/react"
-
 import Image from "next/image"
-import Link from "next/link";
 import * as Scroll from 'react-scroll';
 import logo from "../../../public/logo.svg"
 import nav from "../../../public/nav.svg"

@@ -1,15 +1,14 @@
-import TopNav from "../navigation/topnav"
-import SideNav from "../navigation/sidenav"
-import Image from "next/image";
-import dashboardbg from "../../../public/images/dashboard-bg.svg"
-import React, { PropsWithChildren, useEffect } from "react";
-import { useRouter } from 'next/router'
-import { observer, useObservable } from "@legendapp/state/react"
-import { ICourse, ICategory, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
+import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery } from "@/base/query";
 import { GlobalContext } from "@/context/context";
-import { fetchLessons, useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useLessonsQuery, useUnitsQuery, useValidToken } from "@/base/query";
-import { useQuery } from "@tanstack/react-query";
-import { fetchData } from "@/base/base";
+import { observer, useObservable } from "@legendapp/state/react";
+import Image from "next/image";
+import { useRouter } from 'next/router';
+import { PropsWithChildren } from "react";
+import dashboardbg from "../../../public/images/dashboard-bg.svg";
+import { ICategory, ICourse, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
+import SideNav from "../navigation/sidenav";
+import TopNav from "../navigation/topnav";
+import Gtag from "./gtag";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const router = useRouter()
@@ -50,6 +49,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 
 	if (router.pathname === "/") {
 		return <>
+			<Gtag />
 			{children}
 		</>
 	}
@@ -57,6 +57,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	return (
 		<GlobalContext.Provider value={state}>
 			<div className="dashboard-wrapper flex">
+				<Gtag />
 				<SideNav />
 				<main className="bg-sea w-full min-h-screen relative" style={{gridArea: "dashboard"}}>
 					<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />

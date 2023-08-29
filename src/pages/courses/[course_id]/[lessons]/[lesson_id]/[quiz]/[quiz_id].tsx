@@ -24,7 +24,7 @@ const QuizContent = observer(function Component() {
 	
 	const lessonId = router.query.lesson_id as string
 	const quizId = router.query.quiz_id as string
-	const quiz = useQuizsQuery(+lessonId).data[0] as IQuiz
+	const quiz = useQuizsQuery(+lessonId).data?.[0] as IQuiz
 
 	const state = useObservable({	
 		id: "",

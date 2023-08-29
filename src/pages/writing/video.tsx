@@ -75,7 +75,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 
 	return (
 		<>
-			<div className="flex gap-5 mb-10 text-white items-start">
+			<div className="flex flex-col xl:flex-row gap-5 mb-10 text-white items-start">
 				<div className="w-full">
 					<SubtitleContext.Provider value={subtitleState}>
 						<VideoPlayer playerRef={playerRef} video={url} isPlaying={state.isPlaying.get()} lessonId={state.lessonId.get()} />
@@ -125,7 +125,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 						</div>
 					</div>
 				</div>
-				<div className="bg-dark-10 rounded-[10px] flex-grow overflow-hidden min-h-full lg:w-[40%]">
+				<div className="bg-dark-10 rounded-[10px] flex-grow overflow-hidden min-h-full w-full xl:w-[40%]">
 					<h3 className="bg-light p-3 text-black font-semibold text-center">Subtitle Section</h3>
 					<div className="overflow-auto">
 						{subtitles?.map(s => 
