@@ -22,8 +22,8 @@ export default function Home({token}: IToken) {
 	}
 
 	if (isFinishSignup && !newUser && isFinishFetchOldUser && !oldUser) {
-		// window.location.assign('https://ant-edu.ai/auth/login')
-		return <></>
+		window.location.assign('https://ant-edu.ai/auth/login')
+		return
 	}
 
 	return (
