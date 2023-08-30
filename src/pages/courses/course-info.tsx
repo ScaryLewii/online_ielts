@@ -7,7 +7,7 @@ import { ReactSVG } from "react-svg"
 import { useContext, useEffect } from "react"
 import { CourseContext, GlobalContext } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
-import { ICourse, ILesson, ILessonProgress, IUser } from "@/types/types"
+import { ICategory, ICourse, ILesson, ILessonProgress, IUser } from "@/types/types"
 import { useRouter } from "next/router"
 import { useUserQuery } from "@/base/query"
 
@@ -36,14 +36,28 @@ const CourseInfo = observer(() => {
 	})
 
 	const handleContinueStudy = () => {
+		const firstCategoryId = globalContext.categories.get().sort()[0].id
 		const userCompleteLessons = globalContext.lessonProgress.get().filter((p: ILessonProgress) => p.userId === user.id)
 		userCompleteLessons.sort()
-		const nextLessonId = userCompleteLessons[userCompleteLessons.length - 1].lessonId + 1
-		const nextLesson = globalContext.lessons.get().find((l: ILesson) => l.id === nextLessonId) as ILesson
-		if (nextLesson) {
-			router.push(`/courses/${nextLesson.courseId}/lessons/${nextLesson.id}`)
-		} else {
-			router.push("/study-route")
+		const firstCategoryCourses = globalContext.courses.get().filter((c: ICourse) => c.categoryId === +firstCategoryId) as ICourse[]
+		const firstCategoryLessons: ILesson[] = []
+		firstCategoryCourses.map(c => {
+			globalContext.lessons.get().filter((l: ILesson) => l.courseId === c.id && firstCategoryLessons.push(l))
+		})
+
+		if (globalContext.lessonProgress.get().length) {
+			const nextLessonId = userCompleteLessons[userCompleteLessons.length - 1]?.lessonId + 1
+			const nextLesson = globalContext.lessons.get().find((l: ILesson) => l.id === nextLessonId) as ILesson
+			if (nextLesson) {
+				router.push(`/courses/${nextLesson.courseId}/lessons/${nextLesson.id}`)
+			} else {
+				router.push("/study-route")
+			}
+			return
+		}
+		
+		if (!globalContext.lessonProgress.get().length) {
+			router.push(`/courses/${firstCategoryLessons[0].courseId}/lessons/${firstCategoryLessons[0].id}`)
 		}
 	}
 
@@ -71,7 +85,11 @@ const CourseInfo = observer(() => {
 		</div>
 
 		<button className="py-4 px-8 bg-cyan rounded-full mt-10 flex items-center gap-2 hover:opacity-90" onClick={() => handleContinueStudy()}>
-			<span className="text-black font-semibold">Continue Your Study</span>
+			<span className="text-black font-semibold">
+				{!globalContext.lessonProgress.get().length && "Start Studying"}
+				{globalContext.lessonProgress.get().length && "Continue Your Study"}
+				
+			</span>
 			<ReactSVG src={arrow["src"]} width={16} height={11} className="fill-black" />
 		</button>
 	</>

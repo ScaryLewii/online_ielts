@@ -78,7 +78,7 @@ export const useAllLessonsQuery = (courses: ICourse[]) => {
 			return {
 				queryKey: ['lessons', c.id],
 				queryFn: () => fetchLessons(c.id, token),
-				enabled: !!c.id,
+				enabled: !!c.id && !!token,
 				staleTime: Infinity
 			}
 		})
