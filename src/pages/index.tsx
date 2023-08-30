@@ -17,7 +17,7 @@ export default function Home({token}: IToken) {
 	const { isFetched: isFinishSignup, data: newUser } = useUserQuery(token)
 	const { isFetched: isFinishFetchOldUser, data: oldUser  } = useUserQuery(saveToken)
 
-	if (isFinishFetchToken && !saveToken && typeof window !== undefined) {
+	if (token && typeof window !== undefined) {
 		token && localStorage.setItem("token", token)
 	}
 
