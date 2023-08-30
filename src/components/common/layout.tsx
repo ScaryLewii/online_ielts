@@ -2,7 +2,6 @@ import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCa
 import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
-import { useRouter } from 'next/router';
 import { PropsWithChildren } from "react";
 import dashboardbg from "../../../public/images/dashboard-bg.svg";
 import { ICategory, ICourse, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
@@ -11,7 +10,6 @@ import TopNav from "../navigation/topnav";
 import Gtag from "./gtag";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
-	const router = useRouter()
 	const allCategories = useCategoriesQuery().data as ICategory[]
 	const allCourses = useCoursesQuery().data as ICourse[]
 	const allLessons = useAllLessonsQuery(allCourses)
@@ -46,13 +44,6 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	state.lessonProgress.set(Object.values(allLessonsProgressData).flat())
 	const allUnitsData = allUnits.map(array => array.data)
 	state.units.set(Object.values(allUnitsData).flat())
-
-	if (router.pathname === "/") {
-		return <>
-			<Gtag />
-			{children}
-		</>
-	}
 
 	return (
 		<GlobalContext.Provider value={state}>
