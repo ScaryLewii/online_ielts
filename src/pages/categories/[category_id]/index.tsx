@@ -1,13 +1,13 @@
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import { CourseContext, GlobalContext } from "@/context/context"
+import CourseBox from "@/pages/courses/course-box"
+import CourseInfo from "@/pages/courses/course-info"
+import { ICategory, ICourse } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { useRouter } from "next/router"
-import { CourseContext, GlobalContext } from "@/context/context"
-import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
-import { ICategory, ICourse } from "@/types/types"
-import CourseBox from "@/pages/courses/course-box"
-import CourseInfo from "@/pages/courses/course-info"
+import { useContext, useEffect, useState } from "react"
 
 interface ICourseContent {
 	activeCourse: ICourse,

@@ -26,10 +26,10 @@ const CourseInfo = observer(() => {
 		hasWindow: boolean
 	})
 
-	useEffect(() => {
-		state.activeCourse.set(courseContext?.activeCourse.get())
-		state.completeLessons.set(globalContext?.lessonProgress.get())
+	state.activeCourse.set(courseContext?.activeCourse.get())
+	state.completeLessons.set(globalContext?.lessonProgress.get())
 
+	useEffect(() => {
 		if (typeof window !== "undefined") {
 			state.hasWindow.set(true);
 		}
@@ -86,9 +86,7 @@ const CourseInfo = observer(() => {
 
 		<button className="py-4 px-8 bg-cyan rounded-full mt-10 flex items-center gap-2 hover:opacity-90" onClick={() => handleContinueStudy()}>
 			<span className="text-black font-semibold">
-				{!globalContext.lessonProgress.get().length && "Start Studying"}
-				{globalContext.lessonProgress.get().length && "Continue Your Study"}
-				
+				{globalContext.lessonProgress.get().length ? "Continue Your Study" : "Start Studying"}
 			</span>
 			<ReactSVG src={arrow["src"]} width={16} height={11} className="fill-black" />
 		</button>

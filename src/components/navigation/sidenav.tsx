@@ -1,22 +1,22 @@
-import Link from "next/link"
 import Image from "next/image"
-import logo from "../../../public/logo.svg"
+import Link from "next/link"
 import course from "../../../public/images/course.svg"
-import live from "../../../public/images/live.svg"
-import interactive from "../../../public/images/interactive.svg"
-import review from "../../../public/images/review.svg"
 import exam from "../../../public/images/exam.svg"
+import interactive from "../../../public/images/interactive.svg"
+import live from "../../../public/images/live.svg"
+import review from "../../../public/images/review.svg"
+import logo from "../../../public/logo.svg"
 
-import { ReactSVG } from "react-svg"
-import { useRouter } from 'next/router'
-import { observer, useObservable } from "@legendapp/state/react"
-import { useContext, useEffect } from "react"
-import nav from "../../../public/nav.svg"
-import DashboardNav from "./dashboard-nav"
-import { nanoid } from "nanoid"
-import { ICategory } from "../../types/types"
-import { GlobalContext } from "@/context/context"
 import { useCategoriesQuery } from "@/base/query"
+import { GlobalContext } from "@/context/context"
+import { observer } from "@legendapp/state/react"
+import { nanoid } from "nanoid"
+import { useRouter } from 'next/router'
+import { useContext } from "react"
+import { ReactSVG } from "react-svg"
+import nav from "../../../public/nav.svg"
+import { ICategory } from "../../types/types"
+import DashboardNav from "./dashboard-nav"
 
 const mainNav = [
 	{
