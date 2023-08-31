@@ -1,4 +1,4 @@
-import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery } from "@/base/query";
+import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query";
 import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import TopNav from "../navigation/topnav";
 import Gtag from "./gtag";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
 	const allCategories = useCategoriesQuery().data as ICategory[]
 	const allCourses = useCoursesQuery().data as ICourse[]
 	const allLessons = useAllLessonsQuery(allCourses)
@@ -35,6 +36,11 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		quizs: IQuiz[],
 		lessonProgress: ILessonProgress[]
 	})
+
+	if (isFinishFetchToken && typeof window !== undefined) {
+		!saveToken && window.location.assign('https://ant-edu.ai/auth/login')
+		return
+	}
 
 	state.categories.set(allCategories)
 	state.courses.set(allCourses)
