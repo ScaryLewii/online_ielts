@@ -43,7 +43,8 @@ export const fetchData = async (path: string, method: string, token: string = ""
 	)
 
 	if (!request.ok || request.status === 401) {
-		fetchDataNoToken(path, method)
+		// fetchDataNoToken(path, method)
+		window.location.assign('https://ant-edu.ai/auth/login')
 		return
 	}
 	
@@ -85,7 +86,8 @@ export const postData = async (path: string, token: string, body: object = {}) =
 	)
 
 	if (!request.ok || request.status === 401) {
-		postDataNoToken(path, body)
+		window.location.assign('https://ant-edu.ai/auth/login')
+		// postDataNoToken(path, body)
 		return
 	}
 	

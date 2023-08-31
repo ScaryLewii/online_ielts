@@ -29,6 +29,11 @@ const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
 							<ul>
 								<li>{def.definition}</li>
 							</ul>
+
+							<p className="underline mt-5">Example sentence</p>
+							<ul>
+								<li>{def.exampleSentence}</li>
+							</ul>
 						</div>
 					)}
 				</div>

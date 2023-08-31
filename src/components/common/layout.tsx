@@ -1,4 +1,4 @@
-import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query";
+import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useUserQuery, useValidToken } from "@/base/query";
 import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
@@ -11,6 +11,8 @@ import Gtag from "./gtag";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const { isFetched: isFinishFetchOldUser, data: oldUser  } = useUserQuery(saveToken)
+
 	const allCategories = useCategoriesQuery().data as ICategory[]
 	const allCourses = useCoursesQuery().data as ICourse[]
 	const allLessons = useAllLessonsQuery(allCourses)
@@ -37,8 +39,13 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		lessonProgress: ILessonProgress[]
 	})
 
-	if (isFinishFetchToken && typeof window !== undefined) {
-		!saveToken && window.location.assign('https://ant-edu.ai/auth/login')
+	if (isFinishFetchToken && typeof window !== undefined && !saveToken) {
+		window.location.assign('https://ant-edu.ai/auth/login')
+		return
+	}
+
+	if (isFinishFetchOldUser && typeof window !== undefined && !oldUser) {
+		window.location.assign('https://ant-edu.ai/auth/login')
 		return
 	}
 
