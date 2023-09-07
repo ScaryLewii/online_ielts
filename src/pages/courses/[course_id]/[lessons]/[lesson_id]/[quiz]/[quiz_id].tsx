@@ -57,7 +57,7 @@ const QuizContent = observer(function Component() {
 			<h1 className="text-white font-semibold text-2xl" data-id={quizId}>{state.title.get()}</h1>
 		</div>
 		<QuizContext.Provider value={state}>
-			<div className="p-5 xl:p-10 xl:pt-0">
+			<div className="p-5 xl:p-10 xl:pt-0 relative z-[1]">
 				{state.questions.get().map((c: IQuestion) =>
 					c.type === "SingleChoice" && <RadioGroup key={nanoid()} questionContent={c} />
 				)}

@@ -47,7 +47,7 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 
 	const CustomLink = Scroll.Link
 
-	return <div className="sticky bottom-0 -left-14 -right-14">
+	return <div className="sticky bottom-0 -left-14 -right-14 z-[2]">
 		<div className="p-5 xl:px-10 bg-gray-600">
 			{/* <div className="flex gap-[10px] items-center mb-10">
 				<Image src={clock} width={24} height={24} alt="clock" />
