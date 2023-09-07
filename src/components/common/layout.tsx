@@ -13,8 +13,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
 	const { isFetched: isFinishFetchOldUser, data: oldUser  } = useUserQuery(saveToken)
 
-	const allCategories = useCategoriesQuery().data as ICategory[]
-	const allCourses = useCoursesQuery().data as ICourse[]
+	const { isFetched: isFinishFetchCategories, data: allCategories } = useCategoriesQuery()
+	const { isFetched: isFinishFetchCourses, data: allCourses } = useCoursesQuery()
 	const allLessons = useAllLessonsQuery(allCourses)
 	const lessonsProgress = useAllLessonsProgressQuery(allCourses)
 	const allUnits = useAllUnitsQuery(allCourses)
@@ -45,6 +45,16 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	}
 
 	if (isFinishFetchOldUser && typeof window !== undefined && !oldUser) {
+		window.location.assign('https://ant-edu.ai/auth/login')
+		return
+	}
+
+	if (isFinishFetchCategories && typeof window !== undefined && !allCategories) {
+		window.location.assign('https://ant-edu.ai/auth/login')
+		return
+	}
+
+	if (isFinishFetchCourses && typeof window !== undefined && !allCourses) {
 		window.location.assign('https://ant-edu.ai/auth/login')
 		return
 	}
