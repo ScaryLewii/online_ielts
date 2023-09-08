@@ -26,8 +26,8 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 		userAnswer: []
 	})
 
-	if (quizContext.userAnswers.get()) {
-		state.userAnswer.set(quizContext.userAnswers.get())
+	if (quizContext.userAnswers?.get()) {
+		state.userAnswer.set(quizContext.userAnswers?.get())
 		console.log(state.userAnswer.get())
 	}
 
