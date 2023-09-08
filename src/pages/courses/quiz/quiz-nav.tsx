@@ -4,7 +4,7 @@ import clock from "../../../../public/images/clock.svg"
 import plane from "../../../../public/images/plane.svg"
 import { IQuestion, IUserAnswer } from '@/types/types';
 import { nanoid } from 'nanoid';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { observer, useObservable } from '@legendapp/state/react';
 import { GlobalContext, QuizContext } from '@/context/context';
 import { postData } from '@/base/base';
@@ -22,8 +22,14 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 	const token = saveToken as string
 	
 	const state = useObservable({
-		warning: false
+		warning: false,
+		userAnswer: []
 	})
+
+	if (quizContext.userAnswers.get()) {
+		state.userAnswer.set(quizContext.userAnswers.get())
+		console.log(state.userAnswer.get())
+	}
 
 	const handleSubmit = () => {
 		// debug
@@ -41,6 +47,10 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 		}
 
 		state.warning.set(true)
+	}
+
+	const handleReset = () => {
+		quizContext.isSubmit.set(false)
 	}
 
 	const handleCloseToast = () => {
@@ -61,10 +71,9 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 				{content?.map((item: IQuestion, index) => 
 					<CustomLink to={item.id} key={nanoid()}
 						smooth={true} offset={-100} duration={500}
-						onClick={() => console.log(quizContext.userAnswers.get().some((a: IQuestion) => a.id === item.id))}
 						className={`
 							inline-flex w-7 h-7 rounded-full border-2 border-white font-semibold text-sm justify-center items-center hover:bg-cyan hover:text-sea
-							${quizContext.userAnswers.get().some((a: IQuestion) => a.id === item.id) ? "bg-cyan text-black" : ""}
+							${state.userAnswer.get().some((a: IQuestion) => a.id === item.id) ? "bg-cyan text-black" : ""}
 						`}>
 								{++index}
 					</CustomLink>
@@ -88,9 +97,8 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 				<button className={`
 						flex gap-[10px] py-2 px-5 border border-white font-semibold text-white rounded-md items-center hover:bg-sea cursor-pointer
 					`}
-					data-sumit={id}
-					onClick={() => quizContext.isSubmit.set(false)}
-					disabled={quizContext.isSubmit?.get() ? true : false}
+					onClick={() => handleReset()}
+					disabled={!quizContext.isSubmit?.get() ? true : false}
 				>
 					<Image src={repeatIcon} width={24} height={24} alt="repeat" />
 					Làm lại

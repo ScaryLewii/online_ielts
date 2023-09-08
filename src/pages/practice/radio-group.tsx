@@ -12,7 +12,7 @@ interface IRadioGroup {
 }
 
 const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
-	const context = useContext(QuizContext)
+	const quizContext = useContext(QuizContext)
 	const state = useObservable({
 		isCorrect: false,
 		chosen: ""
@@ -23,7 +23,7 @@ const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 
 		answer.right ? state.isCorrect.set(answer.right) : state.isCorrect.set(false)
 		
-		let userAnswers = context.userAnswers.get() as IQuestion[]
+		let userAnswers = quizContext.userAnswers.get() as IQuestion[]
 		const _userAnswer: IAnswer = { id: answer.id, content: answer.content, isChecked: true }
 		const postAnswer: IAnswer[] = []
 		questionContent?.answers.map(a => {
@@ -47,7 +47,7 @@ const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 		}
 
 		userAnswers.push(postContent)
-		context.userAnswers.set(userAnswers)
+		quizContext.userAnswers.set(userAnswers)
 	}
 
 	return <div id={questionContent?.id} data-type="radio-group" className="text-white mb-5" style={{"--tw-border-opacity": 1} as React.CSSProperties}>
@@ -60,18 +60,18 @@ const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 						value={a.id}
 						checked={a.id === state.chosen.get()}
 						onChange={() => handleChange(questionContent.id, a)}
-						disabled={context.isSubmit.get()}
+						disabled={quizContext.isSubmit.get()}
 					/>
 					<span className={`
-							${context.isSubmit.get() && context.answers.get().some((_a: IAnswer) => _a.id === a.id) ? "text-green font-semibold underline" : ""}
-							${context.isSubmit.get() && state.chosen.get() === a.id && !state.isCorrect.get() ? "text-red font-semibold underline" : ""}
+							${quizContext.isSubmit.get() && quizContext.answers.get().some((_a: IAnswer) => _a.id === a.id) ? "text-green font-semibold underline" : ""}
+							${quizContext.isSubmit.get() && state.chosen.get() === a.id && !state.isCorrect.get() ? "text-red font-semibold underline" : ""}
 						`}
 					>
 						{a.content}
 					</span> 
 				</label>
 
-				{context.isSubmit.get() && state.chosen.get() === a.id && (
+				{quizContext.isSubmit.get() && state.chosen.get() === a.id && (
 					<Image src={state.isCorrect.get() ? trueIcon : falseIcon} width={24} height={24} alt="correct icon" />
 				)}
 			</div>
