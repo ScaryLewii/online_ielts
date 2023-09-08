@@ -3,10 +3,11 @@ import { useQueries, useQuery } from "@tanstack/react-query"
 import { fetchData } from "./base"
 
 export const useValidToken = () => {
-	return useQuery(
-		['token'],
-		() => localStorage.getItem("token") || ""
-	)
+	return useQuery({
+		queryKey: ['token'],
+		queryFn: () => localStorage.getItem("token") || "",
+		staleTime: Infinity
+	})
 }
 
 const authUser = async (token: string) => {
