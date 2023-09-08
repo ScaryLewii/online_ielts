@@ -36,6 +36,11 @@ const QuizContent = observer(function Component() {
 	} as unknown as IQuizContent)
 
 	useEffect(() => {
+		if (!quiz) {
+			router.push("/study-route")
+			return
+		}
+
 		const content = JSON.parse(quiz?.content)
 		state.questions.set(content)
 		state.title.set(quiz.title)
@@ -49,7 +54,7 @@ const QuizContent = observer(function Component() {
 			})
 		})
 		state.answers.set(answers)
-	}, [quiz, state.answers, state.questions, state.title])
+	}, [quiz, router, state.answers, state.questions, state.title])
 
 	return <>
 		<Breadcrumbs title="" />

@@ -9,6 +9,7 @@ import { observer, useObservable } from '@legendapp/state/react';
 import { GlobalContext, QuizContext } from '@/context/context';
 import { postData } from '@/base/base';
 import repeatIcon from "../../../../public/images/repeat.svg"
+import { useValidToken } from '@/base/query';
 
 interface QuizNavContent {
 	id: string
@@ -16,9 +17,10 @@ interface QuizNavContent {
 }
 
 const QuizNav = observer(({id, content}: QuizNavContent) => {
-	const globalContext = useContext(GlobalContext)
+	const { data: saveToken} = useValidToken()
 	const quizContext = useContext(QuizContext)
-
+	const token = saveToken as string
+	
 	const state = useObservable({
 		warning: false
 	})
@@ -28,7 +30,7 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 		// quizContext.isSubmit.set(true)
 		if (quizContext.answers.get().length === quizContext.userAnswers.get().length) {
 			quizContext.isSubmit.set(true)
-			postData("quizzes/submit", globalContext.token.get(), {
+			postData("quizzes/submit", token, {
 				id: quizContext.id.get(),
 				quizId: quizContext.id.get(),
 				content: JSON.stringify(quizContext.userAnswers.get()),

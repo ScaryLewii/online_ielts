@@ -12,7 +12,7 @@ const nextConfig = {
   },
   generateBuildId: async () => {
     // You can, for example, get the latest git commit hash here
-    return '2023-09-07-03'
+    return '2023-09-08-01'
   },
   reactStrictMode: true,
   async redirects() {

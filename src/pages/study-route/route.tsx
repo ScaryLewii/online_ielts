@@ -67,7 +67,7 @@ const Route = () => {
 				if (cat.active) {
 					return (
 						<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].positionMb} ${Items[index].position}`}>
-							<Link href={`/courses/${cat.slug}`} className={`${Items[index].color} font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
+							<Link href={`/categories/${cat.id}`} className={`${Items[index].color} font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
 							<PlainContent />
 						</div>
 					)
