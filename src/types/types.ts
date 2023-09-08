@@ -54,7 +54,8 @@ export interface IQuiz {
 export interface IAnswer {
 	id: string
 	content: string
-	right: boolean
+	isChecked: boolean
+	right?: boolean
 }
 
 export interface IQuestion {
@@ -86,8 +87,8 @@ export interface ICourse {
 
 export interface IUserAnswer {
 	id: string,
-	answer: string,
-	correct: boolean
+	content: string,
+	isChecked: boolean
 }
 
 export interface IDefinition {

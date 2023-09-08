@@ -15,7 +15,7 @@ interface IQuizContent {
 	title: string
 	questions: IQuestion[]
 	answers: IAnswer[]
-	userAnswers: IUserAnswer[]
+	userAnswers: IQuestion[]
 	isSubmit: boolean
 }
 

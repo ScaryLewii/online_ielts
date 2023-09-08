@@ -20,37 +20,34 @@ const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 
 	const handleChange = (id: string, answer: IAnswer) => {
 		state.chosen.set(answer.id)
+
+		answer.right ? state.isCorrect.set(answer.right) : state.isCorrect.set(false)
 		
-		const userAnswers = context.userAnswers.get()
-		if (context.answers.get().some((_a: IAnswer) => _a.id === answer.id)) {
-			state.isCorrect.set(true)
-			const _userAnswer = { id: id, answer: answer.id ,correct: true }
-			if (userAnswers.some((a: IUserAnswer) => a.id === id)) {
-				userAnswers.forEach((a: IUserAnswer) => {
-					if (a.id === id) {
-						a.correct = true
-					}
-				})
-
-				context.userAnswers.set([...new Set([...userAnswers])])
-
+		let userAnswers = context.userAnswers.get() as IQuestion[]
+		const _userAnswer: IAnswer = { id: answer.id, content: answer.content, isChecked: true }
+		const postAnswer: IAnswer[] = []
+		questionContent?.answers.map(a => {
+			if (a.id === _userAnswer.id) {
+				postAnswer.push(_userAnswer)
 				return
 			}
 
-			context.userAnswers.set(
-				[...new Set(
-					[...context.userAnswers.get(), _userAnswer]
-				)].filter(id => id))
-			return
+			const remainingChoice = { id: a.id, content: a.content, isChecked: false }
+
+			postAnswer.push(remainingChoice)
+		})
+
+		const postContent: IQuestion = {
+			...questionContent,
+			answers: postAnswer
 		}
 
-		context.userAnswers.set([...new Set([...context.userAnswers.get(), {
-			id: id,
-			answer: answer.id,
-			correct: false
-		}])])
-		state.isCorrect.set(false)
-		return 
+		if (userAnswers.some((a: IQuestion) => a.id === id)) {
+			userAnswers = userAnswers.filter(a => a.id !== id)
+		}
+
+		userAnswers.push(postContent)
+		context.userAnswers.set(userAnswers)
 	}
 
 	return <div id={questionContent?.id} data-type="radio-group" className="text-white mb-5" style={{"--tw-border-opacity": 1} as React.CSSProperties}>

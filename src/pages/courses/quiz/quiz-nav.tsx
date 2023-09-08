@@ -30,9 +30,10 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 		// quizContext.isSubmit.set(true)
 		if (quizContext.answers.get().length === quizContext.userAnswers.get().length) {
 			quizContext.isSubmit.set(true)
+
 			postData("quizzes/submit", token, {
-				id: quizContext.id.get(),
-				quizId: quizContext.id.get(),
+				id: id,
+				quizId: id,
 				content: JSON.stringify(quizContext.userAnswers.get()),
 				timeDone: 0
 			})
@@ -60,9 +61,10 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 				{content?.map((item: IQuestion, index) => 
 					<CustomLink to={item.id} key={nanoid()}
 						smooth={true} offset={-100} duration={500}
+						onClick={() => console.log(quizContext.userAnswers.get().some((a: IQuestion) => a.id === item.id))}
 						className={`
 							inline-flex w-7 h-7 rounded-full border-2 border-white font-semibold text-sm justify-center items-center hover:bg-cyan hover:text-sea
-							${quizContext.userAnswers.get().some((a: IUserAnswer) => a.id === item.id) ? "bg-cyan text-black" : ""}
+							${quizContext.userAnswers.get().some((a: IQuestion) => a.id === item.id) ? "bg-cyan text-black" : ""}
 						`}>
 								{++index}
 					</CustomLink>
