@@ -2,14 +2,14 @@ import { useQuizQueryByID } from "@/base/query";
 import Breadcrumbs from "@/components/common/breadcrumbs";
 import { QuizContext } from "@/context/context";
 import CheckboxGroup from "@/pages/practice/checkbox-group";
-import InputGroup from "@/pages/practice/input-group";
 import RadioGroup from "@/pages/practice/radio-group";
 import { IAnswer, IQuestion, IQuiz } from "@/types/types";
 import { observer, useObservable } from "@legendapp/state/react";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import QuizNav from "../../../../../quiz/quiz-nav";
+import InputGroup from "../practice/input-group";
+import QuizNav from "./quiz-nav";
 
 interface IQuizContent {
 	id: string,

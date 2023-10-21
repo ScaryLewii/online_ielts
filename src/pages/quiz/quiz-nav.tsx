@@ -1,14 +1,14 @@
 import * as Scroll from 'react-scroll';
 import Image from 'next/image';
-import clock from "../../../../public/images/clock.svg"
-import plane from "../../../../public/images/plane.svg"
+import clock from "../../../public/images/clock.svg"
+import plane from "../../../public/images/plane.svg"
 import { IQuestion, IUserAnswer } from '@/types/types';
 import { nanoid } from 'nanoid';
 import { useContext, useEffect } from 'react';
 import { observer, useObservable } from '@legendapp/state/react';
 import { GlobalContext, QuizContext } from '@/context/context';
 import { postData } from '@/base/base';
-import repeatIcon from "../../../../public/images/repeat.svg"
+import repeatIcon from "../../../public/images/repeat.svg"
 import { useValidToken } from '@/base/query';
 
 interface QuizNavContent {
@@ -34,6 +34,8 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 	const handleSubmit = () => {
 		// debug
 		// quizContext.isSubmit.set(true)
+		console.log(quizContext.answers.get())
+		console.log(quizContext.userAnswers.get().length)
 		if (quizContext.answers.get().length === quizContext.userAnswers.get().length) {
 			quizContext.isSubmit.set(true)
 

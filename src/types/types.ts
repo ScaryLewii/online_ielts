@@ -54,7 +54,7 @@ export interface IQuiz {
 export interface IAnswer {
 	id: string
 	content: string
-	isChecked: boolean
+	isChecked?: boolean
 	right?: boolean
 }
 

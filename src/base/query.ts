@@ -147,6 +147,20 @@ export const useQuizsQuery = (id: number) => {
 	})
 }
 
+const fetchQuizByID = async (id: string, token: string) => {
+	const quizDatas = await fetchData(`quizzes/${id}`, "GET", token)
+	return quizDatas.data
+}
+export const useQuizQueryByID = (id: string) => {
+	const token = useValidToken().data as string
+	return useQuery({
+		queryKey: ['quiz', id],
+		queryFn: () => fetchQuizByID(id, token),
+		enabled: !!id && !!token,
+		staleTime: Infinity
+	})
+}
+
 const fetchVocabulary = async (id: number, token: string) => {
 	const vocabularies = await fetchData(`vocabularies/lesson/${id}`, "GET", token)
 	return vocabularies.data
