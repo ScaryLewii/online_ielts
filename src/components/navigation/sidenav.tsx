@@ -7,7 +7,7 @@ import live from "../../../public/images/live.svg"
 import review from "../../../public/images/review.svg"
 import logo from "../../../public/logo.svg"
 
-import { useCategoriesQuery } from "@/base/query"
+import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { observer } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import { useContext } from "react"
 import { ReactSVG } from "react-svg"
 import nav from "../../../public/nav.svg"
-import { ICategory } from "../../types/types"
+import { ICategory, ICourse } from "../../types/types"
 import DashboardNav from "./dashboard-nav"
 
 const mainNav = [
@@ -55,6 +55,9 @@ const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
 	const categories = useCategoriesQuery().data as ICategory[]
+	const courses = useCoursesQuery().data as ICourse[]
+
+	const availableCategories = categories ? categories.filter(cat => courses.some(course => course.categoryId === cat.id)) : []
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"
@@ -86,7 +89,7 @@ const SideNav = observer(() => {
 							Khóa học của tôi
 						</Link>
 
-						{ categories && categories.map((cat: ICategory) => {
+						{ availableCategories && availableCategories.map((cat: ICategory) => {
 							if (cat.level === 1 && cat.active) {
 								return (
 									<ul key={nanoid()} className={`/categories/${cat.id === +router.asPath ? "block" : "hidden"}`}>
