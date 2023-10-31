@@ -53,6 +53,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		return
 	}
 
+	console.log(allCourses)
+
 	state.categories.set(allCategories)
 	state.courses.set(allCourses)
 	const allLessonsData = allLessons.map(array => array.data)
