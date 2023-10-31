@@ -9,10 +9,10 @@ import logo from "../../../public/logo.svg"
 
 import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
-import { observer } from "@legendapp/state/react"
+import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { useRouter } from 'next/router'
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { ReactSVG } from "react-svg"
 import nav from "../../../public/nav.svg"
 import { ICategory, ICourse } from "../../types/types"
@@ -54,10 +54,20 @@ const mainNav = [
 const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const categories = useCategoriesQuery().data as ICategory[]
-	const courses = useCoursesQuery().data as ICourse[]
+	const { isFetched: isFinishFetchCategories, data: categories } = useCategoriesQuery()
+	const { isFetched: isFinishFetchCourses, data: courses } = useCoursesQuery()
 
-	const availableCategories = categories ? categories.filter(cat => courses.some(course => course.categoryId === cat.id)) : []
+	const state = useObservable({
+		availableCategories: []
+	} as unknown as {
+		availableCategories: ICategory[]
+	})
+
+	if (isFinishFetchCategories && isFinishFetchCourses && categories && courses) {
+		state.availableCategories.set(categories.filter((cat : ICategory) => courses.some((course: ICourse) => course.categoryId === cat.id)))
+	}
+
+	// const availableCategories = categories ? categories.filter(cat => courses.some(course => course.categoryId === cat.id)) : []
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"
@@ -89,7 +99,7 @@ const SideNav = observer(() => {
 							Khóa học của tôi
 						</Link>
 
-						{ availableCategories && availableCategories.map((cat: ICategory) => {
+						{ state.availableCategories.get()?.map((cat: ICategory) => {
 							if (cat.level === 1 && cat.active) {
 								return (
 									<ul key={nanoid()} className={`/categories/${cat.id === +router.asPath ? "block" : "hidden"}`}>

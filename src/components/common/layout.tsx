@@ -2,7 +2,7 @@ import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCa
 import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import dashboardbg from "../../../public/images/dashboard-bg.svg";
 import { ICategory, ICourse, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
 import SideNav from "../navigation/sidenav";
@@ -38,22 +38,25 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		lessonProgress: ILessonProgress[]
 	})
 
-	if (isFinishFetchOldUser && typeof window !== undefined && !oldUser) {
-		window.location.assign('https://ant-edu.ai/auth/login')
-		return
-	}
-
-	if (isFinishFetchCategories && typeof window !== undefined && !allCategories) {
-		window.location.assign('https://ant-edu.ai/auth/login')
-		return
-	}
-
-	if (isFinishFetchCourses && typeof window !== undefined && !allCourses) {
-		window.location.assign('https://ant-edu.ai/auth/login')
-		return
-	}
-
-	console.log(allCourses)
+	useEffect(() => {
+		if (isFinishFetchOldUser && typeof window !== undefined && !oldUser) {
+			window.location.assign('https://ant-edu.ai/auth/login')
+			console.log('not login')
+			return
+		}
+	
+		if (isFinishFetchCategories && typeof window !== undefined && !allCategories) {
+			window.location.assign('https://ant-edu.ai/auth/login')
+			console.log('not login')
+			return
+		}
+	
+		if (isFinishFetchCourses && typeof window !== undefined && !allCourses) {
+			window.location.assign('https://ant-edu.ai/auth/login')
+			console.log('not login')
+			return
+		}
+	})
 
 	state.categories.set(allCategories)
 	state.courses.set(allCourses)
