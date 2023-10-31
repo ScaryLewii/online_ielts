@@ -9,7 +9,7 @@ import logo from "../../../public/logo.svg"
 
 import { useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query"
 import { GlobalContext } from "@/context/context"
-import { observer, useEffectOnce, useObservable } from "@legendapp/state/react"
+import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { useRouter } from 'next/router'
 import { useContext, useEffect } from "react"
@@ -68,12 +68,14 @@ const SideNav = observer(() => {
 		return <>Loading...</>
 	}
 
-	useEffectOnce(() => {
+	useEffect(() => {
 		if (isFinishFetchCourses && isFinishFetchCategories && typeof window !== undefined) {
+			console.log(categories?.filter((cat : ICategory) => courses?.some((course: ICourse) => course.categoryId === cat.id)))
 			state.availableCategories.set(categories.filter((cat : ICategory) => courses.some((course: ICourse) => course.categoryId === cat.id)))
 			return
 		}
-	})
+	}, [categories, courses, isFinishFetchCategories, isFinishFetchCourses, state.availableCategories])
+
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"

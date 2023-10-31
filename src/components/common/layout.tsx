@@ -12,8 +12,8 @@ import Gtag from "./gtag";
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
 	const { isFetched: isFinishFetchOldUser, data: oldUser  } = useUserQuery(saveToken)
-	const { isFetched: isFinishFetchCategories, data: allCategories } = useCategoriesQuery()
-	const { isFetched: isFinishFetchCourses, data: allCourses } = useCoursesQuery()
+	const { isFetched: isFinishFetchCategories, data: allCategories } = useCategoriesQuery(saveToken)
+	const { isFetched: isFinishFetchCourses, data: allCourses } = useCoursesQuery(saveToken)
 	const allLessons = useAllLessonsQuery(allCourses)
 	const lessonsProgress = useAllLessonsProgressQuery(allCourses)
 	const allUnits = useAllUnitsQuery(allCourses)
@@ -44,19 +44,19 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 			console.log('not login')
 			return
 		}
-	
+
 		if (isFinishFetchCategories && typeof window !== undefined && !allCategories) {
 			window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
 			return
 		}
-	
+
 		if (isFinishFetchCourses && typeof window !== undefined && !allCourses) {
 			window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
 			return
 		}
-	})
+	}, [allCategories, allCourses, isFinishFetchCategories, isFinishFetchCourses, isFinishFetchOldUser, oldUser])
 
 	state.categories.set(allCategories)
 	state.courses.set(allCourses)
