@@ -1,4 +1,4 @@
-import { useAllLessonsProgressQuery, useAllLessonsQuery, useCoursesQuery } from "@/base/query"
+import { useAllLessonsProgressQuery, useAllLessonsQuery, useCoursesQuery, useValidToken } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { ICourse, ILesson, ILessonProgress, IUnit } from "@/types/types"
 import { useObservable } from "@legendapp/state/react"
@@ -11,7 +11,8 @@ import contract from "../../../public/images/contract.svg"
 const RouteBox = () => {
 	const context = useContext(GlobalContext)
 
-	const allCourses = useCoursesQuery().data as ICourse[]
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const allCourses = useCoursesQuery(saveToken).data as ICourse[]
 	const state = useObservable(0)
 	
 	const units = context.units.get()

@@ -6,7 +6,7 @@ import CourseBox from "./../course-box"
 import { useRouter } from "next/router"
 import { CourseContext, GlobalContext } from "@/context/context"
 import CourseInfo from "./../course-info"
-import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import { useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query"
 import { ICategory, ICourse } from "@/types/types"
 
 interface ICourseContent {
@@ -17,8 +17,9 @@ interface ICourseContent {
 const CourseContent = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const categories = useCategoriesQuery().data as ICategory[]
-	const allCourses = useCoursesQuery().data as ICourse[]
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const categories = useCategoriesQuery(saveToken).data as ICategory[]
+	const allCourses = useCoursesQuery(saveToken).data as ICourse[]
 
 	const [courses, setCourses] = useState<ICourse[]>([])
 

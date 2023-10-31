@@ -5,7 +5,7 @@ import { ICourse, ILesson, IUnit } from "../../types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { CourseContext, GlobalContext } from "@/context/context"
 import { fetchData } from "@/base/base"
-import { useCoursesQuery, useLessonsQuery, useUnitsQuery } from "@/base/query"
+import { useCoursesQuery, useLessonsQuery, useUnitsQuery, useValidToken } from "@/base/query"
 
 interface ICouseBox {
 	courseId: number
@@ -13,7 +13,8 @@ interface ICouseBox {
 
 const CourseBox = ({courseId}: ICouseBox) => {
 	const courseContext = useContext(CourseContext)
-	const courses = useCoursesQuery().data as ICourse[]
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const courses = useCoursesQuery(saveToken).data as ICourse[]
 	const units = useUnitsQuery(courseId).data as IUnit[]
 
 	const setActiveCourse = () => {

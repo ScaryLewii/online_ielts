@@ -1,5 +1,5 @@
 
-import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import { useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query"
 import { CourseContext, GlobalContext } from "@/context/context"
 import CourseBox from "@/pages/courses/course-box"
 import CourseInfo from "@/pages/courses/course-info"
@@ -17,8 +17,9 @@ interface ICourseContent {
 const CourseContent = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const categories = useCategoriesQuery().data as ICategory[]
-	const allCourses = useCoursesQuery().data as ICourse[]
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const categories = useCategoriesQuery(saveToken).data as ICategory[]
+	const allCourses = useCoursesQuery(saveToken).data as ICourse[]
 
 	const [courses, setCourses] = useState<ICourse[]>([])
 

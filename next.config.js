@@ -28,7 +28,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://apionline.ant-edu.ai/:path*',
+        destination: 'https://apitest.ant-edu.ai/:path*',
       },
     ]
   },

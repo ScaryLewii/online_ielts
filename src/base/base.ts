@@ -1,4 +1,4 @@
-export const baseUrl = "https://apionline.ant-edu.ai/api/"
+export const baseUrl = "https://apitest.ant-edu.ai/api/"
 
 export const getHeaderAuth = (token: string) => {
 	return { 
