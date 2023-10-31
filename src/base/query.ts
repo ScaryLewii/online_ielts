@@ -10,7 +10,7 @@ export const useValidToken = () => {
 	})
 }
 
-const authUser = async (token: string) => {
+const authUser = async (token: string = "") => {
 	const user = await fetchData("user/sso-support", "POST", token)
 	return user.data
 }
@@ -22,20 +22,32 @@ export const useUserQuery = (token: string = "") => {
 	})
 }
 
-const fetchCategories = async (token: string) => {
+const getUserInfo = async (token: string = "") => {
+	const user = await fetchData("user/info", "GET", token)
+	return user.data
+}
+export const useUserInfoQuery = (token: string = "") => {
+	return useQuery({
+		queryKey: ['user', 'info'],
+		queryFn: () => getUserInfo(token),
+		enabled: !!token
+	})
+}
+
+const fetchCategories = async (token: string = "") => {
 	const allCatgories = await fetchData("categories", "GET", token)
 	return allCatgories.data.filter((cat: ICategory) => cat.level === 1)
 }
-export const useCategoriesQuery = () => {
-	const token = useValidToken().data as string
+export const useCategoriesQuery = (token: string = "") => {
 	return useQuery({
 		queryKey: ['categories', token],
 		queryFn: () => fetchCategories(token),
+		enabled: !!token,
 		staleTime: Infinity
 	})
 }
 
-const fetchCourses = async (token: string) => {
+const fetchCourses = async (token: string = "") => {
 	const _coursesArray: any = []
 	const courses = await fetchData("user/courses", "GET", token)
 	courses && courses.data && courses.data.map((c: any) => {
@@ -48,8 +60,7 @@ const fetchCourses = async (token: string) => {
 
 	return _coursesArray
 }
-export const useCoursesQuery = () => {
-	const token = useValidToken().data as string
+export const useCoursesQuery = (token: string = "") => {
 	return useQuery({
 		queryKey: ['courses', token],
 		queryFn: () => fetchCourses(token),

@@ -7,9 +7,9 @@ import live from "../../../public/images/live.svg"
 import review from "../../../public/images/review.svg"
 import logo from "../../../public/logo.svg"
 
-import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import { useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query"
 import { GlobalContext } from "@/context/context"
-import { observer, useObservable } from "@legendapp/state/react"
+import { observer, useEffectOnce, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { useRouter } from 'next/router'
 import { useContext, useEffect } from "react"
@@ -54,8 +54,9 @@ const mainNav = [
 const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const { isFetched: isFinishFetchCategories, data: categories } = useCategoriesQuery()
-	const { isFetched: isFinishFetchCourses, data: courses } = useCoursesQuery()
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const { isFetched: isFinishFetchCategories, data: categories } = useCategoriesQuery(saveToken)
+	const { isFetched: isFinishFetchCourses, data: courses } = useCoursesQuery(saveToken)
 
 	const state = useObservable({
 		availableCategories: []
@@ -63,19 +64,20 @@ const SideNav = observer(() => {
 		availableCategories: ICategory[]
 	})
 
-	if (isFinishFetchCategories && isFinishFetchCourses && categories && courses) {
-		state.availableCategories.set(categories.filter((cat : ICategory) => courses.some((course: ICourse) => course.categoryId === cat.id)))
+	if (!context) {
+		return <>Loading...</>
 	}
 
-	// const availableCategories = categories ? categories.filter(cat => courses.some(course => course.categoryId === cat.id)) : []
+	useEffectOnce(() => {
+		if (isFinishFetchCourses && isFinishFetchCategories && typeof window !== undefined) {
+			state.availableCategories.set(categories.filter((cat : ICategory) => courses.some((course: ICourse) => course.categoryId === cat.id)))
+			return
+		}
+	})
 
 	const getActiveClass = (url: string) => {
 		if (router.asPath.includes(url)) return "is-active pointer-events-none"
 		return ""
-	}
-
-	if (!context) {
-		return <>Loading...</>
 	}
 
 	return <div className={`bg-sea-light text-white fixed z-20 top-0 left-0 lg:relative`}>
