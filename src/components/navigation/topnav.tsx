@@ -34,7 +34,7 @@ const TopNav = observer(() => {
 				<button className="flex gap-5 items-center group">
 					<h3 className="group-hover:underline">{user?.displayName}</h3>
 					{isFinishFetchUserInfo && userInfo &&
-						<Image className="rounded-full border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
+						<Image className="rounded-full h-[45px] w-[45px] border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
 					}
 				</button>
 			}

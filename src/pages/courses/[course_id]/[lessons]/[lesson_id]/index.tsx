@@ -4,15 +4,17 @@ import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
 import { ILesson } from "@/types/types";
-import { useLessonsQuery } from "@/base/query";
+import { useLessonsQuery, useValidToken } from "@/base/query";
+import { tokenAPI } from "@/context/context";
 
 const LessonContent = () => {
 	const router = useRouter()
 	const [content, setContent] = useState<ILesson | null>(null)
+	const saveToken = useValidToken().data as string
 
 	const courseId = router.query.course_id as string
 	const lessonsId = router.query.lesson_id as string
-	const lessons = useLessonsQuery(+courseId).data as ILesson[]
+	const lessons = useLessonsQuery(+courseId, saveToken).data as ILesson[]
 
 	useEffect(() => {
 		lessons?.map((lesson: ILesson) => {

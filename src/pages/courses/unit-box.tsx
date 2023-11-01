@@ -1,23 +1,22 @@
-import { useContext, useEffect, useState } from "react"
-import chevron from "../../../public/images/chevron.svg"
 import Image from "next/image"
+import { useEffect, useState } from "react"
+import chevron from "../../../public/images/chevron.svg"
 import playIcon from "../../../public/images/play.svg"
 
-import Link from "next/link"
+import { useLessonsQuery, useValidToken } from "@/base/query"
 import { nanoid } from "nanoid"
-import { ILesson, IQuiz, IUnit } from "../../types/types"
-import { GlobalContext } from "@/context/context"
-import { observer, useObservable } from "@legendapp/state/react"
-import { fetchData } from "@/base/base"
-import { useLessonsQuery, useQuizsQuery, useUnitsQuery } from "@/base/query"
+import Link from "next/link"
+import { ILesson, IUnit } from "../../types/types"
 import QuizLink from "./quiz-link"
+import { tokenAPI } from "@/context/context"
 interface IUnitBlock {
 	unit: IUnit,
 	courseId: number
 }
 
 const UnitBox = ({ unit, courseId }: IUnitBlock) => {
-	const allLessons = useLessonsQuery(courseId).data as ILesson[]
+	const saveToken = useValidToken().data as string
+	const allLessons = useLessonsQuery(courseId, saveToken).data as ILesson[]
 	const [isExpanded, setIsExpanded] = useState(false)
 	const [lessons, setLessons] = useState<ILesson[]>([])
 

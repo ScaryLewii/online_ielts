@@ -6,6 +6,7 @@ import HeaderSection from '@/components/home/header'
 import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
+import { tokenAPI } from '@/context/context'
 import { NextApiRequest, NextApiResponse } from 'next'
 import Head from 'next/head'
 import { useEffect } from 'react'
@@ -13,6 +14,7 @@ import { useEffect } from 'react'
 interface IToken {
 	token: string
 }
+
 
 export default function Home({token}: IToken) {
 	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()

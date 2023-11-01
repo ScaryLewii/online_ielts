@@ -13,9 +13,10 @@ interface ICouseBox {
 
 const CourseBox = ({courseId}: ICouseBox) => {
 	const courseContext = useContext(CourseContext)
-	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const saveToken = useValidToken().data as string
+
 	const courses = useCoursesQuery(saveToken).data as ICourse[]
-	const units = useUnitsQuery(courseId).data as IUnit[]
+	const units = useUnitsQuery(courseId, saveToken).data as IUnit[]
 
 	const setActiveCourse = () => {
 		const activeCourse = courses?.find((c: ICourse) => c.id === courseId)

@@ -1,6 +1,6 @@
-import { useQuizQueryByID } from "@/base/query";
+import { useQuizQueryByID, useValidToken } from "@/base/query";
 import Breadcrumbs from "@/components/common/breadcrumbs";
-import { QuizContext } from "@/context/context";
+import { QuizContext, tokenAPI } from "@/context/context";
 import CheckboxGroup from "@/pages/practice/checkbox-group";
 import RadioGroup from "@/pages/practice/radio-group";
 import { IAnswer, IQuestion, IQuiz } from "@/types/types";
@@ -23,8 +23,9 @@ interface IQuizContent {
 const QuizContent = observer(function Component() {
 	const router = useRouter();
 	
+	const saveToken = useValidToken().data as string
 	const quizId = router.query.quiz_id as string
-	const quiz = useQuizQueryByID(quizId).data as IQuiz
+	const quiz = useQuizQueryByID(quizId, saveToken).data as IQuiz
 
 	const state = useObservable({	
 		id: "",

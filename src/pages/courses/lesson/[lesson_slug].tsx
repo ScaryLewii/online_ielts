@@ -4,17 +4,18 @@ import Breadcrumbs from "@/components/common/breadcrumbs";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
 import { ILesson } from "@/types/types";
-import { GlobalContext } from "@/context/context";
-import { useLessonsQuery } from "@/base/query";
+import { GlobalContext, tokenAPI } from "@/context/context";
+import { useLessonsQuery, useValidToken } from "@/base/query";
 
 const LessonContent = () => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
     
 	const [content, setContent] = useState<ILesson | null>(null)
+	const saveToken = useValidToken().data as string
 
 	const lessonId = parseInt(router.asPath.split("/").pop() || "0")
-	const lessons = useLessonsQuery(lessonId)
+	const lessons = useLessonsQuery(lessonId, saveToken)
 
 	useEffect(() => {
 		const getLessonContent = () => {

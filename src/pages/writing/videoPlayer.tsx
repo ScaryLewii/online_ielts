@@ -17,7 +17,7 @@ interface IPlayer {
 const VideoPlayer = observer(({ playerRef, video, isPlaying, lessonId }: IPlayer) => {
 	const subtitleContext = useContext(SubtitleContext)
 	const token = useValidToken().data as string
-	const subtitles = useSubtitleQuery(+lessonId).data as ISubtitle[]
+	const subtitles = useSubtitleQuery(+lessonId, token).data as ISubtitle[]
 
 	const handleLessonStart = () => {
 		postData("user/course", token, {"lessonId": lessonId, "progress": 0}).then(res => console.log(res))

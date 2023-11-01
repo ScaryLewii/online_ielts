@@ -5,17 +5,18 @@ import hat from "../../../public/images/hat.svg"
 import arrow from "../../../public/images/arrow-right.svg"
 import { ReactSVG } from "react-svg"
 import { useContext, useEffect } from "react"
-import { CourseContext, GlobalContext } from "@/context/context"
+import { CourseContext, GlobalContext, tokenAPI } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
 import { ICategory, ICourse, ILesson, ILessonProgress, IUser } from "@/types/types"
 import { useRouter } from "next/router"
-import { useUserQuery } from "@/base/query"
+import { useUserQuery, useValidToken } from "@/base/query"
 
 const CourseInfo = observer(() => {
 	const router = useRouter()
 	const globalContext = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
-	const user = useUserQuery().data as IUser
+	const saveToken = useValidToken().data as string
+	const user = useUserQuery(saveToken).data as IUser
 	const state = useObservable({
 		activeCourse: {},
 		completeLessons: [],

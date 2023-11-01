@@ -6,7 +6,6 @@ export const useValidToken = () => {
 	return useQuery({
 		queryKey: ['token'],
 		queryFn: () => localStorage.getItem("token") || "",
-		staleTime: Infinity
 	})
 }
 
@@ -73,8 +72,7 @@ export const fetchLessons = async (id: number, token: string) => {
 	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET", token)
 	return lessonDatas.data.lessons
 }
-export const useLessonsQuery = (id: number) => {
-	const token = useValidToken().data as string
+export const useLessonsQuery = (id: number, token: string) => {
 	return useQuery({
 		queryKey: ['lessons', id],
 		queryFn: () => fetchLessons(id, token),
@@ -82,8 +80,7 @@ export const useLessonsQuery = (id: number) => {
 		staleTime: Infinity
 	})
 }
-export const useAllLessonsQuery = (courses: ICourse[]) => {
-	const token = useValidToken().data as string
+export const useAllLessonsQuery = (courses: ICourse[], token: string) => {
 	courses = courses || []
 	return useQueries({
 		queries: courses.map(c => {
@@ -101,8 +98,7 @@ export const fetchLessonsProgress = async (id: number, token: string) => {
 	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET", token)
 	return lessonDatas.data.userLessons
 }
-export const useAllLessonsProgressQuery = (courses: ICourse[]) => {
-	const token = useValidToken().data as string
+export const useAllLessonsProgressQuery = (courses: ICourse[], token: string) => {
 	courses = courses || []
 	return useQueries({
 		queries: courses.map(c => {
@@ -120,8 +116,7 @@ const fetchUnits = async (id: number, token: string) => {
 	const unitDatas = await fetchData(`courses/lessons/${id}`, "GET", token)
 	return unitDatas.data.chapters
 }
-export const useUnitsQuery = (id: number) => {
-	const token = useValidToken().data as string
+export const useUnitsQuery = (id: number, token: string) => {
 	return useQuery({
 		queryKey: ['units', id],
 		queryFn: () => fetchUnits(id, token),
@@ -129,8 +124,7 @@ export const useUnitsQuery = (id: number) => {
 		staleTime: Infinity
 	})
 }
-export const useAllUnitsQuery = (courses: ICourse[]) => {
-	const token = useValidToken().data as string
+export const useAllUnitsQuery = (courses: ICourse[], token: string) => {
 	courses = courses || []
 	return useQueries({
 		queries: courses.map(c => {
@@ -148,8 +142,7 @@ const fetchQuizs = async (id: number, token: string) => {
 	const quizDatas = await fetchData(`lessons/${id}/quizzes`, "GET", token)
 	return quizDatas.data
 }
-export const useQuizsQuery = (id: number) => {
-	const token = useValidToken().data as string
+export const useQuizsQuery = (id: number, token: string) => {
 	return useQuery({
 		queryKey: ['quiz', 'lesson', id],
 		queryFn: () => fetchQuizs(id, token),
@@ -162,8 +155,7 @@ const fetchQuizByID = async (id: string, token: string) => {
 	const quizDatas = await fetchData(`quizzes/${id}`, "GET", token)
 	return quizDatas.data
 }
-export const useQuizQueryByID = (id: string) => {
-	const token = useValidToken().data as string
+export const useQuizQueryByID = (id: string, token: string) => {
 	return useQuery({
 		queryKey: ['quiz', id],
 		queryFn: () => fetchQuizByID(id, token),
@@ -176,8 +168,7 @@ const fetchVocabulary = async (id: number, token: string) => {
 	const vocabularies = await fetchData(`vocabularies/lesson/${id}`, "GET", token)
 	return vocabularies.data
 }
-export const useVocalbularyQuery = (id: number) => {
-	const token = useValidToken().data as string
+export const useVocalbularyQuery = (id: number, token: string) => {
 	return useQuery({
 		queryKey: ['vocabulary', 'lesson', id],
 		queryFn: () => fetchVocabulary(id, token),
@@ -190,8 +181,7 @@ const fetchSubtitles = async (id: number, token: string) => {
 	const vocabularies = await fetchData(`subtitles/lesson/${id}`, "GET", token)
 	return vocabularies.data
 }
-export const useSubtitleQuery = (id: number) => {
-	const token = useValidToken().data as string
+export const useSubtitleQuery = (id: number, token: string) => {
 	return useQuery({
 		queryKey: ['subtitles', 'lesson', id],
 		queryFn: () => fetchSubtitles(id, token),

@@ -11,13 +11,13 @@ import Gtag from "./gtag";
 import AlertModal from "./alert-modal";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
-	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const saveToken = useValidToken().data as string
 	const { isFetched: isFinishFetchOldUser, data: oldUser  } = useUserQuery(saveToken)
 	const { isFetched: isFinishFetchCategories, data: allCategories } = useCategoriesQuery(saveToken)
 	const { isFetched: isFinishFetchCourses, data: allCourses } = useCoursesQuery(saveToken)
-	const allLessons = useAllLessonsQuery(allCourses)
-	const lessonsProgress = useAllLessonsProgressQuery(allCourses)
-	const allUnits = useAllUnitsQuery(allCourses)
+	const allLessons = useAllLessonsQuery(allCourses, saveToken)
+	const lessonsProgress = useAllLessonsProgressQuery(allCourses, saveToken)
+	const allUnits = useAllUnitsQuery(allCourses, saveToken)
 
 	const state = useObservable({
 		isSessonValid: true,

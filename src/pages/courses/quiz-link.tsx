@@ -1,9 +1,10 @@
-import { useQuizsQuery } from "@/base/query"
+import { useQuizsQuery, useValidToken } from "@/base/query"
 import { ILesson, IQuiz } from "@/types/types"
 import { nanoid } from "nanoid"
 import Link from "next/link"
 import examIcon from "../../../public/images/exam-white.svg"
 import Image from "next/image"
+import { tokenAPI } from "@/context/context"
 
 interface IQuizLink {
 	lessonId: number,
@@ -11,7 +12,8 @@ interface IQuizLink {
 }
 
 const QuizLink = ({lessonId, courseId} : IQuizLink) => {
-	const allQuizs = useQuizsQuery(lessonId).data as IQuiz[]
+	const saveToken = useValidToken().data as string
+	const allQuizs = useQuizsQuery(lessonId, saveToken).data as IQuiz[]
 	const quiz = allQuizs ? allQuizs[0] : null
 	
 	return <>

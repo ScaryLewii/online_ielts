@@ -15,7 +15,7 @@ import screenfull from "screenfull";
 import { useRouter } from "next/router";
 import { ILesson, ISubtitle } from "@/types/types";
 import { SubtitleContext } from "@/context/context";
-import { useLessonsQuery, useSubtitleQuery } from "@/base/query";
+import { useLessonsQuery, useSubtitleQuery, useValidToken } from "@/base/query";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 export interface IVideo {
@@ -30,12 +30,13 @@ interface IVideoUrl {
 
 const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 	const router = useRouter()
+	const saveToken = useValidToken().data as string
 	
 	const courseId = router.query.course_id as string
-	const lessons = useLessonsQuery(+courseId).data as ILesson[]
+	const lessons = useLessonsQuery(+courseId, saveToken).data as ILesson[]
 
 	const lessonId = router.query.lesson_id as string
-	const subtitles = useSubtitleQuery(+lessonId).data as ISubtitle[]
+	const subtitles = useSubtitleQuery(+lessonId, saveToken).data as ISubtitle[]
 
 	const state = useObservable({
 		isPlaying: false,
