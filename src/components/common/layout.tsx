@@ -8,6 +8,7 @@ import { ICategory, ICourse, ILesson, ILessonProgress, IQuiz, IUnit } from "../.
 import SideNav from "../navigation/sidenav";
 import TopNav from "../navigation/topnav";
 import Gtag from "./gtag";
+import AlertModal from "./alert-modal";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
@@ -40,23 +41,24 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 
 	useEffect(() => {
 		if (isFinishFetchOldUser && typeof window !== undefined && !oldUser) {
-			window.location.assign('https://ant-edu.ai/auth/login')
+			// window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
-			return
+			state.isSessonValid.set(false)
 		}
 
 		if (isFinishFetchCategories && typeof window !== undefined && !allCategories) {
-			window.location.assign('https://ant-edu.ai/auth/login')
+			// window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
-			return
+			state.isSessonValid.set(false)
 		}
 
 		if (isFinishFetchCourses && typeof window !== undefined && !allCourses) {
-			window.location.assign('https://ant-edu.ai/auth/login')
+			// window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
-			return
+			state.isSessonValid.set(false)
+
 		}
-	}, [allCategories, allCourses, isFinishFetchCategories, isFinishFetchCourses, isFinishFetchOldUser, oldUser])
+	}, [allCategories, allCourses, isFinishFetchCategories, isFinishFetchCourses, isFinishFetchOldUser, oldUser, state.isSessonValid])
 
 	state.categories.set(allCategories)
 	state.courses.set(allCourses)
@@ -78,6 +80,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 						<>{children}</>
 				</main>
 			</div>
+			
+			{state.isSessonValid.get() === false && <AlertModal />}
 		</GlobalContext.Provider>
 	)
 })
