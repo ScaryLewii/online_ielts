@@ -1,4 +1,4 @@
-import { useCategoriesQuery } from "@/base/query"
+import { useCategoriesQuery, useValidToken } from "@/base/query"
 import { ICategory } from "@/types/types"
 import { nanoid } from "nanoid"
 import Link from "next/link"
@@ -29,7 +29,8 @@ const PlainContent = () => {
 }
 
 const Route = () => {
-	const allCategories = useCategoriesQuery().data as ICategory[]
+	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
+	const allCategories = useCategoriesQuery(saveToken).data as ICategory[]
 
 	const Items = [
 		{
