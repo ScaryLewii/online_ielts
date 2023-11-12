@@ -1,21 +1,20 @@
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useLessonsQuery } from "@/base/query";
 import Breadcrumbs from "@/components/common/breadcrumbs";
+import { GlobalContext } from "@/context/context";
 import VideoBlock from "@/pages/writing/video";
 import VocabularyBlock from "@/pages/writing/vocabulary";
 import { ILesson } from "@/types/types";
-import { GlobalContext, tokenAPI } from "@/context/context";
-import { useLessonsQuery, useValidToken } from "@/base/query";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 
 const LessonContent = () => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
     
 	const [content, setContent] = useState<ILesson | null>(null)
-	const saveToken = useValidToken().data as string
 
 	const lessonId = parseInt(router.asPath.split("/").pop() || "0")
-	const lessons = useLessonsQuery(lessonId, saveToken)
+	const lessons = useLessonsQuery(lessonId, context.cookies.get())
 
 	useEffect(() => {
 		const getLessonContent = () => {

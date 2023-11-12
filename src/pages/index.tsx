@@ -1,4 +1,4 @@
-import { useUserQuery, useValidToken } from '@/base/query'
+import { baseUrl, fetchData } from '@/base/base'
 import Gtag from '@/components/common/gtag'
 import Banner from '@/components/home/banner'
 import ContactSection from '@/components/home/contact'
@@ -6,32 +6,15 @@ import HeaderSection from '@/components/home/header'
 import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
-import { tokenAPI } from '@/context/context'
-import { NextApiRequest, NextApiResponse } from 'next'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 
-interface IToken {
-	token: string
-}
-
-
-export default function Home({token}: IToken) {
-	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
-	const { isFetched: isFinishSignup, data: newUser } = useUserQuery(token)
-	const { isFetched: isFinishFetchOldUser, data: oldUser  } = useUserQuery(saveToken)
-
+export default function Home() {
+	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
 	useEffect(() => {
-		if (token && typeof window !== undefined) {
-			localStorage.setItem("token", token)
-		}
-	
-		if (isFinishSignup && !newUser && isFinishFetchOldUser && !oldUser) {
-			// window.location.assign('https://ant-edu.ai/auth/login')
-			console.log('pls login again')
-			return
-		}
-	}, [isFinishFetchOldUser, isFinishSignup, newUser, oldUser, token])
+		const testData = fetchData("user/info", "GET", cookies)
+	})
 
 	return (
 		<>
@@ -52,10 +35,4 @@ export default function Home({token}: IToken) {
 		</main>
 		</>
 	)
-}
-
-export const getServerSideProps = async (req: NextApiRequest, res: NextApiResponse) => {
-	let token = req.query.token || ""
-
-	return { props: {token} }
 }

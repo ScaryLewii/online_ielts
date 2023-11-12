@@ -1,13 +1,13 @@
-import { useQuizQueryByID, useValidToken } from "@/base/query";
+import { useQuizQueryByID } from "@/base/query";
 import Breadcrumbs from "@/components/common/breadcrumbs";
-import { QuizContext, tokenAPI } from "@/context/context";
+import { GlobalContext, QuizContext } from "@/context/context";
 import CheckboxGroup from "@/pages/practice/checkbox-group";
 import RadioGroup from "@/pages/practice/radio-group";
 import { IAnswer, IQuestion, IQuiz } from "@/types/types";
 import { observer, useObservable } from "@legendapp/state/react";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import InputGroup from "../practice/input-group";
 import QuizNav from "./quiz-nav";
 
@@ -22,10 +22,9 @@ interface IQuizContent {
 
 const QuizContent = observer(function Component() {
 	const router = useRouter();
-	
-	const saveToken = useValidToken().data as string
+	const context = useContext(GlobalContext)
 	const quizId = router.query.quiz_id as string
-	const quiz = useQuizQueryByID(quizId, saveToken).data as IQuiz
+	const quiz = useQuizQueryByID(quizId, context.cookies.get()).data as IQuiz
 
 	const state = useObservable({	
 		id: "",

@@ -1,13 +1,13 @@
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import { CourseContext, GlobalContext } from "@/context/context"
+import { ICategory, ICourse } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
-import CourseBox from "./../course-box"
 import { useRouter } from "next/router"
-import { CourseContext, GlobalContext } from "@/context/context"
+import { useContext, useEffect, useState } from "react"
+import CourseBox from "./../course-box"
 import CourseInfo from "./../course-info"
-import { useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query"
-import { ICategory, ICourse } from "@/types/types"
 
 interface ICourseContent {
 	activeCourse: ICourse,
@@ -17,9 +17,8 @@ interface ICourseContent {
 const CourseContent = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
-	const categories = useCategoriesQuery(saveToken).data as ICategory[]
-	const allCourses = useCoursesQuery(saveToken).data as ICourse[]
+	const categories = useCategoriesQuery(context.cookies.get()).data as ICategory[]
+	const allCourses = useCoursesQuery(context.cookies.get()).data as ICourse[]
 
 	const [courses, setCourses] = useState<ICourse[]>([])
 

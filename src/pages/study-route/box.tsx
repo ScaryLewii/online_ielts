@@ -1,5 +1,5 @@
-import { useAllLessonsProgressQuery, useAllLessonsQuery, useCoursesQuery, useValidToken } from "@/base/query"
-import { GlobalContext, tokenAPI } from "@/context/context"
+import { useAllLessonsProgressQuery, useAllLessonsQuery, useCoursesQuery } from "@/base/query"
+import { GlobalContext } from "@/context/context"
 import { ICourse, ILesson, ILessonProgress, IUnit } from "@/types/types"
 import { useObservable } from "@legendapp/state/react"
 import Image from "next/image"
@@ -11,13 +11,12 @@ import contract from "../../../public/images/contract.svg"
 const RouteBox = () => {
 	const context = useContext(GlobalContext)
 
-	const saveToken = useValidToken().data as string
-	const allCourses = useCoursesQuery(saveToken).data as ICourse[]
+	const allCourses = useCoursesQuery(context.cookies.get()).data as ICourse[]
 	const state = useObservable(0)
 	
 	const units = context.units.get()
-	const userLessons = useAllLessonsProgressQuery(allCourses, saveToken).map(array => array.data)
-	const lessons = useAllLessonsQuery(allCourses, saveToken).map(array => array.data)
+	const userLessons = useAllLessonsProgressQuery(allCourses, context.cookies.get()).map(array => array.data)
+	const lessons = useAllLessonsQuery(allCourses, context.cookies.get()).map(array => array.data)
 
 	const completeCourses = allCourses?.filter(course => course.isComplete === true)
 

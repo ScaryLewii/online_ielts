@@ -1,39 +1,20 @@
-export const baseUrl = "https://apitest.ant-edu.ai/api/"
+// export const baseUrl = "https://apitest.ant-edu.ai/api/"
+export const baseUrl = "https://localhost:5001/api/"
 
-export const getHeaderAuth = (token: string) => {
+export const getHeaderAuth = (cookies: any) => {
 	return { 
-		'Content-Type' : 'application/json',
-		'Authorization': 'Bearer ' + token
+		"Content-Type": "application/json",
+		"Cookie": cookies['.AspNetCore.SharedCookie']
 	}
 }
 
-export const fetchDataNoToken = async (path: string, method: string) => {
-	const data: RequestInit = {
-		headers: {'Content-Type' : 'application/json'},
-		method: method,
-		credentials: 'include'
-	}
-
-	const request = await fetch(
-		baseUrl + path,
-		data
-	)
-
-	if (!request.ok) {
-		console.log('please login again')
-		return null
-	}
-	
-	return request.json()
-}
-
-export const fetchData = async (path: string, method: string, token: string = "") => {
+export const fetchData = async (path: string, method: string, cookies: any) => {
 	const data: RequestInit = { 
 		method: method
 	}
 
-	if (token) {
-		data.headers = getHeaderAuth(token)
+	if (cookies) {
+		data.headers = getHeaderAuth(cookies)
 	}
 	
 	const request = await fetch(
@@ -46,32 +27,14 @@ export const fetchData = async (path: string, method: string, token: string = ""
 		console.log('please login again ' + path)
 		return
 	}
-	
-	return request.json()
+
+	const result = await request.text()
+	console.log(result)
+	return JSON.parse(result)
 }
 
-
-export const postDataNoToken = async (path: string, body: object = {}) => {
-	const data = { 
-		method: "POST", 
-		headers: {'Content-Type' : 'application/json'},
-		body: JSON.stringify(body)
-	}
-
-	const request = await fetch(
-		baseUrl + path,
-		data
-	)
-
-	if (!request.ok) {
-		console.log('please login again')
-		return null
-	}
-	
-	return request.json()
-}
-export const postData = async (path: string, token: string, body: object = {}) => {
-	const headers = getHeaderAuth(token)
+export const postData = async (path: string, cookies: any, body: object = {}) => {
+	const headers = getHeaderAuth(cookies)
 	const data = { 
 		method: "POST", 
 		headers: headers,
@@ -90,5 +53,7 @@ export const postData = async (path: string, token: string, body: object = {}) =
 		return
 	}
 	
-	return request.json()
+	const result = await request.text()
+	
+	return JSON.parse(result)
 }

@@ -1,15 +1,13 @@
-import * as Scroll from 'react-scroll';
-import Image from 'next/image';
-import clock from "../../../public/images/clock.svg"
-import plane from "../../../public/images/plane.svg"
-import { IQuestion, IUserAnswer } from '@/types/types';
-import { nanoid } from 'nanoid';
-import { useContext, useEffect } from 'react';
-import { observer, useObservable } from '@legendapp/state/react';
-import { GlobalContext, QuizContext } from '@/context/context';
 import { postData } from '@/base/base';
-import repeatIcon from "../../../public/images/repeat.svg"
-import { useValidToken } from '@/base/query';
+import { GlobalContext, QuizContext } from '@/context/context';
+import { IQuestion } from '@/types/types';
+import { observer, useObservable } from '@legendapp/state/react';
+import { nanoid } from 'nanoid';
+import Image from 'next/image';
+import { useContext } from 'react';
+import * as Scroll from 'react-scroll';
+import plane from "../../../public/images/plane.svg";
+import repeatIcon from "../../../public/images/repeat.svg";
 
 interface QuizNavContent {
 	id: string
@@ -17,9 +15,8 @@ interface QuizNavContent {
 }
 
 const QuizNav = observer(({id, content}: QuizNavContent) => {
-	const { data: saveToken} = useValidToken()
+	const context = useContext(GlobalContext)
 	const quizContext = useContext(QuizContext)
-	const token = saveToken as string
 	
 	const state = useObservable({
 		warning: false,
@@ -39,7 +36,7 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 		if (quizContext.answers.get().length === quizContext.userAnswers.get().length) {
 			quizContext.isSubmit.set(true)
 
-			postData("quizzes/submit", token, {
+			postData("quizzes/submit", context.cookies.get(), {
 				id: id,
 				quizId: id,
 				content: JSON.stringify(quizContext.userAnswers.get()),

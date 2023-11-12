@@ -1,22 +1,22 @@
-import ReactPlayer from "react-player/lazy"
-import Image from "next/image"
-import pin2 from "../../../public/images/pin2.svg"
-import hat from "../../../public/images/hat.svg"
-import arrow from "../../../public/images/arrow-right.svg"
-import { ReactSVG } from "react-svg"
-import { useContext, useEffect } from "react"
-import { CourseContext, GlobalContext, tokenAPI } from "@/context/context"
+import { useUserInfoQuery } from "@/base/query"
+import { CourseContext, GlobalContext } from "@/context/context"
+import { ICourse, ILesson, ILessonProgress, IUser } from "@/types/types"
 import { observer, useObservable } from "@legendapp/state/react"
-import { ICategory, ICourse, ILesson, ILessonProgress, IUser } from "@/types/types"
+import Image from "next/image"
 import { useRouter } from "next/router"
-import { useUserQuery, useValidToken } from "@/base/query"
+import { useContext, useEffect } from "react"
+import ReactPlayer from "react-player/lazy"
+import { ReactSVG } from "react-svg"
+import arrow from "../../../public/images/arrow-right.svg"
+import hat from "../../../public/images/hat.svg"
+import pin2 from "../../../public/images/pin2.svg"
 
 const CourseInfo = observer(() => {
 	const router = useRouter()
 	const globalContext = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
-	const saveToken = useValidToken().data as string
-	const user = useUserQuery(saveToken).data as IUser
+	const user = useUserInfoQuery(globalContext.cookies.get()).data as IUser
+
 	const state = useObservable({
 		activeCourse: {},
 		completeLessons: [],

@@ -1,8 +1,8 @@
-import { fetchData, postData } from "@/base/base";
-import { useSubtitleQuery, useValidToken } from "@/base/query";
+import { postData } from "@/base/base";
+import { useSubtitleQuery } from "@/base/query";
 import { GlobalContext, SubtitleContext } from "@/context/context";
 import { ISubtitle, IVideoProgessData } from "@/types/types";
-import { observer, useObservable } from "@legendapp/state/react";
+import { observer } from "@legendapp/state/react";
 
 import { useContext } from "react";
 import ReactPlayer from "react-player/lazy";
@@ -15,15 +15,15 @@ interface IPlayer {
 }
 
 const VideoPlayer = observer(({ playerRef, video, isPlaying, lessonId }: IPlayer) => {
+	const context = useContext(GlobalContext)
 	const subtitleContext = useContext(SubtitleContext)
-	const token = useValidToken().data as string
-	const subtitles = useSubtitleQuery(+lessonId, token).data as ISubtitle[]
+	const subtitles = useSubtitleQuery(+lessonId, context.cookies.get()).data as ISubtitle[]
 
 	const handleLessonStart = () => {
-		postData("user/course", token, {"lessonId": lessonId, "progress": 0}).then(res => console.log(res))
+		postData("user/course", context.cookies.get(), {"lessonId": lessonId, "progress": 0}).then(res => console.log(res))
 	}
 	const handleLessonFinish = () => {
-		postData("user/course", token, {"lessonId": lessonId, "progress": 100}).then(res => console.log(res))
+		postData("user/course", context.cookies.get(), {"lessonId": lessonId, "progress": 100}).then(res => console.log(res))
 	}
 
 	const handleShowSubtitles = (data: IVideoProgessData) => {

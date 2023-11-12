@@ -1,21 +1,21 @@
-import { useRef } from "react";
-import Image from "next/image";
-import playIcon from "../../../public/images/play.svg"
-import repeatIcon from "../../../public/images/repeat.svg"
-import engIcon from "../../../public/images/eng.svg"
-import previousIcon from "../../../public/images/previous.svg"
-import nextIcon from "../../../public/images/next.svg"
-import playVideoIcon from "../../../public/images/play-video.svg"
-import pauseVideoIcon from "../../../public/images/pause-video.svg"
-import fullscreenIcon from "../../../public/images/full-screen.svg"
-import { observer, useObservable } from "@legendapp/state/react"
-import dynamic from 'next/dynamic';
-import { nanoid } from "nanoid";
-import screenfull from "screenfull";
-import { useRouter } from "next/router";
+import { useLessonsQuery, useSubtitleQuery } from "@/base/query";
+import { GlobalContext, SubtitleContext } from "@/context/context";
 import { ILesson, ISubtitle } from "@/types/types";
-import { SubtitleContext } from "@/context/context";
-import { useLessonsQuery, useSubtitleQuery, useValidToken } from "@/base/query";
+import { observer, useObservable } from "@legendapp/state/react";
+import { nanoid } from "nanoid";
+import dynamic from 'next/dynamic';
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useContext, useRef } from "react";
+import screenfull from "screenfull";
+import engIcon from "../../../public/images/eng.svg";
+import fullscreenIcon from "../../../public/images/full-screen.svg";
+import nextIcon from "../../../public/images/next.svg";
+import pauseVideoIcon from "../../../public/images/pause-video.svg";
+import playVideoIcon from "../../../public/images/play-video.svg";
+import playIcon from "../../../public/images/play.svg";
+import previousIcon from "../../../public/images/previous.svg";
+import repeatIcon from "../../../public/images/repeat.svg";
 const VideoPlayer = dynamic(() => import("./videoPlayer"), {ssr: false});
 
 export interface IVideo {
@@ -30,13 +30,13 @@ interface IVideoUrl {
 
 const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 	const router = useRouter()
-	const saveToken = useValidToken().data as string
+	const context = useContext(GlobalContext)
 	
 	const courseId = router.query.course_id as string
-	const lessons = useLessonsQuery(+courseId, saveToken).data as ILesson[]
+	const lessons = useLessonsQuery(+courseId, context.cookies.get()).data as ILesson[]
 
 	const lessonId = router.query.lesson_id as string
-	const subtitles = useSubtitleQuery(+lessonId, saveToken).data as ISubtitle[]
+	const subtitles = useSubtitleQuery(+lessonId, context.cookies.get()).data as ISubtitle[]
 
 	const state = useObservable({
 		isPlaying: false,

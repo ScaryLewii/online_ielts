@@ -1,22 +1,20 @@
-import { useContext, useEffect, useState } from "react"
-import UnitBox from "./unit-box"
-import { nanoid } from "nanoid"
-import { ICourse, ILesson, IUnit } from "../../types/types"
-import { observer, useObservable } from "@legendapp/state/react"
+import { useCoursesQuery, useUnitsQuery } from "@/base/query"
 import { CourseContext, GlobalContext } from "@/context/context"
-import { fetchData } from "@/base/base"
-import { useCoursesQuery, useLessonsQuery, useUnitsQuery, useValidToken } from "@/base/query"
+import { nanoid } from "nanoid"
+import { useContext } from "react"
+import { ICourse, IUnit } from "../../types/types"
+import UnitBox from "./unit-box"
 
 interface ICouseBox {
 	courseId: number
 }
 
 const CourseBox = ({courseId}: ICouseBox) => {
+	const context = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
-	const saveToken = useValidToken().data as string
 
-	const courses = useCoursesQuery(saveToken).data as ICourse[]
-	const units = useUnitsQuery(courseId, saveToken).data as IUnit[]
+	const courses = useCoursesQuery(context.cookies.get()).data as ICourse[]
+	const units = useUnitsQuery(courseId, context.cookies.get()).data as IUnit[]
 
 	const setActiveCourse = () => {
 		const activeCourse = courses?.find((c: ICourse) => c.id === courseId)

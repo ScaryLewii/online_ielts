@@ -1,7 +1,9 @@
-import { useCategoriesQuery, useValidToken } from "@/base/query"
+import { useCategoriesQuery } from "@/base/query"
+import { GlobalContext } from "@/context/context"
 import { ICategory } from "@/types/types"
 import { nanoid } from "nanoid"
 import Link from "next/link"
+import { useContext } from "react"
 import { ReactSVG } from "react-svg"
 import icon1 from "../../../public/dump/icon-1.svg"
 import icon2 from "../../../public/dump/icon-2.svg"
@@ -29,8 +31,8 @@ const PlainContent = () => {
 }
 
 const Route = () => {
-	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
-	const allCategories = useCategoriesQuery(saveToken).data as ICategory[]
+	const context = useContext(GlobalContext)
+	const allCategories = useCategoriesQuery(context.cookies.get()).data as ICategory[]
 
 	const Items = [
 		{

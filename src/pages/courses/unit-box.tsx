@@ -1,22 +1,22 @@
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import chevron from "../../../public/images/chevron.svg"
 import playIcon from "../../../public/images/play.svg"
 
-import { useLessonsQuery, useValidToken } from "@/base/query"
+import { useLessonsQuery } from "@/base/query"
+import { GlobalContext } from "@/context/context"
 import { nanoid } from "nanoid"
 import Link from "next/link"
 import { ILesson, IUnit } from "../../types/types"
 import QuizLink from "./quiz-link"
-import { tokenAPI } from "@/context/context"
 interface IUnitBlock {
 	unit: IUnit,
 	courseId: number
 }
 
 const UnitBox = ({ unit, courseId }: IUnitBlock) => {
-	const saveToken = useValidToken().data as string
-	const allLessons = useLessonsQuery(courseId, saveToken).data as ILesson[]
+	const context = useContext(GlobalContext)
+	const allLessons = useLessonsQuery(courseId, context.cookies.get()).data as ILesson[]
 	const [isExpanded, setIsExpanded] = useState(false)
 	const [lessons, setLessons] = useState<ILesson[]>([])
 

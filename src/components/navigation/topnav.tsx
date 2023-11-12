@@ -1,4 +1,4 @@
-import { useUserInfoQuery, useUserQuery, useValidToken } from "@/base/query"
+import { useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { observer } from "@legendapp/state/react"
 import Image from "next/image"
@@ -9,9 +9,7 @@ import nav from "../../../public/nav.svg"
 const TopNav = observer(() => {
 	const context = useContext(GlobalContext)
 	
-	const { data: saveToken} = useValidToken()
-	const { isFetched: isFinishFetchOldUser, data: user  } = useUserQuery(saveToken)
-	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(saveToken)
+	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
 
 	return <div className="sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
@@ -30,14 +28,12 @@ const TopNav = observer(() => {
 
 			<span className="hidden lg:block h-8 w-[1px] bg-white"></span>
 
-			{isFinishFetchOldUser && user &&
-				<button className="flex gap-5 items-center group">
-					<h3 className="group-hover:underline">{user?.displayName}</h3>
-					{isFinishFetchUserInfo && userInfo &&
-						<Image className="rounded-full h-[45px] w-[45px] border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
-					}
-				</button>
-			}
+			<button className="flex gap-5 items-center group">
+				<h3 className="group-hover:underline">{userInfo?.displayName}</h3>
+				{isFinishFetchUserInfo && userInfo &&
+					<Image className="rounded-full h-[45px] w-[45px] border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
+				}
+			</button>
 		</div>
 	</div>
 })

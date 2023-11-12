@@ -7,7 +7,7 @@ import live from "../../../public/images/live.svg"
 import review from "../../../public/images/review.svg"
 import logo from "../../../public/logo.svg"
 
-import { useCategoriesQuery, useCoursesQuery, useValidToken } from "@/base/query"
+import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
@@ -54,9 +54,8 @@ const mainNav = [
 const SideNav = observer(() => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
-	const { isFetched: isFinishFetchToken, data: saveToken} = useValidToken()
-	const { isFetched: isFinishFetchCategories, data: categories } = useCategoriesQuery(saveToken)
-	const { isFetched: isFinishFetchCourses, data: courses } = useCoursesQuery(saveToken)
+	const { isFetched: isFinishFetchCategories, data: categories } = useCategoriesQuery(context.cookies.get())
+	const { isFetched: isFinishFetchCourses, data: courses } = useCoursesQuery(context.cookies.get())
 
 	const state = useObservable({
 		availableCategories: []

@@ -1,15 +1,17 @@
+import { useVocalbularyQuery } from "@/base/query"
+import { GlobalContext } from "@/context/context"
 import { IWord } from "@/types/types"
 import { observer } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
-import { useValidToken, useVocalbularyQuery } from "@/base/query"
+import { useContext } from "react"
 
 interface IVocabulary {
 	lessonId: number
 }
 
 const VocabularyBlock = observer(({lessonId}: IVocabulary) => {
-	const token = useValidToken().data as string
-	const vocabulary = useVocalbularyQuery(lessonId, token).data as IWord[]
+	const context = useContext(GlobalContext)
+	const vocabulary = useVocalbularyQuery(lessonId, context.cookies.get()).data as IWord[]
 
 	return <div className="bg-dark p-5">
 		<h3 className="text-lg text-light font-semibold flex items-center gap-3 mb-5">
