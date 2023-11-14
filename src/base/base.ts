@@ -10,7 +10,8 @@ export const getHeaderAuth = (cookies: any) => {
 
 export const fetchData = async (path: string, method: string, cookies: any) => {
 	const data: RequestInit = { 
-		method: method
+		method: method,
+		credentials: 'include'
 	}
 
 	if (cookies) {
@@ -35,8 +36,9 @@ export const fetchData = async (path: string, method: string, cookies: any) => {
 
 export const postData = async (path: string, cookies: any, body: object = {}) => {
 	const headers = getHeaderAuth(cookies)
-	const data = { 
+	const data: RequestInit = { 
 		method: "POST", 
+		credentials: 'include',
 		headers: headers,
 		body: JSON.stringify(body)
 	}
