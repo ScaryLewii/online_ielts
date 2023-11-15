@@ -26,11 +26,11 @@ export const fetchData = async (path: string, method: string, cookies: any) => {
 	if (!request.ok || request.status === 401) {
 		// fetchDataNoToken(path, method)
 		console.log('please login again ' + path)
+		window.location.assign('https://ant-edu.ai/auth/login')
 		return
 	}
 
 	const result = await request.text()
-	console.log(result)
 	return JSON.parse(result)
 }
 

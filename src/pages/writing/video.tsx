@@ -128,7 +128,7 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 				</div>
 				<div className="bg-dark-10 rounded-[10px] flex-grow overflow-hidden min-h-full w-full xl:w-[40%]">
 					<h3 className="bg-light p-3 text-black font-semibold text-center">Subtitle Section</h3>
-					<div className="overflow-auto">
+					<div className="overflow-auto max-h-[60vh]">
 						{subtitles?.map(s => 
 							<div className="relative" key={nanoid()}>
 								<label className="relative flex items-start gap-[10px] px-5 py-8 text-left cursor-pointer hover:bg-dark-15 border-l-4 border-transparent hover:border-cyan peer-checked:border-cyan" htmlFor={nanoid()} onClick={() => handleSeekClick(s)}>

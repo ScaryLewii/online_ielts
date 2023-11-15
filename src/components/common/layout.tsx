@@ -4,6 +4,7 @@ import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
 import { PropsWithChildren, useEffect } from "react";
 import { useCookies } from 'react-cookie';
+import { isMobile } from 'react-device-detect';
 import dashboardbg from "../../../public/images/dashboard-bg.svg";
 import { ICategory, ICourse, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
 import SideNav from "../navigation/sidenav";
@@ -43,6 +44,10 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	})
 
 	useEffect(() => {
+		if (isMobile) {
+			state.isNavOpen.set(false)
+		}
+
 		if (isFinishFetchCategories && typeof window !== undefined && !allCategories) {
 			// window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
