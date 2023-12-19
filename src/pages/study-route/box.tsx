@@ -16,7 +16,7 @@ import { ReactSVG } from "react-svg"
 type ValuePiece = Date | null;
 type DateValue = ValuePiece | [ValuePiece, ValuePiece];
 
-const RouteBox = ({isPersonal} : {isPersonal?: boolean}) => {
+const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boolean}) => {
 	const context = useContext(GlobalContext)
 	const { isFetched: isFinishFetchLives, data: allLives } = useAllLivesQuery(context.cookies.get())
 	const { isFetched: isFinishFetchMyLives, data: myLives } = useAllLivesQuery(context.cookies.get())
@@ -29,15 +29,26 @@ const RouteBox = ({isPersonal} : {isPersonal?: boolean}) => {
 	useEffect(() => {
 		const handleState = () => {
 			if (!isFinishFetchLives || !isFinishFetchMyLives) return
-			setAllEvents(isPersonal ? myLives : allLives)
+
+			if (isPersonal) {
+				setAllEvents(myLives)
+			}
+
+			if (isFuture) {
+				setAllEvents(allEvents.filter(e => moment(e.startTime) >= moment(new Date())) || null)
+			}
+
+			if (!isPersonal && !isFuture) {
+				setAllEvents(allLives)
+			}
+
 			setFutureEventDate(new Date(allEvents.find(e => moment(e.startTime) >= moment(new Date()))?.startTime || "") || moment(new Date()))
 		}
 		handleState()
-	}, [allLives, myLives, isPersonal, isFinishFetchLives, isFinishFetchMyLives, allEvents])
+	}, [allLives, myLives, isPersonal, isFinishFetchLives, isFinishFetchMyLives, allEvents, isFuture])
 
 	useEffect(() => {
 		if (futureEventDate && allEvents) {
-			console.log('second')
 			setActiveEvent(allEvents.find(x => moment(x.startTime).format("DD-MM-YYYY") === moment(futureEventDate.toString()).format("DD-MM-YYYY")) || null)
 		}
 	}, [allEvents, futureEventDate])
@@ -48,7 +59,7 @@ const RouteBox = ({isPersonal} : {isPersonal?: boolean}) => {
 			<Calendar className="bg-sea rounded-[10px] p-[20px] mb-[18px] border border-cyan"
 				onChange={setActiveDate} value={activeDate}
 				tileClassName={({ date, view }) => {
-					if (allLives.find((x: IEvent) => moment(x.startTime).format("DD-MM-YYYY") === moment(date).format("DD-MM-YYYY"))) {
+					if (allEvents.find((x: IEvent) => moment(x.startTime).format("DD-MM-YYYY") === moment(date).format("DD-MM-YYYY"))) {
 						return 'has-event'
 					}
 				}} 
