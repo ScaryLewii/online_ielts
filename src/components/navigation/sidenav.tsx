@@ -20,19 +20,9 @@ import DashboardNav from "./dashboard-nav"
 
 const mainNav = [
 	{
-		label: "Live",
+		label: "Sự kiện trực tuyến",
 		url: "/live",
 		icon: live,
-		children: [
-			{
-				label: "Chat với giáo viên",
-				url: "/live"
-			},
-			{
-				label: "Đặt lịch hẹn giáo viên",
-				url: "/live2"
-			}
-		]
 	},
 	{
 		label: "Interactive",
@@ -100,21 +90,6 @@ const SideNav = observer(() => {
 							<ReactSVG src={course["src"]} className="fill-white absolute -left-[35px]" />
 							Lộ trình học của tôi
 						</Link>
-
-						{ state.availableCategories.get()?.map((cat: ICategory) => {
-							if (cat.level === 1 && cat.active) {
-								return (
-									<ul key={nanoid()} className={`/categories/${cat.id === +router.asPath ? "block" : "hidden"}`}>
-										<li className="sidenav-child__item">
-											<Link href={`/categories/${cat.id}`}
-												className={`sidenav-child__link hover:text-cyan ${getActiveClass('/categories/' + cat.id)}`}>
-													{cat.name}
-											</Link>
-										</li>
-									</ul>
-								)
-							}
-						})}
 					</li>
 
 					{mainNav.map(nav =>

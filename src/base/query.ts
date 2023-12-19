@@ -169,3 +169,41 @@ export const useSubtitleQuery = (id: number, cookies: any) => {
 	})
 }
 
+const fetchAllLives = async (cookies: any) => {
+	const lives = await fetchData(`live-schedules`, "GET", cookies)
+	return lives.data
+}
+export const useAllLivesQuery = (cookies: any) => {
+	return useQuery({
+		queryKey: ['lives'],
+		queryFn: () => fetchAllLives(cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}
+
+const fetchMyLives = async (cookies: any) => {
+	const lives = await fetchData(`live-schedules/my`, "GET", cookies)
+	return lives.data
+}
+export const useMyLivesQuery = (cookies: any) => {
+	return useQuery({
+		queryKey: ['lives', 'my'],
+		queryFn: () => fetchMyLives(cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}
+
+const fetchLive = async (id: number, cookies: any) => {
+	const lives = await fetchData(`live-schedules/${id}`, "GET", cookies)
+	return lives.data
+}
+export const useLiveQuery = (id: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['lives', id],
+		queryFn: () => fetchLive(id, cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}
