@@ -98,7 +98,7 @@ const SideNav = observer(() => {
 					<li key={nanoid()} className="sidenav__item">
 						<Link key={nanoid()} href="/study-route" className={`sidenav__link mb-2 relative ${getActiveClass("/study-route")}`}>
 							<ReactSVG src={course["src"]} className="fill-white absolute -left-[35px]" />
-							Khóa học của tôi
+							Lộ trình học của tôi
 						</Link>
 
 						{ state.availableCategories.get()?.map((cat: ICategory) => {

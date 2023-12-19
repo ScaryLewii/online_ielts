@@ -47,3 +47,57 @@ svg {
 		--set-tglbg: var(--color-cyan);
 	}
 }
+
+.react-calendar__navigation {
+	margin-block-end: 12px;
+	text-align: center;
+}
+
+.react-calendar__navigation__arrow {
+	font-size: 20px;
+	line-height: 1;
+	display: inline-flex;
+	align-items: center;
+}
+
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+	display: none;
+}
+
+.react-calendar__navigation__label__labelText {
+	padding: 0 20px;
+	font-weight: 600;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+	text-align: center;
+	font-weight: 600;
+}
+
+.react-calendar__month-view__days {
+	row-gap: 10px;
+	justify-content: space-between;
+}
+
+.react-calendar__month-view__days__day.react-calendar__tile--now {
+	--date--bg: #00F0FF;
+	border-radius: 50%;
+	color: black;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+	color: rgba(255, 255, 255, 0.30);
+	font-weight: 400;
+}
+
+abbr {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: var(--date--bg, transparent);
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+}
