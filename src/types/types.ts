@@ -135,3 +135,32 @@ export interface IVideoProgessData {
 	played: number,
 	playedSeconds: number,
 }
+
+export interface IEvent {
+	id: number,
+	title: string,
+	description: string,
+	summary: string,
+	presenter: string,
+	startTime: string,
+	endTime: string,
+	duration: number,
+	restrictionCourseId: number,
+	categoryId: number,
+	status: "SCHEDULED",
+	thumbnail: string,
+	platform: "ZOOM",
+	maxParticipants: number,
+	joinRoomLink: string,
+	facebookEventLink: string,
+	registeredCount: number,
+	createdAt: string,
+	agenda: [
+		{
+			content: string
+		}
+	],
+	liveScheduleConditions: [],
+	liveScheduleRegisters: [],
+	course: null,
+}

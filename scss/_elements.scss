@@ -81,9 +81,13 @@ svg {
 }
 
 .react-calendar__month-view__days__day.react-calendar__tile--now {
+	--date--bg: rgba(255, 255, 255, 0.4);
+	border-radius: 50%;
+}
+
+.react-calendar__month-view__days__day.has-event {
 	--date--bg: #00F0FF;
 	border-radius: 50%;
-	color: black;
 }
 
 .react-calendar__month-view__days__day--neighboringMonth {

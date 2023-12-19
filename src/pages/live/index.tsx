@@ -7,6 +7,8 @@ import { fetchData } from "@/base/base"
 import { ReactSVG } from "react-svg"
 import greenCheck from "public/images/green-check.svg"
 import close from "public/images/close.svg"
+import EventCard from "./event-card"
+import { IEvent } from "@/types/types"
 
 const buttons = [
 	{
@@ -45,59 +47,17 @@ const LivePage = () => {
 			</div>
 
 			<div className="grid grid-cols-3 gap-[48px] mt-[34px] text-sea">
-				{tabActive === 0 && isFinishFetchLives && allLives?.map((live, index) => (
-					<article key={index} className="rounded-[16px] overflow-hidden">
-						<Image className="w-full" src={live.thumbnail || "https://placehold.co/307x148"} width={307} height={148} alt={live.title} unoptimized />
-						<div className="p-[20px] bg-white flex flex-col gap-[14px]">
-							<h2 className="font-bold">{live.title} cùng {live.presenter}</h2>
-							<div>
-								<div>Ngày: <span className="font-bold">{new Date(live.startTime).toLocaleDateString("en-US")}</span></div>
-								<div>Giờ: <span className="font-bold">{new Date(live.startTime).getUTCHours()}h</span></div>
-							</div>
-							<div dangerouslySetInnerHTML={{__html: live.summary}}></div>
-
-							<div className="flex items-center justify-between gap-[16px] mt-[10px]">
-								<div>
-									<button
-										onClick={() => setModalOpen(true)} 
-										className="bg-white border-2 border-black rounded-full py-[11px] px-[22px] text-sea font-bold">
-											Chi tiết
-									</button>
-								</div>
-								<div>
-									<button
-										className="bg-cyan border-2 border-cyan rounded-full py-[11px] px-[22px] text-sea font-bold"
-										onClick={() => registerLive}
-									>
-										Đăng ký ngay
-									</button>
-								</div>
-							</div>
-						</div>
-					</article>
+				{tabActive === 0 && isFinishFetchLives && allLives?.map((live: IEvent, index: number) => (
+					<EventCard key={index} event={live} handleOpenModal={() => setModalOpen(true)} registerLive={registerLive} />
 				))}
 
-				{tabActive === 1 && isFinishFetchMyLives && myLives?.map((live, index) => (
-					<article key={index} className="rounded-[16px] overflow-hidden">
-						<Image className="w-full" src={live.thumbnail || "https://placehold.co/307x148"} width={307} height={148} alt={live.title} unoptimized />
-						<div className="p-[20px] bg-white flex flex-col gap-[14px]">
-							<h2 className="font-bold">{live.title} cùng {live.presenter}</h2>
-							<div>
-								<div>Ngày: <span className="font-bold">{new Date(live.startTime).toLocaleDateString("en-US")}</span></div>
-								<div>Giờ: <span className="font-bold">{new Date(live.startTime).getUTCHours()}h</span></div>
-							</div>
-							<div dangerouslySetInnerHTML={{__html: live.summary}}></div>
-
-							<div className="flex items-center gap-[10px] mt-[10px]">
-								<ReactSVG src={greenCheck["src"]} />
-								<span className="font-bold text-[#12C024]">Đăng ký thành công</span>
-							</div>
-						</div>
-					</article>
+				{tabActive === 1 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
+					<EventCard key={index} event={live} isSuccess={true} />
 				))}
 			</div>
 		</div>
-		<RouteBox />
+
+		<RouteBox isPersonal={tabActive === 1} />
 	</div>
 
 	{modalOpen && <>
