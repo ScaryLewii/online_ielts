@@ -98,16 +98,6 @@ const SideNav = observer(() => {
 								<ReactSVG src={nav.icon["src"]} className="fill-white absolute -left-[35px]" />
 								{nav.label}
 							</Link>
-
-							{nav.children &&
-								<ul className={`${nav.children.some(n => n.url === router.asPath) ? "block" : "hidden"}`}>
-									{nav.children.map(navChild =>
-										<li key={nanoid()} className="sidenav-child__item">
-											<Link href={navChild.url} className={`sidenav-child__link hover:text-cyan ${getActiveClass(navChild.url)}`}>{navChild.label}</Link>
-										</li>
-									)}
-								</ul>
-							}
 						</li>
 					)}
 				</ul>
