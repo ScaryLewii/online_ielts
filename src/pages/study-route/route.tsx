@@ -123,7 +123,7 @@ const Route = () => {
 				</button>
 			</div>
 
-			{choice === 1 && 
+			{choice === 1 && allCourses &&
 				<div className="w-1/2 grid grid-cols-2 gap-[33px] pl-[60px]">
 					{allCourses.sort((a, b) => a.categoryId - b.categoryId)
 						.map((c: ICourse, index) => (
