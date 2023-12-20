@@ -40,7 +40,7 @@ const LivePage = () => {
 	return <div className="text-white relative z-[1] p-5 xl:p-10">
 		{isFinishFetchUserInfo &&
 			<div className="flex items-center gap-[20px] mb-[50px]">
-				<Image className="rounded-full border-2 border-cyan" alt="profile image"
+				<Image className="rounded-full border-2 border-cyan w-[85px] h-[85px]" alt="profile image"
 					width={85}
 					height={85}
 					src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} unoptimized={true}
