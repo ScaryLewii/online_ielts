@@ -1,5 +1,5 @@
 import { fetchData } from "@/base/base"
-import { useAllLivesQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
+import { useAllLivesQuery, useCoinQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { IEvent } from "@/types/types"
 import Image from "next/image"
@@ -28,6 +28,7 @@ const LivePage = () => {
 	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
 	const { isFetched: isFinishFetchLives, data: allLives } = useAllLivesQuery(context.cookies.get())
 	const { isFetched: isFinishFetchMyLives, data: myLives } = useMyLivesQuery(context.cookies.get())
+	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
 
 	const [tabActive, setTabActive] = useState(0)
 	const [modalOpen, setModalOpen] = useState(false)
@@ -38,7 +39,7 @@ const LivePage = () => {
 	}
 
 	return <div className="text-white relative z-[1] p-5 xl:p-10">
-		{isFinishFetchUserInfo &&
+		{isFinishFetchUserInfo && userInfo &&
 			<div className="flex items-center gap-[20px] mb-[50px]">
 				<Image className="rounded-full border-2 border-cyan w-[85px] h-[85px]" alt="profile image"
 					width={85}
@@ -48,19 +49,22 @@ const LivePage = () => {
 
 				<div className="flex flex-col gap-[10px]">
 					<h2 className="font-semibold text-[22px] capitalize">{/\s+/.test(userInfo.displayName) ? userInfo.userName : userInfo.displayName}</h2>
-					<div className="flex gap-[42px] items-center mt-[16px]">
-						<span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>
 
-						<div className="inline-flex items-center gap-[12px]">
-							<ReactSVG src={coin["src"]} />
-							<span>999</span>
-						</div>
+					{isFinishFetchCoin && myCoin &&
+						<div className="flex gap-[42px] items-center mt-[16px]">
+							<span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>
 
-						<div className="inline-flex items-center gap-[12px]">
-							<ReactSVG src={silver["src"]} />
-							<span>99</span>
+							<div className="inline-flex items-center gap-[12px]">
+								<ReactSVG src={coin["src"]} />
+								<span>{myCoin.pCoin}</span>
+							</div>
+
+							<div className="inline-flex items-center gap-[12px]">
+								<ReactSVG src={silver["src"]} />
+								<span>{myCoin.fCoin}</span>
+							</div>
 						</div>
-					</div>
+					}
 				</div>
 			</div>
 		}

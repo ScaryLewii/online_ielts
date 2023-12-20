@@ -207,3 +207,16 @@ export const useLiveQuery = (id: number, cookies: any) => {
 		staleTime: Infinity
 	})
 }
+
+const fetchCoin = async (cookies: any) => {
+	const coin = await fetchData(`coins/my-coins`, "GET", cookies)
+	return coin.data
+}
+export const useCoinQuery = (cookies: any) => {
+	return useQuery({
+		queryKey: ['coin'],
+		queryFn: () => fetchCoin(cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}

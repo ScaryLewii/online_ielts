@@ -15,9 +15,9 @@ const EventCard = ({event, handleOpenModal, registerLive, isSuccess}:
 	return (
 		<>
 		{event &&
-			<article className="rounded-[16px] overflow-hidden">
+			<article className="rounded-[16px] overflow-hidden bg-white">
 				<Image className="w-full" src={event.thumbnail || "https://placehold.co/307x148"} width={307} height={148} alt={event.title} unoptimized />
-				<div className="p-[20px] bg-white flex flex-col gap-[14px]">
+				<div className="p-[20px] flex flex-col gap-[14px]">
 					<h2 className="font-bold">{event.title} cùng {event.presenter}</h2>
 					<div>
 						<div>Ngày: <span className="font-bold">{new Date(event.startTime).toLocaleDateString("en-US")}</span></div>

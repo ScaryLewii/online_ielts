@@ -74,7 +74,7 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 					</h2>
 					<div className="flex items-center gap-[20px]">
 						<ReactSVG src={calendar["src"]} />
-						<span className="font-bold text-[14px]">{moment(activeEvent.startTime).format("DD/MM/YYYY")} - {moment(activeEvent.startTime).format("HH")}h</span>
+						<span className="font-bold text-[14px]">{moment(activeEvent.startTime).format("DD/MM/YYYY")} - {new Date(activeEvent.startTime).getUTCHours()}h</span>
 					</div>
 					<div className="flex items-center gap-[20px]">
 						<ReactSVG src={social["src"]} />

@@ -1,4 +1,4 @@
-import { useCategoriesQuery, useCoursesQuery, useUserInfoQuery } from "@/base/query"
+import { useCategoriesQuery, useCoinQuery, useCoursesQuery, useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { ICategory, ICourse, IUnit } from "@/types/types"
 import { nanoid } from "nanoid"
@@ -54,6 +54,7 @@ const Route = () => {
 	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
 	const { isFetched: isFinishFetchCategories, data: categories } = useCategoriesQuery(context.cookies.get())
 	const { isFetched: isFinishFetchCourses, data: courses } = useCoursesQuery(context.cookies.get())
+	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
 	
 	const [availableCategories, setAvailableCategories] = useState<ICategory[]>([])
 	const [choice, setChoice] = useState(0)
@@ -77,19 +78,21 @@ const Route = () => {
 						Hi {userInfo.displayName}, Happy learning
 					</div>
 
-					<div className="flex gap-[42px] items-center mt-[16px]">
-						<span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>
+					{isFinishFetchCoin && myCoin &&
+						<div className="flex gap-[42px] items-center mt-[16px]">
+							<span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>
 
-						<div className="inline-flex items-center gap-[12px]">
-							<ReactSVG src={coin["src"]} />
-							<span>0</span>
-						</div>
+							<div className="inline-flex items-center gap-[12px]">
+								<ReactSVG src={coin["src"]} />
+								<span>{myCoin.pCoin}</span>
+							</div>
 
-						<div className="inline-flex items-center gap-[12px]">
-							<ReactSVG src={silver["src"]} />
-							<span>50</span>
+							<div className="inline-flex items-center gap-[12px]">
+								<ReactSVG src={silver["src"]} />
+								<span>{myCoin.fCoin}</span>
+							</div>
 						</div>
-					</div>
+					}
 				</div>
 			}
 		</div>
