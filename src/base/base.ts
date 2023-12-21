@@ -26,7 +26,7 @@ export const fetchData = async (path: string, method: string, cookies: any) => {
 	if (request.status === 401) {
 		// fetchDataNoToken(path, method)
 		console.log('please login again ' + path)
-		window.location.assign('https://ant-edu.ai/auth/login')
+		// window.location.assign('https://ant-edu.ai/auth/login')
 		return
 	}
 

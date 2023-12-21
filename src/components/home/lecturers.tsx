@@ -1,6 +1,6 @@
 import Image from "next/image"
-import lecturer1 from "../../../public/dump/lecturer-1.svg"
-import lecturer2 from "../../../public/dump/lecturer-2.svg"
+import lecturer1 from "public/dump/lecturer-2.jpg"
+import lecturer2 from "public/dump/lecturer-2.svg"
 
 interface ILecturer {
 	name: string,
@@ -9,12 +9,16 @@ interface ILecturer {
 	imgUrl: string
 }
 
+
 const LecturerData: ILecturer[] = [
 	{
-		name: "Mr. Arkadius Kalinowski (Arek K)",
-		title: "Thạc sỹ Ngôn ngữ Anh, University of Gdansk / University of Hamburg (Erasmus+)",
+		name: "Ms. Linh Phương Nguyễn",
+		title: "Thạc sỹ Quản trị Kinh doanh, Đại học Kymenlaakso, Phần Lan",
 		imgUrl: lecturer1,
-		description: "<ul><li>Cử nhân Khoa học Chính trị: Công dân và Giáo dục Công dân, Angelus Silesius University of Applied Sciences</li><li>Chứng chỉ Giảng viên Quốc tế, Hellebaek Friskole / One World Foundation</li><li>Chứng chỉ TESOL về giảng dạy ngoại ngữ</li><li>Đã từng giảng dạy và làm việc nhiều dự án tại Châu Âu và Singapore, Việt Nam,...</li></ul>"
+		description: `<ul>
+			<li>Cử nhân Quản trị Kinh doanh, Đại học Kymenlaakso, Phần Lan</li><li>IELTS 8.5</li><li>Hơn 10 năm kinh nghiệm giảng dạy Ngoại ngữ</li><li>Tham gia các nghiên cứu khoa học đề tài cấp Tỉnh Vĩnh Phúc, Lào Cai, đề tài cấp Bộ</li>
+			<li>Tham gia và phụ trách giảng dạy các chương trình liên kết đào tạo Quốc tế của Học viện Tài chính</li>
+		</ul>`
 	},
 	{
 		name: "Mr. Long Nguyễn",
