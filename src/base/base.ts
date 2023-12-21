@@ -1,5 +1,5 @@
-// export const baseUrl = "https://apitest.ant-edu.ai/api/"
-export const baseUrl = "https://localhost:5001/api/"
+export const baseUrl = "https://apitest.ant-edu.ai/api/"
+// export const baseUrl = "https://localhost:5001/api/"
 
 export const getHeaderAuth = (cookies: any) => {
 	return { 
@@ -26,7 +26,7 @@ export const fetchData = async (path: string, method: string, cookies: any) => {
 	if (!request.ok || request.status === 401) {
 		// fetchDataNoToken(path, method)
 		console.log('please login again ' + path)
-		// window.location.assign('https://ant-edu.ai/auth/login')
+		window.location.assign('https://ant-edu.ai/auth/login')
 		return
 	}
 
