@@ -29,7 +29,7 @@ export const useCategoriesQuery = (cookies: any) => {
 const fetchCourses = async (cookies: any) => {
 	const _coursesArray: any = []
 	const courses = await fetchData("courses?Page=1&PageSize=100", "GET", cookies)
-	courses && courses.data && courses.data.map((c: any) => {
+	courses && courses.data.items && courses.data.items.map((c: any) => {
 		const data = {
 			...c.course,
 			isComplete: c.userCourse.completed
