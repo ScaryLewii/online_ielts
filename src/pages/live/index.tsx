@@ -86,7 +86,7 @@ const LivePage = () => {
 
 				<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-[48px] mt-[34px] text-sea">
 					{tabActive === 0 && isFinishFetchLives && isFinishFetchMyLives && allLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} handleOpenModal={() => setModalOpen(true)} registerLive={registerLive} isSuccess={myLives?.some(l => l.id === live.id)} />
+						<EventCard key={index} event={live} handleOpenModal={() => setModalOpen(true)} registerLive={registerLive} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
 					))}
 
 					{tabActive === 1 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
