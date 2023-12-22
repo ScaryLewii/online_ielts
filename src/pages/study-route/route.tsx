@@ -1,150 +1,82 @@
-import { useCategoriesQuery, useCoinQuery, useCoursesQuery, useUserInfoQuery } from "@/base/query"
+import { useCategoriesQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
-import { ICategory, ICourse, IUnit } from "@/types/types"
+import { ICategory } from "@/types/types"
 import { nanoid } from "nanoid"
-import Image from "next/image"
 import Link from "next/link"
-import coin from "public/images/coin.svg"
-import computer from "public/images/computer.svg"
-import hand from "public/images/hand.svg"
-import nextArrowBlue from "public/images/next-2-blue.svg"
-import nextArrow from "public/images/next-2.svg"
-import note from "public/images/note.svg"
-import silver from "public/images/silver.svg"
-import banner from "public/images/user-banner.png"
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { ReactSVG } from "react-svg"
+import icon1 from "public/dump/icon-1.svg"
+import icon2 from "public/dump/icon-2.svg"
+import icon3 from "public/dump/icon-3.svg"
+import routeMobile from "public/images/route-mobile.svg"
+import route from "public/images/route.svg"
 
-const colors = [
-	{
-		text: '#F09000',
-		bgc: '#FCE1A8'
-	},{
-		text: '#F09000',
-		bgc: '#FCE1A8'
-	},{
-		text: '#007DF0',
-		bgc: '#53CBED'
-	},{
-		text: '#007DF0',
-		bgc: '#53CBED'
-	},{
-		text: '#FF228B',
-		bgc: '#FF87C0'
-	},{
-		text: '#FF228B',
-		bgc: '#FF87C0'
-	},{
-		text: '#608200',
-		bgc: '#AFCD58'
-	},{
-		text: '#608200',
-		bgc: '#AFCD58'
-	},{
-		text: '#7B00DB',
-		bgc: '#CB87FF'
-	},{
-		text: '#7B00DB',
-		bgc: '#CB87FF'
-	}
-]
+const PlainContent = ({url}: {url: string}) => {
+	return <>
+		<div className="hidden md:flex items-center gap-2 mt-5 opacity-0 group-hover:opacity-100 whitespace-nowrap">
+			<Link href={url} className="px-5 py-2 border border-[#51C84E] rounded-full inline-flex gap-2 items-center">
+				<ReactSVG src={icon1["src"]} width={24} height={24} />
+				Lý thuyết
+			</Link>
+			<button className="px-5 py-2 border border-[#51C84E] rounded-full inline-flex gap-2 items-center">
+				<ReactSVG src={icon2["src"]} width={24} height={24} />
+				Luyện tập
+			</button>
+			<button className="px-5 py-2 border border-[#51C84E] rounded-full inline-flex gap-2 items-center">
+				<ReactSVG src={icon3["src"]} width={24} height={24} />
+				Ứng dụng
+			</button>
+		</div>
+	</>
+}
 
 const Route = () => {
 	const context = useContext(GlobalContext)
-	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
-	const { isFetched: isFinishFetchCategories, data: categories } = useCategoriesQuery(context.cookies.get())
-	const { isFetched: isFinishFetchCourses, data: courses } = useCoursesQuery(context.cookies.get())
-	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
-	
-	const [availableCategories, setAvailableCategories] = useState<ICategory[]>([])
-	const [choice, setChoice] = useState(0)
-	const [allCourses, setAllCourses] = useState<ICourse[]>([])
+	const allCategories = useCategoriesQuery(context.cookies.get()).data as ICategory[]
 
-	useEffect(() => {
-		if (isFinishFetchCourses && isFinishFetchCategories && typeof window !== undefined) {
-			setAvailableCategories(categories.filter((cat : ICategory) => courses?.some((course: ICourse) => course.categoryId === cat.id)))
-			setAllCourses(courses)
+	const Items = [
+		{
+			color: "text-light",
+			position: "md:top-[45px] md:left-[250px]",
+			positionMb: "top-[8px] left-[135px]"
+		},
+		{
+			color: "text-[#53CBED]",
+			position: "md:top-[285px] md:left-[100px] md:flex flex-col items-end",
+			positionMb: "top-[130px] left-[135px]"
+		},
+		{
+			color: "text-[#FF64AE]",
+			position: "md:top-[520px] md:left-[200px]",
+			positionMb: "top-[285px] left-[135px]"
+		},
+		{
+			color: "text-[#AFCD58]",
+			position: "md:top-[765px] md:left-[80px] md:flex flex-col items-end",
+			positionMb: "top-[423px] left-[135px]"
+		},
+		{
+			color: "text-[#AE59F0]",
+			position: "md:top-[1030px] md:left-[420px]",
+			positionMb: "top-[568px] left-[135px]"
+		},
+	]
+
+	return <div className="relative">
+		<ReactSVG className="hidden md:block" src={route['src']} />
+		<ReactSVG className="block md:hidden" src={routeMobile['src']} />
+		{ allCategories && 
+			allCategories.map((cat: ICategory, index: number) => {
+				if (cat.active) {
+					return (
+						<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].positionMb} ${Items[index].position}`}>
+							<Link href={`/categories/${cat.id}`} className={`${Items[index].color} font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
+							<PlainContent url={`/categories/${cat.id}`} />
+						</div>
+					)
+				}
+			})
 		}
-
-	}, [categories, courses, isFinishFetchCategories, isFinishFetchCourses])
-
-	return <div>
-		<div className="relative">
-			<Image src={banner} width={1039} height={137} alt="route banner" />
-			{isFinishFetchUserInfo && userInfo &&
-				<div className="absolute left-[56px] top-1/2 -translate-y-1/2">
-					<div className="flex items-center gap-4 font-semibold text-[22px]">
-						<ReactSVG src={hand["src"]} />
-						Hi {userInfo.displayName}, Happy learning
-					</div>
-
-					{isFinishFetchCoin && myCoin &&
-						<div className="flex gap-[42px] items-center mt-[16px]">
-							<span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>
-
-							<div className="inline-flex items-center gap-[12px]">
-								<ReactSVG src={coin["src"]} />
-								<span>{myCoin.pCoin}</span>
-							</div>
-
-							<div className="inline-flex items-center gap-[12px]">
-								<ReactSVG src={silver["src"]} />
-								<span>{myCoin.fCoin}</span>
-							</div>
-						</div>
-					}
-				</div>
-			}
-		</div>
-
-		<div className="flex mt-[40px]">
-			<div className="flex flex-col gap-[30px] w-1/2">
-				<button className="flex items-center justify-between w-full bg-white text-[#F4754C] rounded-[16px] p-[20px]"
-					onClick={() => setChoice(1)}
-				>
-					<div className="flex items-center">
-						<ReactSVG src={computer["src"]} />
-						<div className="flex flex-col gap-[10px] text-left items-start ml-[20px]">
-							<span className="font-semibold">Khóa học của tôi</span>
-							<span className="italic">{availableCategories.length} khóa học</span>
-						</div>
-					</div>
-					<ReactSVG src={nextArrow["src"]} />
-				</button>
-
-				<button className="flex items-center justify-between w-full bg-white text-sea rounded-[16px] p-[20px]"
-					onClick={() => setChoice(2)}
-				>
-					<div className="flex items-center">
-						<ReactSVG src={note["src"]} />
-						<div className="flex flex-col gap-[10px] text-left items-start ml-[20px]">
-							<span className="font-semibold">IELTS Speaking Test</span>
-							<span className="italic">5 lượt</span>
-						</div>
-					</div>
-					<ReactSVG src={nextArrowBlue["src"]} />
-				</button>
-			</div>
-
-			{choice === 1 && allCourses &&
-				<div className="w-1/2 grid grid-cols-2 gap-[33px] pl-[60px]">
-					{allCourses.sort((a, b) => a.categoryId - b.categoryId)
-						.map((c: ICourse, index) => (
-							<Link href={'/categories/' + c.categoryId} key={nanoid()} className="block rounded-[16px] overflow-hidden">
-								<div className="flex flex-col items-center py-[23px]" style={{backgroundColor: colors[index]?.bgc}}>
-									<span className="font-bold opacity-20 text-[50px]" style={{color: colors[index]?.text}}>0{availableCategories.find(cat => cat.id === c.categoryId)?.name.split(":")[0].slice(-1)}</span>
-									<span className="font-bold text-[24px] mt-[-20px]" style={{color: colors[index]?.text}}>{availableCategories.find(cat => cat.id === c.categoryId)?.name.split(":").pop()}</span>
-								</div>
-								<div className="flex flex-col gap-[6px] pt-[8px] pb-[13px] px-[25px] bg-white bg-opacity-20">
-									<span className="capitalize font-semibold text-[14px]">{c.name}</span>
-									<span>{context.units.get().filter((u: IUnit) => u.courseId === c.id).length} bài học</span>
-								</div>
-							</Link>
-						)
-					)}
-				</div>
-			}
-		</div>
 	</div>
 }
 

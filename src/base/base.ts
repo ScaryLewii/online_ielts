@@ -1,5 +1,5 @@
-export const baseUrl = "https://apitest.ant-edu.ai/api/"
-// export const baseUrl = "https://localhost:5001/api/"
+// export const baseUrl = "https://apitest.ant-edu.ai/api/"
+export const baseUrl = "https://localhost:5001/api/"
 
 export const getHeaderAuth = (cookies: any) => {
 	return { 

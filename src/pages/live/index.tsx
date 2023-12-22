@@ -8,7 +8,7 @@ import coin from "public/images/coin.svg"
 import silver from "public/images/silver.svg"
 import { useContext, useState } from "react"
 import { ReactSVG } from "react-svg"
-import RouteBox from "../study-route/box"
+import RouteBox from "../all-courses/box"
 import EventCard from "./event-card"
 
 const buttons = [
@@ -34,7 +34,9 @@ const LivePage = () => {
 	const [modalOpen, setModalOpen] = useState(false)
 
 	const registerLive = async (id: number) => {
-		await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
+		console.log('first')
+		const data = await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
+		console.log(data)
 		setTabActive(1)
 	}
 
@@ -69,7 +71,7 @@ const LivePage = () => {
 			</div>
 		}
 
-		<div className="flex gap-[60px] 4xl:gap-[100px] w-full items-start md:justify-between">
+		<div className="flex gap-[60px] 4xl:gap-[100px] w-full items-start md:flex-col lg:flex-row xl:justify-between">
 			<div>
 				<h1 className="font-bold text-[24px] text-white border-l-[7px] border-cyan pl-[13px] mb-[20px]">Danh mục sự kiện</h1>
 			
@@ -82,9 +84,9 @@ const LivePage = () => {
 						</button>)}
 				</div>
 
-				<div className="grid grid-cols-3 gap-[48px] mt-[34px] text-sea">
-					{tabActive === 0 && isFinishFetchLives && allLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} handleOpenModal={() => setModalOpen(true)} registerLive={registerLive} />
+				<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-[48px] mt-[34px] text-sea">
+					{tabActive === 0 && isFinishFetchLives && isFinishFetchMyLives && allLives?.map((live: IEvent, index: number) => (
+						<EventCard key={index} event={live} handleOpenModal={() => setModalOpen(true)} registerLive={registerLive} isSuccess={myLives?.some(l => l.id === live.id)} />
 					))}
 
 					{tabActive === 1 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (

@@ -8,7 +8,7 @@ const EventCard = ({event, handleOpenModal, registerLive, isSuccess}:
 	{
 		event: IEvent,
 		handleOpenModal?: (value: SetStateAction<boolean>) => void,
-		registerLive?: (id: number) => Promise<void>,
+		registerLive?: any,
 		isSuccess?: boolean
 	}
 ) => {
@@ -25,8 +25,8 @@ const EventCard = ({event, handleOpenModal, registerLive, isSuccess}:
 					</div>
 					<div dangerouslySetInnerHTML={{__html: event.summary}}></div>
 
-					{!!handleOpenModal && !!registerLive &&
-						<div className="flex items-center justify-between gap-[16px] mt-[10px]">
+					{!!handleOpenModal && !!registerLive && !isSuccess &&
+						<div className="flex flex-wrap items-center justify-between gap-[16px] mt-[10px]">
 							<div>
 								<button
 									onClick={() => handleOpenModal(true)} 
@@ -37,7 +37,7 @@ const EventCard = ({event, handleOpenModal, registerLive, isSuccess}:
 							<div>
 								<button
 									className="bg-cyan border-2 border-cyan rounded-full py-[11px] px-[22px] text-sea font-bold"
-									onClick={() => registerLive}
+									onClick={() => registerLive?.()}
 								>
 									Đăng ký ngay
 								</button>

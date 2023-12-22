@@ -1,11 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
-import course from "../../../public/images/course.svg"
-import exam from "../../../public/images/exam.svg"
-import interactive from "../../../public/images/interactive.svg"
-import live from "../../../public/images/live.svg"
-import review from "../../../public/images/review.svg"
-import logo from "../../../public/logo.svg"
+import course from "public/images/course.svg"
+import exam from "public/images/exam.svg"
+import interactive from "public/images/interactive.svg"
+import live from "public/images/live.svg"
+import review from "public/images/review.svg"
+import logo from "public/logo.svg"
 
 import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
@@ -90,6 +90,15 @@ const SideNav = observer(() => {
 							<ReactSVG src={course["src"]} className="fill-white absolute -left-[35px]" />
 							Lộ trình học của tôi
 						</Link>
+
+						<ul className="block">
+							<li className="sidenav-child__item">
+								<Link href="/study-route" className={`sidenav-child__link hover:text-cyan ${getActiveClass("/study-route")}`}>Lộ trình học</Link>
+							</li>
+							<li className="sidenav-child__item">
+								<Link href="/all-courses" className={`sidenav-child__link hover:text-cyan ${getActiveClass("/all-courses")}`}>Các khóa học</Link>
+							</li>
+						</ul>
 					</li>
 
 					{mainNav.map(nav =>
