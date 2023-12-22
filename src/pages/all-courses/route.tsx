@@ -114,7 +114,7 @@ const Route = () => {
 								</div>
 								<div className="flex flex-col gap-[6px] pt-[8px] pb-[13px] px-[25px] bg-white bg-opacity-20">
 									<span className="capitalize font-semibold text-[14px]">{c.name}</span>
-									<span>{context.units.get().filter((u: IUnit) => u.courseId === c.id).length} bài học</span>
+									<span>{context.units.get().filter((u: IUnit) => u?.courseId === c.id).length} bài học</span>
 								</div>
 							</Link>
 						)
