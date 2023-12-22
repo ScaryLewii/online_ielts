@@ -34,7 +34,7 @@ const LivePage = () => {
 	const [modalOpen, setModalOpen] = useState(false)
 
 	const registerLive = async (id: number) => {
-		await fetchData(`live-schedules/${id}/register`, "GET", context.cookies.get())
+		await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
 		setTabActive(1)
 	}
 
