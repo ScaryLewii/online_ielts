@@ -62,7 +62,7 @@ const Route = () => {
 
 	useEffect(() => {
 		if (isFinishFetchCourses && isFinishFetchCategories && typeof window !== undefined) {
-			setAvailableCategories(categories.filter((cat : ICategory) => courses.some((course: ICourse) => course.categoryId === cat.id)))
+			setAvailableCategories(categories.filter((cat : ICategory) => courses?.some((course: ICourse) => course.categoryId === cat.id)))
 			setAllCourses(courses)
 		}
 

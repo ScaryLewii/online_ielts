@@ -59,7 +59,7 @@ const SideNav = observer(() => {
 
 	useEffect(() => {
 		if (isFinishFetchCourses && isFinishFetchCategories && typeof window !== undefined) {
-			state.availableCategories.set(categories.filter((cat : ICategory) => courses.some((course: ICourse) => course.categoryId === cat.id)))
+			state.availableCategories.set(categories.filter((cat : ICategory) => courses?.some((course: ICourse) => course.categoryId === cat.id)))
 			return
 		}
 	}, [categories, courses, isFinishFetchCategories, isFinishFetchCourses, state.availableCategories])
