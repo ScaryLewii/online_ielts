@@ -1,9 +1,7 @@
-import { fetchData } from "@/base/base"
 import { useAllLivesQuery, useCoinQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { IEvent } from "@/types/types"
 import Image from "next/image"
-import close from "public/images/close.svg"
 import coin from "public/images/coin.svg"
 import silver from "public/images/silver.svg"
 import { useContext, useState } from "react"
@@ -31,14 +29,8 @@ const LivePage = () => {
 	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
 
 	const [tabActive, setTabActive] = useState(0)
-	const [modalOpen, setModalOpen] = useState(false)
 
-	const registerLive = async (id: number) => {
-		console.log('first')
-		const data = await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
-		console.log(data)
-		setTabActive(1)
-	}
+	console.log(allLives)
 
 	return <div className="text-white relative z-[1] p-5 xl:p-10">
 		{isFinishFetchUserInfo && userInfo &&
@@ -86,7 +78,7 @@ const LivePage = () => {
 
 				<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-[48px] mt-[34px] text-sea">
 					{tabActive === 0 && isFinishFetchLives && isFinishFetchMyLives && allLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} handleOpenModal={() => setModalOpen(true)} registerLive={registerLive} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
+						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
 					))}
 
 					{tabActive === 1 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
@@ -94,32 +86,13 @@ const LivePage = () => {
 					))}
 
 					{tabActive === 2 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} handleOpenModal={() => setModalOpen(true)} registerLive={registerLive} />
+						<EventCard key={index} event={live} />
 					))}
 				</div>
 			</div>
 
 			<RouteBox isPersonal={tabActive === 1} isFuture={tabActive === 2} />
 		</div>
-
-		{modalOpen && <>
-			<div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70" onClick={() => setModalOpen(false)}></div>
-			<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-				<Image src={"https://placehold.co/889x500"} unoptimized alt="" width={889} height={500} />
-				<button
-					className="absolute top-[10px] right-[10px] h-[20px] w-[20px] flex justify-center items-center"
-					onClick={() => setModalOpen(false)}
-				>
-					<ReactSVG src={close["src"]} />
-				</button>
-
-				<button
-					onClick={() => {registerLive;setModalOpen(false);setTabActive(1)}} 
-					className="rounded-full py-[10px] px-[22px] bg-[#12C024] absolute left-[50px] bottom-[50px]">
-					Đăng ký ngay
-				</button>
-			</div>
-		</>}
 	</div>
 }
 

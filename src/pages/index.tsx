@@ -1,4 +1,4 @@
-import { baseUrl, fetchData } from '@/base/base'
+import { fetchData } from '@/base/base'
 import Gtag from '@/components/common/gtag'
 import Banner from '@/components/home/banner'
 import ContactSection from '@/components/home/contact'

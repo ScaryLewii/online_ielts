@@ -83,7 +83,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 				</main>
 			</div>
 			
-			{state.isSessonValid.get() === false && <AlertModal />}
+			{state.isSessonValid.get() === false && <AlertModal type="LOGIN" />}
 		</GlobalContext.Provider>
 	)
 })

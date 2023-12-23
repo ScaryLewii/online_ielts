@@ -56,7 +56,7 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 	return <div className="max-w-[400px]">
 		{isPersonal && <h2 className="font-bold text-[24px] text-white border-l-[7px] border-cyan pl-[13px] mb-[20px]">Timeline của bạn</h2>}
 		{isFinishFetchLives &&
-			<Calendar className="bg-sea rounded-[10px] p-[20px] mb-[18px] border border-cyan"
+			<Calendar locale={"vi-VN"} className="bg-sea rounded-[10px] p-[20px] mb-[18px] border border-cyan"
 				onChange={setActiveDate} value={activeDate}
 				tileClassName={({ date, view }) => {
 					if (allEvents.find((x: IEvent) => moment(x.startTime).format("DD-MM-YYYY") === moment(date).format("DD-MM-YYYY"))) {
@@ -74,11 +74,11 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 					</h2>
 					<div className="flex items-center gap-[20px]">
 						<ReactSVG src={calendar["src"]} />
-						<span className="font-bold text-[14px]">{moment(activeEvent.startTime).format("DD/MM/YYYY")} - {new Date(activeEvent.startTime).getUTCHours()}h</span>
+						<span className="font-bold text-[14px]">{moment(activeEvent.startTime).format("DD/MM/YYYY")} - {new Date(activeEvent.startTime).getHours()}h</span>
 					</div>
 					<div className="flex items-center gap-[20px]">
 						<ReactSVG src={social["src"]} />
-						<Link href={activeEvent.joinRoomLink} target="_blank" className="italic text-[14px] text-cyan">{activeEvent.joinRoomLink || "updating..."}</Link>
+						<Link href={activeEvent.joinRoomLink || activeEvent.facebookEventLink} target="_blank" className="italic text-[14px] text-cyan">{activeEvent.joinRoomLink || activeEvent.facebookEventLink || "updating..."}</Link>
 					</div>
 				</div>
 			

@@ -161,7 +161,7 @@ export const useSubtitleQuery = (id: number, cookies: any) => {
 }
 
 const fetchAllLives = async (cookies: any) => {
-	const lives = await fetchData(`live-schedules`, "GET", cookies)
+	const lives = await fetchData(`live-schedules?Page=1&PageSize=9`, "GET", cookies)
 	return lives.data
 }
 export const useAllLivesQuery = (cookies: any) => {

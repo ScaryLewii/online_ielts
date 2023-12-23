@@ -13,6 +13,7 @@ import { ReactSVG } from "react-svg"
 import CourseDropdown from "./dropdown"
 import courseIcon from "public/images/course.svg"
 import examIcon from "public/images/exam.svg"
+import nextArrow from "public/images/next-2.svg"
 
 const colors = [
 	{
@@ -100,7 +101,19 @@ const Route = () => {
 			<span className="text-[#F4754C] lg:text-[#93D3E6] bg-[#F4754C] lg:bg-[#93D3E6]"></span>
 			<div className="flex flex-col gap-[30px] w-1/2">
 				<CourseDropdown iconSrc={courseIcon["src"]} activeColor="#F4754C" number={availableCategories.length} text1="Khóa học của tôi" text2="khóa học" handleClick={() => setChoice(1)} handleItemClick={() => setChoice(1)} />
-				<CourseDropdown iconSrc={examIcon["src"]} activeColor="#93D3E6" number={5} text1="IELTS Speaking Test" text2="lượt" handleClick={() => setChoice(2)} />
+				
+				<Link href="/exam" className="flex items-center justify-between w-full rounded-[16px] p-[20px] text-[#93D3E6] bg-white">
+					<div className="flex items-center">
+						<div className="w-[60px] h-[60px] rounded-[16px] flex items-center justify-center bg-[#93D3E6] fill-white">
+							<ReactSVG src={examIcon["src"]} />
+						</div>
+						<div className="flex flex-col gap-[10px] text-left items-start ml-[20px] text-sea">
+							<span className="font-semibold">IELTS Speaking Test</span>
+							<span className="italic">5 lượt</span>
+						</div>
+					</div>
+					<ReactSVG src={nextArrow["src"]} />
+				</Link>
 			</div>
 
 			{choice === 1 && allCourses &&

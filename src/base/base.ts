@@ -1,5 +1,4 @@
-export const baseUrl = "https://apitest.ant-edu.ai/api/"
-// export const baseUrl = "https://localhost:5001/api/"
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 export const getHeaderAuth = (cookies: any) => {
 	return { 
@@ -17,7 +16,7 @@ export const fetchData = async (path: string, method: string, cookies: any) => {
 	if (cookies) {
 		data.headers = getHeaderAuth(cookies)
 	}
-	
+
 	const request = await fetch(
 		baseUrl + path,
 		data
@@ -51,11 +50,9 @@ export const postData = async (path: string, cookies: any, body: object = {}) =>
 	if (!request.ok || request.status === 401) {
 		console.log(request)
 		console.log('please login again' + path)
-		// postDataNoToken(path, body)
 		return
 	}
 	
 	const result = await request.text()
-	
 	return JSON.parse(result)
 }
