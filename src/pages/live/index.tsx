@@ -30,8 +30,6 @@ const LivePage = () => {
 
 	const [tabActive, setTabActive] = useState(0)
 
-	console.log(allLives)
-
 	return <div className="text-white relative z-[1] p-5 xl:p-10">
 		{isFinishFetchUserInfo && userInfo &&
 			<div className="flex items-center gap-[20px] mb-[50px]">

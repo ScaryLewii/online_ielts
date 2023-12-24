@@ -30,7 +30,11 @@ export const fetchData = async (path: string, method: string, cookies: any) => {
 	}
 
 	const result = await request.text()
-	return JSON.parse(result)
+	if (result) {
+		return JSON.parse(result)
+	}
+
+	return {}
 }
 
 export const postData = async (path: string, cookies: any, body: object = {}) => {
@@ -54,5 +58,9 @@ export const postData = async (path: string, cookies: any, body: object = {}) =>
 	}
 	
 	const result = await request.text()
-	return JSON.parse(result)
+	if (result) {
+		return JSON.parse(result)
+	}
+
+	return {}
 }

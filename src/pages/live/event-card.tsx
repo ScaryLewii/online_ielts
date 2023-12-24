@@ -21,7 +21,7 @@ const EventCard = ({event, isSuccess}:
 
 	const registerLive = async (id: number) => {
 		const data = await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
-		if (data.errors[0].code === 1) {
+		if (data.errors && data.errors[0].code === 1) {
 			setIsRoomFull(true)
 			return
 		}
@@ -35,7 +35,7 @@ const EventCard = ({event, isSuccess}:
 			<article className="rounded-[16px] overflow-hidden bg-white">
 				<Image className="w-full" src={event.thumbnail || "https://placehold.co/307x148"} width={307} height={148} alt={event.title} unoptimized />
 				<div className="p-[20px] flex flex-col gap-[14px]">
-					<h2 className="font-bold">{event.title} cùng {event.presenter}</h2>
+					<h2 className="font-bold cursor-pointer" onClick={() => setModalOpen(true)}>{event.title} cùng {event.presenter}</h2>
 					<div>
 						<div>Ngày: <span className="font-bold">{new Date(event.startTime).toLocaleDateString("en-US")}</span></div>
 						<div>Giờ: <span className="font-bold">{new Date(event.startTime).getHours()}h - {new Date(event.endTime).getHours()}h</span></div>
@@ -81,19 +81,49 @@ const EventCard = ({event, isSuccess}:
 		{event && modalOpen && <>
 			<div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70" onClick={() => setModalOpen(false)}></div>
 			<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-				<Image src={"https://placehold.co/889x500"} unoptimized alt="" width={889} height={500} />
+				<Image src={event.thumbnail || "https://placehold.co/889x500"} className="absolute top-0 left-0 w-full h-full object-cover" unoptimized alt="" width={889} height={500} />
+
 				<button
-					className="absolute top-[10px] right-[10px] h-[20px] w-[20px] flex justify-center items-center"
+					className="absolute top-[10px] right-[10px] h-[20px] w-[20px] z-20 flex justify-center items-center cursor-pointer"
 					onClick={() => setModalOpen(false)}
 				>
 					<ReactSVG src={close["src"]} />
 				</button>
 
-				<button
-					onClick={() => {registerLive(event.id);setModalOpen(false);}} 
-					className="rounded-full py-[10px] px-[22px] bg-[#12C024] absolute left-[50px] bottom-[50px]">
-					Đăng ký ngay
-				</button>
+				<div className="w-full h-full py-[40px] px-[60px] z-10 relative">
+					{event.liveScheduleConditions.length < 1 &&
+						<span className="text-[#12C024] border border-[#12C024] rounded-[10px] p-[10px]">
+							Sự kiện miễn phí
+						</span>
+					}
+
+					<h2 className="text-[28px] text-white mt-[12px] mb-[55px]">{event.title}</h2>
+
+					<div className="italic text-[12px] text-white" dangerouslySetInnerHTML={{__html: event.description}}></div>
+
+					<div className="flex gap-[13px] text-[16px] text-white mt-[30px] mb-[55px]">
+						<span>{new Date(event.startTime).toLocaleDateString("en-US")}</span>
+						<span>|</span>
+						<span>{new Date(event.startTime).getHours()}h - {new Date(event.endTime).getHours()}h</span>
+						<span>|</span>
+						<span>Online: {event.platform}</span>
+					</div>
+
+					{(isSuccess || isRegistered) &&
+						<div className="flex items-center gap-[10px] mt-[10px]">
+							<ReactSVG src={greenCheck["src"]} />
+							<span className="font-bold text-[#12C024]">Đăng ký thành công</span>
+						</div>
+					}
+
+					{!isSuccess &&
+						<button
+							onClick={() => {registerLive(event.id);setModalOpen(false);}} 
+							className="rounded-full py-[10px] px-[22px] bg-[#12C024]">
+							Đăng ký ngay
+						</button>
+					}
+				</div>
 			</div>
 		</>
 		}
