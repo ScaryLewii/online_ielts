@@ -2,6 +2,7 @@ import { fetchData } from "@/base/base"
 import AlertModal from "@/components/common/alert-modal"
 import { GlobalContext } from "@/context/context"
 import { IEvent } from "@/types/types"
+import moment from "moment"
 import Image from "next/image"
 import close from "public/images/close.svg"
 import greenCheck from "public/images/green-check.svg"
@@ -37,7 +38,7 @@ const EventCard = ({event, isSuccess}:
 				<div className="p-[20px] flex flex-col gap-[14px]">
 					<h2 className="font-bold cursor-pointer" onClick={() => setModalOpen(true)}>{event.title} cùng {event.presenter}</h2>
 					<div>
-						<div>Ngày: <span className="font-bold">{new Date(event.startTime).toLocaleDateString("en-US")}</span></div>
+						<div>Ngày: <span className="font-bold">{moment(event.startTime).format("DD-MM-YYYY")}</span></div>
 						<div>Giờ: <span className="font-bold">{new Date(event.startTime).getHours()}h - {new Date(event.endTime).getHours()}h</span></div>
 					</div>
 					<div dangerouslySetInnerHTML={{__html: event.summary}}></div>
