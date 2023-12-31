@@ -62,12 +62,12 @@ const QuizContent = observer(function Component() {
 		</div>
 		<QuizContext.Provider value={state}>
 			<div className="p-5 xl:p-10 xl:pt-0 relative z-[1]">
-				{state.questions.get().map((c: IQuestion) =>
-					<>
+				{state.questions.get().map((c: IQuestion, index) =>
+					<div key={index}>
 						{c.type === "SingleChoice" && <RadioGroup key={nanoid()} questionContent={c} />}
 						{c.type === "MutipleChoice" && <CheckboxGroup key={nanoid()} questionContent={c} />}
 						{c.type === "FillTheBlank" && <InputGroup key={nanoid()} questionContent={c} />}
-					</>
+					</div>
 				)}
 			</div>
 			<QuizNav id={quizId} content={state.questions.get()} />

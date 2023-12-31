@@ -25,14 +25,11 @@ const QuizNav = observer(({id, content}: QuizNavContent) => {
 
 	if (quizContext.userAnswers?.get()) {
 		state.userAnswer.set(quizContext.userAnswers?.get())
-		console.log(state.userAnswer.get())
 	}
 
 	const handleSubmit = () => {
 		// debug
 		// quizContext.isSubmit.set(true)
-		console.log(quizContext.answers.get())
-		console.log(quizContext.userAnswers.get().length)
 		if (quizContext.answers.get().length === quizContext.userAnswers.get().length) {
 			quizContext.isSubmit.set(true)
 

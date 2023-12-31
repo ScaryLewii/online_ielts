@@ -41,15 +41,11 @@ const CourseContent = observer(() => {
 
 	return <div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
 		<CourseContext.Provider value={state}>
-			<div>
-				<div className="w-full lg:w-auto lg:min-w-[550px] border border-white py-5 px-5">
-					{courses?.map((course: ICourse) => 
-						<CourseBox key={nanoid()} courseId={course.id} />
-					)}
-				</div>
+			<div className="w-full lg:w-auto lg:min-w-[550px] border border-white py-5 px-5">
+				{courses?.map((course: ICourse) => 
+					<CourseBox key={nanoid()} courseId={course.id} />
+				)}
 			</div>
-		</CourseContext.Provider>
-		<CourseContext.Provider value={state}>
 			<div className=" xl:max-w-[450px]">
 				<CourseInfo />
 			</div>

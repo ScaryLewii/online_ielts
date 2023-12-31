@@ -1,7 +1,9 @@
+"use client"
+
 import { useUserInfoQuery } from "@/base/query"
 import { CourseContext, GlobalContext } from "@/context/context"
 import { ICourse, ILesson, ILessonProgress, IUser } from "@/types/types"
-import { observer, useObservable } from "@legendapp/state/react"
+import { useObservable } from "@legendapp/state/react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { useContext, useEffect } from "react"
@@ -11,7 +13,7 @@ import arrow from "../../../public/images/arrow-right.svg"
 import hat from "../../../public/images/hat.svg"
 import pin2 from "../../../public/images/pin2.svg"
 
-const CourseInfo = observer(() => {
+const CourseInfo = () => {
 	const router = useRouter()
 	const globalContext = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
@@ -92,6 +94,6 @@ const CourseInfo = observer(() => {
 			<ReactSVG src={arrow["src"]} width={16} height={11} className="fill-black" />
 		</button>
 	</>
-})
+}
 
 export default CourseInfo
