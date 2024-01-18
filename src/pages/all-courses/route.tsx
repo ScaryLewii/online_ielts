@@ -5,6 +5,7 @@ import { nanoid } from "nanoid"
 import Image from "next/image"
 import Link from "next/link"
 import coin from "public/images/coin.svg"
+import lock from "public/images/lock-icon.svg"
 import hand from "public/images/hand.svg"
 import silver from "public/images/silver.svg"
 import banner from "public/images/user-banner.png"
@@ -127,7 +128,10 @@ const Route = () => {
 								</div>
 								<div className="flex flex-col gap-[6px] pt-[8px] pb-[13px] px-[25px] bg-white bg-opacity-20">
 									<span className="capitalize font-semibold text-[14px]">{c.name}</span>
-									<span>{context.units.get().filter((u: IUnit) => u?.courseId === c.id).length} bài học</span>
+									<span className="flex items-center gap-1">
+										{c.isLocked && <ReactSVG src={lock["src"]} />}
+										{context.units.get().filter((u: IUnit) => u?.courseId === c.id).length} bài học
+									</span>
 								</div>
 							</Link>
 						)

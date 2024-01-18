@@ -37,6 +37,7 @@ export interface ILesson {
 	timeLength: number
 	type: string
 	videoUrl: string
+	isLocked: boolean
 }
 
 export interface IQuiz {
@@ -81,7 +82,9 @@ export interface ICourse {
 	slug: string,
 	introVideo: string,
 	description: string,
-	isComplete: boolean
+	isComplete: boolean,
+	isLocked: boolean,
+	isOwned: boolean,
 }
 
 

@@ -2,6 +2,7 @@ import Image from "next/image"
 import { useContext, useEffect, useState } from "react"
 import chevron from "../../../public/images/chevron.svg"
 import playIcon from "../../../public/images/play.svg"
+import lock from "public/images/lock-icon.svg"
 
 import { useLessonsQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
@@ -9,6 +10,7 @@ import { nanoid } from "nanoid"
 import Link from "next/link"
 import { ILesson, IUnit } from "../../types/types"
 import QuizLink from "./quiz-link"
+import { ReactSVG } from "react-svg"
 interface IUnitBlock {
 	unit: IUnit,
 	courseId: number
@@ -41,11 +43,22 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 		<ul className={`${isExpanded ? "block mb-5" : "hidden"}`}>
 			{lessons?.map(l => 
 				<li key={nanoid()} data-lesson-id={l.id} data-video={l.videoUrl} className="list-none flex items-center justify-between pl-10 pr-3">
-					<Link href={`/courses/${l.courseId}/lessons/${l.id}`}
-						className="flex items-center gap-5 my-2">
+					{!l.isLocked &&
+						<Link href={`/courses/${l.courseId}/lessons/${l.id}`}
+							className="flex items-center gap-5 my-2">
+								{l.type === "video" && <Image src={playIcon} width={24} height={24} alt="video" />}
+								{l.name}
+						</Link>
+					}
+					{l.isLocked &&
+						<div className="flex items-center gap-5 my-2 relative">
 							{l.type === "video" && <Image src={playIcon} width={24} height={24} alt="video" />}
 							{l.name}
-					</Link>
+							<span className="absolute -right-10 top-1/2 -translate-y-1/2 opacity-40">
+								<ReactSVG src={lock["src"]} />
+							</span>
+						</div>
+					}
 				</li>
 			)}
 
