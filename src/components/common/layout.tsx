@@ -11,6 +11,7 @@ import SideNav from "../navigation/sidenav";
 import TopNav from "../navigation/topnav";
 import AlertModal from "./alert-modal";
 import Gtag from "./gtag";
+import GTM from "./gtm";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
@@ -74,7 +75,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	return (
 		<GlobalContext.Provider value={state}>
 			<div className="dashboard-wrapper flex">
-				<Gtag />
+				<GTM />
 				<SideNav />
 				<main className="bg-sea w-full min-h-screen relative" style={{gridArea: "dashboard"}}>
 					<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
