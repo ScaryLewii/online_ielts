@@ -38,6 +38,18 @@ export const useCoursesQuery = (cookies: any) => {
 	})
 }
 
+const fetchCourseById = async (id: number, cookies: any) => {
+	const course = await fetchData(`courses/${id}`, "GET", cookies)
+	return course?.data
+}
+export const useCourseQuery = (id: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['course', id, cookies],
+		queryFn: () => fetchCourseById(id, cookies),
+		staleTime: Infinity
+	})
+}
+
 export const fetchLessons = async (id: number, cookies: any) => {
 	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET", cookies)
 	return lessonDatas.data.lessons

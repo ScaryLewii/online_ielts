@@ -13,7 +13,7 @@ import arrow from "../../../public/images/arrow-right.svg"
 import hat from "../../../public/images/hat.svg"
 import pin2 from "../../../public/images/pin2.svg"
 
-const CourseInfo = () => {
+const CourseInfo = ({videoUrl}: {videoUrl?: string}) => {
 	const router = useRouter()
 	const globalContext = useContext(GlobalContext)
 	const courseContext = useContext(CourseContext)
@@ -69,6 +69,15 @@ const CourseInfo = () => {
 			{state.hasWindow.get() &&
 				<ReactPlayer
 					url={courseContext?.activeCourse.introVideo.get()}
+					className="react-player absolute top-0 left-0"
+					controls
+					width="100%"
+					height="100%"
+				/>
+			}
+			{videoUrl &&
+				<ReactPlayer
+					url={videoUrl}
 					className="react-player absolute top-0 left-0"
 					controls
 					width="100%"
