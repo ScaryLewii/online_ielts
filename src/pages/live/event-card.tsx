@@ -114,8 +114,8 @@ const EventCard = ({event, isSuccess}:
 		}
 
 		{event && modalOpen && <>
-			<div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70" onClick={() => setModalOpen(false)}></div>
-			<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+			<div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 z-[99]" onClick={() => setModalOpen(false)}></div>
+			<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]">
 				<Image src={event.thumbnail || "https://placehold.co/889x500"} className="absolute top-0 left-0 w-full h-full object-cover" unoptimized alt="" width={889} height={500} />
 
 				<button
