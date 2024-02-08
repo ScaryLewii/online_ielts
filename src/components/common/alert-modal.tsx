@@ -3,12 +3,12 @@ import { useState } from "react"
 
 export type TAlertModal = 'LOGIN' | 'ROOM_FULL'
 
-const AlertModal = ({type} : {type: TAlertModal}) => {
+const AlertModal = ({type, message} : {type: TAlertModal, message?: string}) => {
 	const [isShow, setIsShow] = useState(true)
 
 	return <>
 		{isShow && <>
-			<div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] bg-black bg-opacity-70 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+			<div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] bg-black bg-opacity-70 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full">
 				<div className="absolute w-full max-w-md max-h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 						<div className="p-6 text-center">

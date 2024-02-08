@@ -4,7 +4,7 @@ import { IEvent } from "@/types/types"
 import Image from "next/image"
 import coin from "public/images/coin.svg"
 import silver from "public/images/silver.svg"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ReactSVG } from "react-svg"
 import RouteBox from "../all-courses/box"
 import EventCard from "./event-card"
@@ -29,6 +29,10 @@ const LivePage = () => {
 	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
 
 	const [tabActive, setTabActive] = useState(0)
+
+	useEffect(() => {
+		console.log(allLives)
+	})
 
 	return <div className="text-white relative z-[1] p-5 xl:p-10">
 		{isFinishFetchUserInfo && userInfo &&
@@ -74,7 +78,7 @@ const LivePage = () => {
 						</button>)}
 				</div>
 
-				<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-[48px] mt-[34px] text-sea">
+				<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-[20px] mt-[34px] text-sea">
 					{tabActive === 0 && isFinishFetchLives && isFinishFetchMyLives && allLives?.map((live: IEvent, index: number) => (
 						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
 					))}
@@ -84,7 +88,7 @@ const LivePage = () => {
 					))}
 
 					{tabActive === 2 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} />
+						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
 					))}
 				</div>
 			</div>

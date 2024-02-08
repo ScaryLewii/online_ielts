@@ -59,7 +59,7 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 			<Calendar locale={"vi-VN"} className="bg-sea rounded-[10px] p-[20px] mb-[18px] border border-cyan"
 				onChange={setActiveDate} value={activeDate}
 				tileClassName={({ date, view }) => {
-					if (allEvents.find((x: IEvent) => moment(x.startTime).format("DD-MM-YYYY") === moment(date).format("DD-MM-YYYY"))) {
+					if (allEvents?.find((x: IEvent) => moment(x.startTime).format("DD-MM-YYYY") === moment(date).format("DD-MM-YYYY"))) {
 						return 'has-event'
 					}
 				}} 

@@ -17,13 +17,13 @@ const EventCard = ({event, isSuccess}:
 ) => {
 	const context = useContext(GlobalContext)
 	const [modalOpen, setModalOpen] = useState(false)
-	const [isRoomFull, setIsRoomFull] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
 	const [isRegistered, setIsRegisterd] = useState(false)
 
 	const registerLive = async (id: number) => {
 		const data = await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
 		if (data.errors && data.errors[0].code === 1) {
-			setIsRoomFull(true)
+			setErrorMessage(data.errors[0].message)
 			return
 		}
 
@@ -34,7 +34,33 @@ const EventCard = ({event, isSuccess}:
 		<>
 		{event &&
 			<article className="rounded-[16px] overflow-hidden bg-white">
-				<Image className="w-full" src={event.thumbnail || "https://placehold.co/307x148"} width={307} height={148} alt={event.title} unoptimized />
+				<div className="relative overflow-hidden">
+					<div className="absolute z-[2] flex flex-col [&>span:first-child]:z-[2]">
+						{event.liveScheduleConditions.length < 1 &&
+							<span className="bg-[#12C024] text-white px-3 py-1 rounded-br-[16px]">Free</span>
+						}
+
+						{!!event.liveScheduleConditions.length &&
+							event.liveScheduleConditions.map((condition, index) => (
+								<>
+									{condition.conditionType === "" && (
+										<span className="bg-[#12C024] text-white px-3 pb-1 pt-5 -mt-4 rounded-br-[16px]">Free</span>
+									)}
+
+									{condition.conditionType === "FinishSurvey" && (
+										<span className="bg-[#0084FF] text-white px-3 pb-1 pt-5 -mt-4 rounded-br-[16px]">Survey</span>
+									)}
+
+									{condition.conditionType === "PayCoin" && (
+										<span className="bg-[#FFBD00] text-white px-3 pb-1 pt-5 -mt-4 rounded-br-[16px]">Token</span>
+									)}
+								</>
+							))
+						}
+					</div>
+					<div className="pb-[56.25%]"></div>
+					<Image className="w-full h-full absolute top-0 left-0" src={event.thumbnail || "https://placehold.co/307x148"} width={307} height={148} alt={event.title} unoptimized />
+				</div>
 				<div className="p-[20px] flex flex-col gap-[14px]">
 					<h2 className="font-bold cursor-pointer" onClick={() => setModalOpen(true)}>{event.title} cùng {event.presenter}</h2>
 					<div>
@@ -43,7 +69,7 @@ const EventCard = ({event, isSuccess}:
 					</div>
 					<div dangerouslySetInnerHTML={{__html: event.summary}}></div>
 
-					{!isSuccess && event.maxParticipants > event.registeredCount &&
+					{(!isSuccess && event.maxParticipants > event.registeredCount && !isRegistered) &&
 						<div className="flex flex-wrap items-center justify-between gap-[16px] mt-[10px]">
 							<div>
 								<button
@@ -70,10 +96,18 @@ const EventCard = ({event, isSuccess}:
 					}
 
 					{(isSuccess || isRegistered) &&
+					<div>
+						<button
+							onClick={() => setModalOpen(true)} 
+							className="bg-white border-2 border-black rounded-full py-[11px] px-[22px] text-sea font-bold">
+								Chi tiết
+						</button>
+
 						<div className="flex items-center gap-[10px] mt-[10px]">
 							<ReactSVG src={greenCheck["src"]} />
 							<span className="font-bold text-[#12C024]">Đăng ký thành công</span>
 						</div>
+					</div>
 					}
 				</div>
 			</article>
@@ -91,7 +125,7 @@ const EventCard = ({event, isSuccess}:
 					<ReactSVG src={close["src"]} />
 				</button>
 
-				<div className="w-full h-full py-[40px] px-[60px] z-10 relative">
+				<div className="w-[889px] h-[500px] py-[40px] px-[60px] z-10 relative pr-[40%]">
 					{event.liveScheduleConditions.length < 1 &&
 						<span className="text-[#12C024] border border-[#12C024] rounded-[10px] p-[10px]">
 							Sự kiện miễn phí
@@ -117,7 +151,7 @@ const EventCard = ({event, isSuccess}:
 						</div>
 					}
 
-					{!isSuccess &&
+					{(!isSuccess || !isRegistered) &&
 						<button
 							onClick={() => {registerLive(event.id);setModalOpen(false);}} 
 							className="rounded-full py-[10px] px-[22px] bg-[#12C024]">
@@ -129,7 +163,7 @@ const EventCard = ({event, isSuccess}:
 		</>
 		}
 
-		{isRoomFull && <AlertModal type="ROOM_FULL" />}
+		{errorMessage && <AlertModal type="ROOM_FULL" message={errorMessage} />}
 		</>
 	)
 }

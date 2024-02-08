@@ -163,7 +163,34 @@ export interface IEvent {
 			content: string
 		}
 	],
-	liveScheduleConditions: [],
+	liveScheduleConditions: ILiveScheduleCondition[],
 	liveScheduleRegisters: [],
 	course: null,
+}
+
+export interface ILiveScheduleCondition {
+  id: string
+  liveScheduleId: number
+  conditionType: "" | "FinishSurvey" | "PayCoin"
+  content?: IContent
+  amount?: number
+}
+
+export interface IContent {
+  title: string
+  description: string
+  questions: IQuestion[]
+}
+
+export interface IQuestion {
+  id: string
+  questionType: string
+  title: string
+  content: string
+  answers: IAnswer[]
+}
+
+export interface IAnswer {
+  id: string
+  content: string
 }
