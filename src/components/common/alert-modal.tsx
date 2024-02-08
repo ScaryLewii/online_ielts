@@ -21,8 +21,8 @@ const AlertModal = ({type, message} : {type: TAlertModal, message?: string}) => 
 								<Link href="https://ant-edu.ai/auth/login" type="button" className="text-gray-500 bg-cyan hover:opacity-60 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Login</Link>
 							</>}
 
-							{type === "ROOM_FULL" && <>
-								<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Phòng đã đầy!</h3>
+							{type === "ROOM_FULL" && message && <>
+								<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{message}</h3>
 								<button onClick={() => setIsShow(false)} type="button" className="text-gray-500 bg-cyan hover:opacity-60 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
 							</>}
 						</div>
