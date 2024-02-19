@@ -166,6 +166,11 @@ export interface IEvent {
 	liveScheduleConditions: ILiveScheduleCondition[],
 	liveScheduleRegisters: [],
 	course: null,
+	infographic: string,
+	decoration: {
+		defaultColor: string,
+		titleColor: string,
+	}
 }
 
 export interface ILiveScheduleCondition {

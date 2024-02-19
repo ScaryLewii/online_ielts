@@ -11,11 +11,16 @@ const TopNav = observer(() => {
 	
 	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
 
+	const onGoToLoginPage = () => {
+		const loginPage = "https://ant-edu.ai/auth/login"
+		window.location.href = loginPage
+	}
+
 	return <div className="sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
 		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
 	}}>
 		<div>
-			<button className={context?.isNavOpen.get() ? "hidden" : "block"}
+			<button title="control" className={context?.isNavOpen.get() ? "hidden" : "block"}
 				onClick={() => context?.isNavOpen.set((v: any) => !v)}>
 				<Image src={nav} width={23} height={23} alt="nav control" />
 			</button>
@@ -27,13 +32,16 @@ const TopNav = observer(() => {
 			</button>
 
 			<span className="hidden lg:block h-8 w-[1px] bg-white"></span>
-
-			<button className="flex gap-5 items-center group">
-				<h3 className="group-hover:underline">{userInfo?.displayName}</h3>
-				{isFinishFetchUserInfo && userInfo &&
-					<Image className="rounded-full h-[45px] w-[45px] border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
-				}
-			</button>
+			{
+				userInfo?.userName
+					? (<button className="flex gap-5 items-center group">
+						<h3 className="group-hover:underline">{userInfo?.displayName}</h3>
+						{isFinishFetchUserInfo && userInfo &&
+							<Image className="rounded-full h-[45px] w-[45px] border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
+						}
+					</button>)
+					: <button onClick={onGoToLoginPage}>Đăng nhập</button>
+			}
 		</div>
 	</div>
 })

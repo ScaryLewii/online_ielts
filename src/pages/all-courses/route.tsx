@@ -61,6 +61,8 @@ const Route = () => {
 	const [choice, setChoice] = useState(0)
 	const [allCourses, setAllCourses] = useState<ICourse[]>([])
 
+	const isPremiumUser = userInfo?.roles?.some((p: string) => p.toLocaleLowerCase() === 'premium') 
+
 	useEffect(() => {
 		if (isFinishFetchCourses && isFinishFetchCategories && typeof window !== undefined) {
 			setAvailableCategories(categories.filter((cat : ICategory) => courses?.some((course: ICourse) => course.categoryId === cat.id)))
@@ -76,21 +78,21 @@ const Route = () => {
 				<div className="absolute left-[56px] top-1/2 -translate-y-1/2">
 					<div className="flex items-center gap-4 font-semibold text-[22px]">
 						<ReactSVG src={hand["src"]} />
-						Hi {userInfo.displayName}, Happy learning
+						Hi {userInfo.displayName ?? "Guest"}, Happy learning
 					</div>
 
 					{isFinishFetchCoin && myCoin &&
 						<div className="flex gap-[42px] items-center mt-[16px]">
-							<span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>
+							{isPremiumUser ? <span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>: null}
 
 							<div className="inline-flex items-center gap-[12px]">
 								<ReactSVG src={coin["src"]} />
-								<span>{myCoin.pCoin}</span>
+								<span>{myCoin.pCoin ?? 0}</span>
 							</div>
 
 							<div className="inline-flex items-center gap-[12px]">
 								<ReactSVG src={silver["src"]} />
-								<span>{myCoin.fCoin}</span>
+								<span>{myCoin.fCoin ?? 0}</span>
 							</div>
 						</div>
 					}

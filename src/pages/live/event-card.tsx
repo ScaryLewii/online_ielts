@@ -6,7 +6,7 @@ import moment from "moment"
 import Image from "next/image"
 import close from "public/images/close.svg"
 import greenCheck from "public/images/green-check.svg"
-import { useContext, useState } from "react"
+import { Fragment, useContext, useState } from "react"
 import { ReactSVG } from "react-svg"
 
 const EventCard = ({event, isSuccess}: 
@@ -22,8 +22,17 @@ const EventCard = ({event, isSuccess}:
 
 	const registerLive = async (id: number) => {
 		const data = await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
-		if (data.errors && data.errors[0].code === 1) {
-			setErrorMessage(data.errors[0].message)
+		
+		if (data.errors) {
+			switch (data?.errors?.[0]?.code) {
+				case 401:
+					setErrorMessage("Bạn cần đăng nhập để thực hiện hành động này")
+					break;
+				case 1:
+					setErrorMessage(data?.errors?.[0]?.message)
+				default:
+					break;
+			}
 			return
 		}
 
@@ -42,7 +51,7 @@ const EventCard = ({event, isSuccess}:
 
 						{!!event.liveScheduleConditions.length &&
 							event.liveScheduleConditions.map((condition, index) => (
-								<>
+								<Fragment key={condition.id}>
 									{condition.conditionType === "" && (
 										<span className="bg-[#12C024] text-white px-3 pb-1 pt-5 -mt-4 rounded-br-[16px]">Free</span>
 									)}
@@ -54,7 +63,7 @@ const EventCard = ({event, isSuccess}:
 									{condition.conditionType === "PayCoin" && (
 										<span className="bg-[#FFBD00] text-white px-3 pb-1 pt-5 -mt-4 rounded-br-[16px]">Token</span>
 									)}
-								</>
+								</Fragment>
 							))
 						}
 					</div>
@@ -116,9 +125,10 @@ const EventCard = ({event, isSuccess}:
 		{event && modalOpen && <>
 			<div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 z-[99]" onClick={() => setModalOpen(false)}></div>
 			<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]">
-				<Image src={event.thumbnail || "https://placehold.co/889x500"} className="absolute top-0 left-0 w-full h-full object-cover" unoptimized alt="" width={889} height={500} />
+				<Image src={event.infographic || event.thumbnail || "https://placehold.co/889x500"} className="absolute top-0 left-0 w-full h-full object-cover" unoptimized alt="" width={889} height={500} />
 
 				<button
+					title="Close"
 					className="absolute top-[10px] right-[10px] h-[20px] w-[20px] z-20 flex justify-center items-center cursor-pointer"
 					onClick={() => setModalOpen(false)}
 				>
@@ -132,11 +142,11 @@ const EventCard = ({event, isSuccess}:
 						</span>
 					}
 
-					<h2 className="text-[28px] text-white mt-[12px] mb-[55px]">{event.title}</h2>
+					<h2 className={`text-[28px] mt-[12px] mb-[55px]`} style={{color: event?.decoration?.titleColor || event?.decoration?.defaultColor}}>{event.title}</h2>
 
-					<div className="italic text-[12px] text-white" dangerouslySetInnerHTML={{__html: event.description}}></div>
+					<div className={`italic text-[12px] `} style={{color: event?.decoration?.titleColor || event?.decoration?.defaultColor}} dangerouslySetInnerHTML={{__html: event.description}}></div>
 
-					<div className="flex gap-[13px] text-[16px] text-white mt-[30px] mb-[55px]">
+					<div className={`flex gap-[13px] text-[16px] mt-[30px] mb-[55px]`} style={{color: event?.decoration?.titleColor || event?.decoration?.defaultColor}}>
 						<span>{new Date(event.startTime).toLocaleDateString("en-US")}</span>
 						<span>|</span>
 						<span>{new Date(event.startTime).getHours()}h - {new Date(event.endTime).getHours()}h</span>
@@ -151,7 +161,7 @@ const EventCard = ({event, isSuccess}:
 						</div>
 					}
 
-					{(!isSuccess || !isRegistered) &&
+					{(!isSuccess && !isRegistered) &&
 						<button
 							onClick={() => {registerLive(event.id);setModalOpen(false);}} 
 							className="rounded-full py-[10px] px-[22px] bg-[#12C024]">
@@ -163,7 +173,7 @@ const EventCard = ({event, isSuccess}:
 		</>
 		}
 
-		{errorMessage && <AlertModal type="ROOM_FULL" message={errorMessage} />}
+		{errorMessage && <AlertModal type="ROOM_FULL" message={errorMessage} onClose={() => setErrorMessage('')}/>}
 		</>
 	)
 }

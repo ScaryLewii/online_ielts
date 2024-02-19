@@ -4,7 +4,7 @@ import { fetchData } from "./base"
 
 const getUserInfo = async (cookies: any) => {
 	const user = await fetchData("user/info", "GET", cookies)
-	return user.data
+	return user.data ?? {}
 }
 export const useUserInfoQuery = (cookies: any) => {
 	return useQuery({
@@ -40,7 +40,7 @@ export const useCoursesQuery = (cookies: any) => {
 
 const fetchCourseById = async (id: number, cookies: any) => {
 	const course = await fetchData(`courses/${id}`, "GET", cookies)
-	return course?.data
+	return course?.data ?? {}
 }
 export const useCourseQuery = (id: number, cookies: any) => {
 	return useQuery({
@@ -122,7 +122,7 @@ export const useAllUnitsQuery = (courses: ICourse[], cookies: any) => {
 
 const fetchQuizs = async (id: number, cookies: any) => {
 	const quizDatas = await fetchData(`lessons/${id}/quizzes`, "GET", cookies)
-	return quizDatas.data
+	return quizDatas.data ?? []
 }
 export const useQuizsQuery = (id: number, cookies: any) => {
 	return useQuery({
@@ -174,7 +174,7 @@ export const useSubtitleQuery = (id: number, cookies: any) => {
 
 const fetchAllLives = async (cookies: any) => {
 	const lives = await fetchData(`live-schedules?Page=1&PageSize=9`, "GET", cookies)
-	return lives.data
+	return lives.data ?? []
 }
 export const useAllLivesQuery = (cookies: any) => {
 	return useQuery({
@@ -187,7 +187,7 @@ export const useAllLivesQuery = (cookies: any) => {
 
 const fetchMyLives = async (cookies: any) => {
 	const lives = await fetchData(`live-schedules/my`, "GET", cookies)
-	return lives.data
+	return lives.data ?? []
 }
 export const useMyLivesQuery = (cookies: any) => {
 	return useQuery({
@@ -200,7 +200,7 @@ export const useMyLivesQuery = (cookies: any) => {
 
 const fetchLive = async (id: number, cookies: any) => {
 	const lives = await fetchData(`live-schedules/${id}`, "GET", cookies)
-	return lives.data
+	return lives.data ?? {}
 }
 export const useLiveQuery = (id: number, cookies: any) => {
 	return useQuery({
@@ -213,7 +213,7 @@ export const useLiveQuery = (id: number, cookies: any) => {
 
 const fetchCoin = async (cookies: any) => {
 	const coin = await fetchData(`coins/my-coins`, "GET", cookies)
-	return coin.data
+	return coin.data ?? {}
 }
 export const useCoinQuery = (cookies: any) => {
 	return useQuery({

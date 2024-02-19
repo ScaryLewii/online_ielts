@@ -34,6 +34,8 @@ const LivePage = () => {
 		console.log(allLives)
 	})
 
+	const isPremiumUser = userInfo?.roles?.some((p: string) => p.toLocaleLowerCase() === 'premium') 
+
 	return <div className="text-white relative z-[1] p-5 xl:p-10">
 		{isFinishFetchUserInfo && userInfo &&
 			<div className="flex items-center gap-[20px] mb-[50px]">
@@ -44,20 +46,20 @@ const LivePage = () => {
 				/>
 
 				<div className="flex flex-col gap-[10px]">
-					<h2 className="font-semibold text-[22px] capitalize">{/\s+/.test(userInfo.displayName) ? userInfo.userName : userInfo.displayName}</h2>
+					<h2 className="font-semibold text-[22px] capitalize">{/\s+/.test(userInfo.displayName) ? userInfo.userName : userInfo.displayName ?? "Guest"}</h2>
 
 					{isFinishFetchCoin && myCoin &&
 						<div className="flex gap-[42px] items-center mt-[16px]">
-							<span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span>
+							{isPremiumUser ? <span className="py-[6px] px-[12px] bg-[#FFBD00] text-sea font-semibold rounded-full">Premium User</span> : null}
 
 							<div className="inline-flex items-center gap-[12px]">
 								<ReactSVG src={coin["src"]} />
-								<span>{myCoin.pCoin}</span>
+								<span>{myCoin.pCoin ?? 0}</span>
 							</div>
 
 							<div className="inline-flex items-center gap-[12px]">
 								<ReactSVG src={silver["src"]} />
-								<span>{myCoin.fCoin}</span>
+								<span>{myCoin.fCoin ?? 0}</span>
 							</div>
 						</div>
 					}
