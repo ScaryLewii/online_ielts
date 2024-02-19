@@ -24,9 +24,8 @@ export const fetchData = async (path: string, method: string, cookies: any) => {
 
 	if (request.status === 401) {
 		// fetchDataNoToken(path, method)
-		console.log('please login again ' + path)
-		window.location.assign('https://ant-edu.ai/auth/login')
-		return
+		// window.location.assign('https://ant-edu.ai/auth/login')
+		return  { errors: [{code: 401, message: "The application could not authenticate"}] }
 	}
 
 	const result = await request.text()
@@ -52,9 +51,9 @@ export const postData = async (path: string, cookies: any, body: object = {}) =>
 	)
 
 	if (!request.ok || request.status === 401) {
-		console.log(request)
-		console.log('please login again' + path)
-		return
+		// console.log(request)
+		// console.log('please login again' + path)
+		return  { errors: [{code: 401, message: "The application could not authenticate"}] }
 	}
 	
 	const result = await request.text()
