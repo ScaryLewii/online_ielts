@@ -132,7 +132,7 @@ const Route = () => {
 									<span className="capitalize font-semibold text-[14px]">{c.name}</span>
 									<span className="flex items-center gap-1">
 										{c.isLocked && <ReactSVG src={lock["src"]} />}
-										{context.units.get().filter((u: IUnit) => u?.courseId === c.id).length} bài học
+										{c.totalLessons} bài học
 									</span>
 								</div>
 							</Link>

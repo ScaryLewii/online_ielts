@@ -85,8 +85,55 @@ export interface ICourse {
 	isComplete: boolean,
 	isLocked: boolean,
 	isOwned: boolean,
+	totalLessons: number,
 }
 
+export interface ICourseDetail {
+	id: number,
+	categoryId: number,
+	name: string,
+	slug: string,
+	introVideo: string,
+	description: string,
+	totalLessons: number,
+	chapters: IChapterDetail[]
+}
+
+export interface IChapterDetail {
+	id: number,
+	active: boolean,
+	courseId: number,
+	description: string,
+	displayOrder: number,
+	name: string,
+	lessons: ILessonDetail []
+}
+
+export interface ILessonDetail {
+	id: number,
+	chapterId: number,
+	courseId: number,
+	description: string,
+	displayOrder: number,
+	freeFor: string[],
+	isLocked: boolean,
+	name: string,
+	slug: string,
+	timeLength: number,
+	type: string,
+	videoUrl: string,
+	quizzes: IQuizDetail[]
+}
+
+export interface IQuizDetail {
+	id: string,
+	description: string,
+	displayOrder: number,
+	lessonId: number,
+	time: number,
+	title: string,
+	type: string,
+}
 
 export interface IUserAnswer {
 	id: string,

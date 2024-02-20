@@ -43,6 +43,10 @@ const EventCard = ({event, isSuccess, onRegisterSuccess}:
 		} 
 	}
 
+	const onJoinRoom = () => {
+		window.open(event.joinRoomLink)
+	}
+
 	return (
 		<>
 		{event &&
@@ -162,6 +166,11 @@ const EventCard = ({event, isSuccess, onRegisterSuccess}:
 						<div className="flex items-center gap-[10px] mt-[10px]">
 							<ReactSVG src={greenCheck["src"]} />
 							<span className="font-bold text-[#12C024]">Đăng ký thành công</span>
+							{ new Date() > new Date(event.startTime) && <button
+								onClick={onJoinRoom}
+								className="rounded-full py-[10px] px-[22px] bg-[#12C024]">
+								Vào phòng
+							</button>}
 						</div>
 					}
 

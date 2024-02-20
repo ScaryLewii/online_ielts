@@ -1,4 +1,4 @@
-import { ICategory, ICourse } from "@/types/types"
+import { ICategory, ICourse, ICourseDetail } from "@/types/types"
 import { useQueries, useQuery } from "@tanstack/react-query"
 import { fetchData } from "./base"
 
@@ -28,7 +28,7 @@ export const useCategoriesQuery = (cookies: any) => {
 
 const fetchCourses = async (cookies: any) => {
 	const courses = await fetchData("courses?Page=1&PageSize=100", "GET", cookies)
-	return courses?.data?.items
+	return courses?.data?.items ?? []
 }
 export const useCoursesQuery = (cookies: any) => {
 	return useQuery({
@@ -38,9 +38,9 @@ export const useCoursesQuery = (cookies: any) => {
 	})
 }
 
-const fetchCourseById = async (id: number, cookies: any) => {
+const fetchCourseById = async (id: number, cookies: any): Promise<ICourseDetail> => {
 	const course = await fetchData(`courses/${id}`, "GET", cookies)
-	return course?.data ?? {}
+	return course?.data ?? {} 
 }
 export const useCourseQuery = (id: number, cookies: any) => {
 	return useQuery({
