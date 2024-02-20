@@ -1,0 +1,12 @@
+@keyframes changeColor {
+  from {
+    color: #FF0000;
+  }
+  to {
+    color: #00FFFF;
+  }
+}
+
+.x-countdown {
+  animation: changeColor 1s infinite alternate;
+}

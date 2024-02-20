@@ -10,7 +10,7 @@ const AlertModal = ({type, message, onClose} : {type: TAlertModal, message?: str
 		if(!isShow){
 			onClose?.()
 		}
-	}, [isShow])
+	}, [isShow, onClose])
 	return <>
 		{isShow && <>
 			<div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] bg-black bg-opacity-70 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full">
