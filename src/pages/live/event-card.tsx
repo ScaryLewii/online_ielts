@@ -2,6 +2,7 @@ import { fetchData } from "@/base/base"
 import AlertModal from "@/components/common/alert-modal"
 import { GlobalContext } from "@/context/context"
 import { IEvent } from "@/types/types"
+import { useQueryClient } from "@tanstack/react-query"
 import moment from "moment"
 import Image from "next/image"
 import close from "public/images/close.svg"
@@ -9,12 +10,14 @@ import greenCheck from "public/images/green-check.svg"
 import { Fragment, useContext, useState } from "react"
 import { ReactSVG } from "react-svg"
 
-const EventCard = ({event, isSuccess}: 
+const EventCard = ({event, isSuccess, onRegisterSuccess}: 
 	{
 		event: IEvent,
-		isSuccess?: boolean
+		isSuccess?: boolean,
+		onRegisterSuccess?: () => void,
 	}
 ) => {
+	const queryClient = useQueryClient()
 	const context = useContext(GlobalContext)
 	const [modalOpen, setModalOpen] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -22,8 +25,11 @@ const EventCard = ({event, isSuccess}:
 
 	const registerLive = async (id: number) => {
 		const data = await fetchData(`live-schedules/${id}/register`, "POST", context.cookies.get())
-		
-		if (data.errors) {
+		if(data?.isSuccess){
+			setIsRegisterd(true)
+			onRegisterSuccess?.()
+		}
+		else if (data.errors) {
 			switch (data?.errors?.[0]?.code) {
 				case 401:
 					setErrorMessage("Bạn cần đăng nhập để thực hiện hành động này")
@@ -34,9 +40,11 @@ const EventCard = ({event, isSuccess}:
 					break;
 			}
 			return
-		}
+		} 
+	}
 
-		setIsRegisterd(true)
+	const onJoinRoom = () => {
+		window.open(event.joinRoomLink)
 	}
 
 	return (
@@ -158,6 +166,11 @@ const EventCard = ({event, isSuccess}:
 						<div className="flex items-center gap-[10px] mt-[10px]">
 							<ReactSVG src={greenCheck["src"]} />
 							<span className="font-bold text-[#12C024]">Đăng ký thành công</span>
+							{ new Date() > new Date(event.startTime) && <button
+								onClick={onJoinRoom}
+								className="rounded-full py-[10px] px-[22px] bg-[#12C024]">
+								Vào phòng
+							</button>}
 						</div>
 					}
 

@@ -89,15 +89,15 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 						zeroPadTime={2}
 						renderer={props => <div className="flex items-center justify-center gap-[12px]">
 							<div className="flex flex-col gap-[4px]"> 
-								<span className="font-bold flex justify-center items-center w-[48px] h-[48px] rounded-[8px] border border-[#0D2654] bg-gradient-to-b from-[#041A42] to-[#000D23]">{props.days}</span>
+								<span className="x-countdown font-bold flex justify-center items-center w-[48px] h-[48px] rounded-[8px] border border-[#0D2654] bg-gradient-to-b from-[#041A42] to-[#000D23]">{props.days}</span>
 								<span>Ngày</span>
 							</div>
 							<div className="flex flex-col gap-[4px]"> 
-								<span className="font-bold flex justify-center items-center w-[48px] h-[48px] rounded-[8px] border border-[#0D2654] bg-gradient-to-b from-[#041A42] to-[#000D23]">{props.hours}</span>
+								<span className="x-countdown font-bold flex justify-center items-center w-[48px] h-[48px] rounded-[8px] border border-[#0D2654] bg-gradient-to-b from-[#041A42] to-[#000D23]">{props.hours}</span>
 								<span>Giờ</span>
 							</div>
 							<div className="flex flex-col gap-[4px]"> 
-								<span className="font-bold flex justify-center items-center w-[48px] h-[48px] rounded-[8px] border border-[#0D2654] bg-gradient-to-b from-[#041A42] to-[#000D23]">{props.minutes}</span>
+								<span className="x-countdown font-bold flex justify-center items-center w-[48px] h-[48px] rounded-[8px] border border-[#0D2654] bg-gradient-to-b from-[#041A42] to-[#000D23]">{props.minutes}</span>
 								<span>Phút</span>
 							</div>
 						</div>}

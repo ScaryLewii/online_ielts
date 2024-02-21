@@ -24,15 +24,20 @@ const buttons = [
 const LivePage = () => {
 	const context = useContext(GlobalContext)
 	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
-	const { isFetched: isFinishFetchLives, data: allLives } = useAllLivesQuery(context.cookies.get())
-	const { isFetched: isFinishFetchMyLives, data: myLives } = useMyLivesQuery(context.cookies.get())
+	const { isFetched: isFinishFetchLives, data: allLives, refetch: refreshLives } = useAllLivesQuery(context.cookies.get())
+	const { isFetched: isFinishFetchMyLives, data: myLives, refetch: refreshMyLives } = useMyLivesQuery(context.cookies.get())
 	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
 
 	const [tabActive, setTabActive] = useState(0)
 
+	const onRegisterSuccess = () => {
+		refreshLives();
+		refreshMyLives();
+	}
+
 	useEffect(() => {
-		console.log(allLives)
-	})
+		
+	}, [])
 
 	const isPremiumUser = userInfo?.roles?.some((p: string) => p.toLocaleLowerCase() === 'premium') 
 
@@ -82,15 +87,15 @@ const LivePage = () => {
 
 				<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-[20px] mt-[34px] text-sea">
 					{tabActive === 0 && isFinishFetchLives && isFinishFetchMyLives && allLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
+						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} onRegisterSuccess={onRegisterSuccess} />
 					))}
 
 					{tabActive === 1 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} isSuccess={true} />
+						<EventCard key={index} event={live} isSuccess={true} onRegisterSuccess={onRegisterSuccess} />
 					))}
 
 					{tabActive === 2 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
+						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} onRegisterSuccess={onRegisterSuccess} />
 					))}
 				</div>
 			</div>
