@@ -51,7 +51,7 @@ const LivePage = () => {
 				/>
 
 				<div className="flex flex-col gap-[10px]">
-					<h2 className="font-semibold text-[22px] capitalize">{/\s+/.test(userInfo.displayName) ? userInfo.userName : userInfo.displayName ?? "Guest"}</h2>
+					<h2 className="font-semibold text-[22px] capitalize">{!!userInfo?.displayName?.trim() ? userInfo.displayName : userInfo.userName  ?? "Guest"}</h2>
 
 					{isFinishFetchCoin && myCoin &&
 						<div className="flex gap-[42px] items-center mt-[16px]">
