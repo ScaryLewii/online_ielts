@@ -223,3 +223,16 @@ export const useCoinQuery = (cookies: any) => {
 		staleTime: Infinity
 	})
 }
+
+const fetchAuthors = async (page: number, pageSize: number, cookies: any) => {
+	const res = await fetchData(`authors?Page=${page}&PageSize=${pageSize}`, "GET", cookies)
+	return res.data ?? {}
+}
+
+export const useAuthorsQuery = (page: number, pageSize: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['authors', page, pageSize],
+		queryFn: () => fetchAuthors(page, pageSize, cookies),
+		staleTime: Infinity,
+	})
+}
