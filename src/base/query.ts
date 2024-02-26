@@ -52,7 +52,7 @@ export const useCourseQuery = (id: number, cookies: any) => {
 
 export const fetchLessons = async (id: number, cookies: any) => {
 	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET", cookies)
-	return lessonDatas.data.lessons
+	return lessonDatas?.data?.lessons ?? []
 }
 export const useLessonsQuery = (id: number, cookies: any) => {
 	return useQuery({
@@ -78,7 +78,7 @@ export const useAllLessonsQuery = (courses: ICourse[], cookies: any) => {
 
 export const fetchLessonsProgress = async (id: number, cookies: any) => {
 	const lessonDatas = await fetchData(`courses/lessons/${id}`, "GET", cookies)
-	return lessonDatas.data.userLessons
+	return lessonDatas?.data?.userLessons ?? []
 }
 export const useAllLessonsProgressQuery = (courses: ICourse[], cookies: any) => {
 	courses = courses || []
@@ -96,7 +96,7 @@ export const useAllLessonsProgressQuery = (courses: ICourse[], cookies: any) => 
 
 const fetchUnits = async (id: number, cookies: any) => {
 	const unitDatas = await fetchData(`courses/lessons/${id}`, "GET", cookies)
-	return unitDatas.data.chapters
+	return unitDatas?.data?.chapters ?? []
 }
 export const useUnitsQuery = (id: number, cookies: any) => {
 	return useQuery({
