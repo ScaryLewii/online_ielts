@@ -35,21 +35,21 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 			}
 
 			if (isFuture) {
-				setAllEvents(allEvents.filter(e => moment(e.startTime) >= moment(new Date())) || null)
+				setAllEvents(allEvents?.filter(e => moment(e.startTime) >= moment(new Date())) || null)
 			}
 
 			if (!isPersonal && !isFuture) {
 				setAllEvents(allLives)
 			}
 
-			setFutureEventDate(new Date(allEvents.find(e => moment(e.startTime) >= moment(new Date()))?.startTime || "") || moment(new Date()))
+			setFutureEventDate(new Date(allEvents?.find(e => moment(e.startTime) >= moment(new Date()))?.startTime || "") || moment(new Date()))
 		}
 		handleState()
 	}, [allLives, myLives, isPersonal, isFinishFetchLives, isFinishFetchMyLives, allEvents, isFuture])
 
 	useEffect(() => {
 		if (futureEventDate && allEvents) {
-			setActiveEvent(allEvents.find(x => moment(x.startTime).format("DD-MM-YYYY") === moment(futureEventDate.toString()).format("DD-MM-YYYY")) || null)
+			setActiveEvent(allEvents?.find(x => moment(x.startTime).format("DD-MM-YYYY") === moment(futureEventDate.toString()).format("DD-MM-YYYY")) || null)
 		}
 	}, [allEvents, futureEventDate])
 
