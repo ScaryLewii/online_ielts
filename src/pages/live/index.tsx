@@ -1,6 +1,6 @@
-import { useAllLivesQuery, useCoinQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
+import { useAllLivesQuery, useAuthorsQuery, useCoinQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
-import { IEvent } from "@/types/types"
+import { IAuthor, IEvent } from "@/types/types"
 import Image from "next/image"
 import coin from "public/images/coin.svg"
 import silver from "public/images/silver.svg"
@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react"
 import { ReactSVG } from "react-svg"
 import RouteBox from "../all-courses/box"
 import EventCard from "./event-card"
+import AuthorCard from "@/components/author/author-card"
 
 const buttons = [
 	{
@@ -19,6 +20,9 @@ const buttons = [
 	{
 		label: "Sự kiện sắp diễn ra"
 	},
+	{
+		label: "Hồ sơ diễn giả"
+	},
 ]
 
 const LivePage = () => {
@@ -27,6 +31,7 @@ const LivePage = () => {
 	const { isFetched: isFinishFetchLives, data: allLives, refetch: refreshLives } = useAllLivesQuery(context.cookies.get())
 	const { isFetched: isFinishFetchMyLives, data: myLives, refetch: refreshMyLives } = useMyLivesQuery(context.cookies.get())
 	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
+	const { isFetched: isFinishFetchAuthors, data: authorData} = useAuthorsQuery(1, 100, context.cookies.get()) 
 
 	const [tabActive, setTabActive] = useState(0)
 
@@ -96,6 +101,9 @@ const LivePage = () => {
 
 					{tabActive === 2 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
 						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} onRegisterSuccess={onRegisterSuccess} />
+					))}
+					{tabActive === 3 && isFinishFetchAuthors && authorData?.items?.map((author: IAuthor, index: number) => (
+						<AuthorCard key={author.id} item={author}/>
 					))}
 				</div>
 			</div>

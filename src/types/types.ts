@@ -246,3 +246,20 @@ export interface IAnswer {
   id: string
   content: string
 }
+
+export interface IAuthor {
+	id: number
+	name: string
+	slug: string
+	description: string
+	introduce: string
+	introVideo: string
+	email: string
+	phoneNumber: string
+	address: string
+	avatar: string
+	facebook: string
+	instagram: string
+	twitter: string
+	featured: boolean
+}
