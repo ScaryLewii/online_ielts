@@ -203,6 +203,7 @@ export interface IEvent {
 	maxParticipants: number,
 	joinRoomLink: string,
 	facebookEventLink: string,
+	offlineLink: string,
 	registeredCount: number,
 	createdAt: string,
 	agenda: [
