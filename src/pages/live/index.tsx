@@ -7,7 +7,7 @@ import silver from "public/images/silver.svg"
 import { useContext, useEffect, useState } from "react"
 import { ReactSVG } from "react-svg"
 import RouteBox from "../all-courses/box"
-import EventCard from "./event-card"
+import EventCard from "@/components/live-schedule/event-card"
 import AuthorCard from "@/components/author/author-card"
 
 const buttons = [
