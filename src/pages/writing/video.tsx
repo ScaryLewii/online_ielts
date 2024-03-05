@@ -89,17 +89,17 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 
 					<div className="flex justify-between items-center py-3 px-5 bg-sea-lighter mt-[4px] relative z-[1]">
 						<div className="flex gap-5">
-							<button onClick={() => playerRef.current?.seekTo(0)}>
+							<button title="repeat" onClick={() => playerRef.current?.seekTo(0)}>
 								<Image src={repeatIcon} width={24} height={24} alt="repeat" />
 							</button>
 
-							<button>
+							<button title="change language">
 								<Image src={engIcon} width={24} height={24} alt="change language" />
 							</button>
 						</div>
 
 						<div className="flex gap-5">
-							<button onClick={() => goToLesson(false)}>
+							<button title="previous" onClick={() => goToLesson(false)}>
 								<Image src={previousIcon} width={35} height={35} alt="previous" />
 							</button>
 
@@ -114,13 +114,13 @@ const VideoBlock = observer(({url}: IVideoUrl): JSX.Element => {
 								}
 							</button>
 
-							<button onClick={() => goToLesson(true)}>
+							<button title="next" onClick={() => goToLesson(true)}>
 								<Image src={nextIcon} width={35} height={35} alt="next" />
 							</button>
 						</div>
 
 						<div>
-							<button onClick={() => handleClickFullscreen()}>
+							<button title="fullscreen" onClick={() => handleClickFullscreen()}>
 								<Image src={fullscreenIcon} width={24} height={24} alt="fullscreen" />
 							</button>
 						</div>

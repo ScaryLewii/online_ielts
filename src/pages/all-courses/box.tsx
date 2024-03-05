@@ -1,6 +1,6 @@
 "use client"
 
-import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllLivesQuery, useCoursesQuery } from "@/base/query"
+import { useAllLivesQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { ICourse, IEvent } from "@/types/types"
 import { useObservable } from "@legendapp/state/react"

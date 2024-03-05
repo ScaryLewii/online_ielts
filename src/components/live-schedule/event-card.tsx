@@ -95,15 +95,16 @@ const EventCard = ({ event, isSuccess, onRegisterSuccess }:
 						</div>
 						<div dangerouslySetInnerHTML={{ __html: event.summary }}></div>
 
-						{(!isSuccess && event.maxParticipants > event.registeredCount && !isRegistered) &&
-							<div className="flex flex-wrap items-center justify-between gap-[16px] mt-[10px]">
-								<div>
-									<button
-										onClick={() => setModalOpen(true)}
-										className="bg-white border-2 border-black rounded-full py-[11px] px-[22px] text-sea font-bold">
-										Chi tiết
-									</button>
-								</div>
+						
+						<div className="flex flex-wrap items-center justify-between gap-[16px] mt-[10px]">
+							{!isEnded && <div>
+								<button
+									onClick={() => setModalOpen(true)}
+									className="bg-white border-2 border-black rounded-full py-[11px] px-[22px] text-sea font-bold">
+									Chi tiết
+								</button>
+							</div>}
+							{(!isSuccess && event.maxParticipants > event.registeredCount && !isRegistered && !isEnded) &&
 								<div>
 									<button
 										className="bg-cyan border-2 border-cyan rounded-full py-[11px] px-[22px] text-sea font-bold"
@@ -112,9 +113,9 @@ const EventCard = ({ event, isSuccess, onRegisterSuccess }:
 										Đăng ký ngay
 									</button>
 								</div>
-							</div>
-						}
-
+							}
+						</div>
+						
 						{event.maxParticipants <= event.registeredCount && !isSuccess && isUpcoming &&
 							<div className="flex items-center gap-[10px] mt-[10px]">
 								<span className="font-bold text-[#EB3131]">Live hết slot đăng ký</span>
@@ -123,12 +124,6 @@ const EventCard = ({ event, isSuccess, onRegisterSuccess }:
 
 						{(isSuccess || isRegistered) &&
 							<div>
-								<button
-									onClick={() => setModalOpen(true)}
-									className="bg-white border-2 border-black rounded-full py-[11px] px-[22px] text-sea font-bold">
-									Chi tiết
-								</button>
-
 								<div className="flex items-center gap-[10px] mt-[10px]">
 									<ReactSVG src={greenCheck["src"]} />
 									<span className="font-bold text-[#12C024]">Đăng ký thành công</span>
