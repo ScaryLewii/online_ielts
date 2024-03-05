@@ -1,16 +1,26 @@
+
 "use client"
+
 import { useCourseQuery } from "@/base/query"
 import CourseDetail from "@/components/course/course-detail"
 import { GlobalContext } from "@/context/context"
 import CourseInfo from "@/pages/courses/course-info"
 import { useRouter } from "next/router"
-import { useContext } from "react"
-
+import { useContext, useEffect, useState } from "react"
 
 const CourseContent = () => {
-	const { query, isReady } = useRouter()
+	const router = useRouter()
 	const context = useContext(GlobalContext)
-	if(!isReady || !isFetchedCourse) return <></>
+	const courseId = router.query.course_id as string
+	const { isFetched: isFinishFetchCourse, data: courseData } = useCourseQuery(+courseId, context.cookies.get())
+	const [isClient, setIsClient] = useState(false);
+
+	useEffect(() => {
+		setIsClient(true)
+		console.log(courseId)
+	}, [])
+
+	if (!isFinishFetchCourse) return <></>
 
 	return <>
 		{isClient &&
