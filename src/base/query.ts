@@ -42,10 +42,26 @@ const fetchCourseById = async (id: number, cookies: any): Promise<ICourseDetail>
 	const course = await fetchData(`courses/${id}`, "GET", cookies)
 	return course?.data ?? {} 
 }
-export const useCourseQuery = (id: number, cookies: any) => {
+
+export const useCourseQuery = (id: number, cookies: any, enabled: boolean = true) => {
 	return useQuery({
 		queryKey: ['course', id, cookies],
 		queryFn: () => fetchCourseById(id, cookies),
+		staleTime: Infinity,
+		enabled: !!id && enabled,
+	})
+}
+
+export const fetchLessonById = async (lessonId: number, cookies: any) => {
+	const res = await fetchData(`lessons/${lessonId}`, "GET", cookies)
+	return res?.data || {}
+}
+
+export const useLessonDetailQuery = (lessonId: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['lessons', lessonId, cookies],
+		queryFn: () => fetchLessonById(lessonId, cookies),
+		enabled: !!lessonId && !!cookies,
 		staleTime: Infinity
 	})
 }
@@ -56,7 +72,7 @@ export const fetchLessons = async (id: number, cookies: any) => {
 }
 export const useLessonsQuery = (id: number, cookies: any) => {
 	return useQuery({
-		queryKey: ['lessons', id],
+		queryKey: ['courses','lessons', id],
 		queryFn: () => fetchLessons(id, cookies),
 		enabled: !!id && !!cookies,
 		staleTime: Infinity
