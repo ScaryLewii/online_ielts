@@ -1,4 +1,3 @@
-import { fetchData } from '@/base/base'
 import Gtag from '@/components/common/gtag'
 import Banner from '@/components/home/banner'
 import ContactSection from '@/components/home/contact'
@@ -7,15 +6,8 @@ import LecturersSection from '@/components/home/lecturers'
 import MethodSection from '@/components/home/methods'
 import MissionSection from '@/components/home/mission'
 import Head from 'next/head'
-import { useEffect } from 'react'
-import { useCookies } from 'react-cookie'
 
 export default function Home() {
-	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
-	useEffect(() => {
-		const testData = fetchData("user/info", "GET", cookies)
-	})
-
 	return (
 		<>
 		<Head>
