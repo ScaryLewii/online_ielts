@@ -259,8 +259,11 @@ export interface IAuthor {
 	phoneNumber: string
 	address: string
 	avatar: string
+	cover: string
 	facebook: string
 	instagram: string
 	twitter: string
+	tiktok: string
 	featured: boolean
+	quote: string
 }

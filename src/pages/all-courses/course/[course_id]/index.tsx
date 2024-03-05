@@ -12,24 +12,29 @@ const CourseContent = () => {
 	const router = useRouter()
 	const context = useContext(GlobalContext)
 	const courseId = router.query.course_id as string
-	const { isFetched: isFinishFetchUserInfo, data: courseData } = useCourseQuery(+courseId, context.cookies.get())
-	const [isLoading, setIsLoading] = useState(false);
+	const { isFetched: isFinishFetchCourse, data: courseData } = useCourseQuery(+courseId, context.cookies.get())
+	const [isClient, setIsClient] = useState(false);
 
 	useEffect(() => {
-		setIsLoading(true)
+		setIsClient(true)
+		console.log(courseId)
 	}, [])
 
-	if (!isFinishFetchUserInfo) return <></>
+	if (!isFinishFetchCourse) return <></>
 
-	return <div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
-		<div className="w-full lg:w-auto lg:min-w-[550px] border border-white py-5 px-5">
-			{/* <CourseBox courseId={course.id} /> */}
-			<CourseDetail item={courseData} />
-		</div>
-		<div className=" xl:max-w-[450px]">
-			<CourseInfo videoUrl={courseData?.introVideo} />
-		</div>
-	</div>
+	return <>
+		{isClient &&
+			<div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
+				<div className="w-full lg:w-auto lg:min-w-[550px] border border-white py-5 px-5">
+					{/* <CourseBox courseId={course.id} /> */}
+					<CourseDetail item={courseData} />
+				</div>
+				<div className=" xl:max-w-[450px]">
+					<CourseInfo videoUrl={courseData?.introVideo} />
+				</div>
+			</div>
+		}
+	</>
 }
 
 export default CourseContent
