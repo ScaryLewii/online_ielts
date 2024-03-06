@@ -1,10 +1,14 @@
+import { useSingleAuthorQuery } from "@/base/query"
+import { GlobalContext } from "@/context/context"
 import { IAuthor } from "@/types/types"
+import { useRouter } from "next/router"
+import { useContext } from "react"
 import AuthorBanner from "./banner"
 import Card from "./card"
-import Video from "./video"
-import TopInfo from "./top-info"
-import MiddleInfo from "./middle-info"
 import Course from "./course"
+import MiddleInfo from "./middle-info"
+import TopInfo from "./top-info"
+import Video from "./video"
 
 const data = {
 	id: 271,
@@ -27,20 +31,33 @@ const data = {
 } as IAuthor
 
 const Author = () => {
+	const router = useRouter()
+	const context = useContext(GlobalContext)
+	const authorId = parseInt(router.asPath.split("/").pop() || "0")
+	
+	const { isFetched: isFinishFetchAuthor, data: authorData} = useSingleAuthorQuery(authorId, context.cookies.get()) 
+
+	if (!isFinishFetchAuthor) return <></>;
+
 
 	return <div className="z-[2] relative pb-[80px]">
-		<AuthorBanner background={data.cover} />
+		<AuthorBanner background={authorData.cover} />
 
 		<div className="flex gap-20 px-20 -mt-[160px]">
 			<div className="flex flex-col gap-[30px]">
-				<Card name={data.name} avatar={data.avatar} introduce={data.introduce} />
-				<Video videoSrc={data.introVideo} />
+				<Card name={authorData.name} avatar={authorData.avatar} introduce={authorData.introduce} />
+				<Video videoSrc={authorData.introVideo} />
 			</div>
 			
 			<div className="w-full">
-				<TopInfo name={data.name} address={data.address} facebook={data.facebook} instagram={data.instagram} tiktok={data.tiktok} />
+				<TopInfo
+					name={authorData.name} 
+					address={authorData.address || ''} 
+					facebook={authorData.facebook || ''} 
+					instagram={authorData.instagram || ''} 
+					tiktok={authorData.tiktok || ''} />
 			
-				<MiddleInfo description={data.description} quote={data.quote} />
+				<MiddleInfo description={authorData.description} quote={authorData.quote} />
 
 				<Course />
 			</div>

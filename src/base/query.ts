@@ -236,3 +236,16 @@ export const useAuthorsQuery = (page: number, pageSize: number, cookies: any) =>
 		staleTime: Infinity,
 	})
 }
+
+const fetchAuthorById = async (id: number, cookies: any) => {
+	const res = await fetchData(`authors?id=${id}`, "GET", cookies)
+	return res.data ?? {}
+}
+
+export const useSingleAuthorQuery = (id: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['authors', id],
+		queryFn: () => fetchAuthorById(id, cookies),
+		staleTime: Infinity,
+	})
+}

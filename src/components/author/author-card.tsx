@@ -15,12 +15,12 @@ const AuthorCard = ({item}: AuthorCardProps) => {
 
         </div>
         <div className="pb-[100%]"></div>
-        <Link href={'/author'}>
+        <Link href={`/author/${item.id}`}>
           <Image className="w-full h-full absolute top-0 left-0" style={{objectFit: 'cover'}} src={item.avatar || "https://placehold.co/307x148"} width={300} height={600} alt={item.name} unoptimized />
         </Link>
       </div>
       <div className="p-[20px] flex flex-col gap-[14px]">
-        <Link href={'/author'}>
+        <Link href={`/author/${item.id}`}>
           <h2 className="font-bold cursor-pointer">{item.name}</h2>
         </Link>
         <div>
