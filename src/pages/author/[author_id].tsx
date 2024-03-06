@@ -7,7 +7,7 @@ import AuthorBanner from "./banner"
 import Card from "./card"
 import Course from "./course"
 import MiddleInfo from "./middle-info"
-import TopInfo from "./top-info"
+import TopInfo from "../../components/author/top-info"
 import Video from "./video"
 
 const data = {
