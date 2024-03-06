@@ -33,7 +33,7 @@ const AuthorBanner = ({name, avatar, introduce}:
 				</div>
 
 				<div className="flex justify-between items-center">
-					<p className="uppercase text-sm">Nkhóa học: </p>
+					<p className="uppercase text-sm">Khóa học: </p>
 					<b>2 khóa </b>
 				</div>
 
