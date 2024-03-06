@@ -7,7 +7,6 @@ interface AuthorCardProps {
 }
 
 const AuthorCard = ({item}: AuthorCardProps) => {
-  console.log(item)
   return (
     <article className="rounded-[16px] overflow-hidden bg-white">
       <div className="relative overflow-hidden">

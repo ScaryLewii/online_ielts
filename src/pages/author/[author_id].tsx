@@ -31,17 +31,16 @@ const data = {
 } as IAuthor
 
 const Author = () => {
-	const router = useRouter()
+	const {isReady, query} = useRouter()
 	const context = useContext(GlobalContext)
-	const authorId = parseInt(router.asPath.split("/").pop() || "0")
+	const authorId = query.author_id as string
 	
-	const { isFetched: isFinishFetchAuthor, data: authorData} = useSingleAuthorQuery(authorId, context.cookies.get()) 
+	const { isFetched: isFinishFetchAuthor, data: authorData} = useSingleAuthorQuery(+authorId, context.cookies.get()) 
 
-	if (!isFinishFetchAuthor) return <></>;
-
+	if ( !isReady || !isFinishFetchAuthor) return <span className="loading loading-bars"></span>;
 
 	return <div className="z-[2] relative pb-[80px]">
-		<AuthorBanner background={authorData.cover} />
+		<AuthorBanner background={authorData.cover || authorData.avatar || data.cover} />
 
 		<div className="flex gap-20 px-20 -mt-[160px]">
 			<div className="flex flex-col gap-[30px]">

@@ -1,4 +1,4 @@
-import { ICategory, ICourse, ICourseDetail } from "@/types/types"
+import { IAuthor, ICategory, ICourse, ICourseDetail } from "@/types/types"
 import { useQueries, useQuery } from "@tanstack/react-query"
 import { fetchData } from "./base"
 
@@ -254,14 +254,15 @@ export const useAuthorsQuery = (page: number, pageSize: number, cookies: any) =>
 }
 
 const fetchAuthorById = async (id: number, cookies: any) => {
-	const res = await fetchData(`authors?id=${id}`, "GET", cookies)
+	const res = await fetchData(`authors/${id}`, "GET", cookies)
 	return res.data ?? {}
 }
 
 export const useSingleAuthorQuery = (id: number, cookies: any) => {
 	return useQuery({
-		queryKey: ['authors', id],
+		queryKey: ['authors', id, cookies],
 		queryFn: () => fetchAuthorById(id, cookies),
 		staleTime: Infinity,
+		enabled: !!id
 	})
 }
