@@ -28,17 +28,17 @@ const TopInfo = ({
 
 					<ul className="flex gap-6 list-none">
 						<li>
-							<Link href={facebook} target="_blank" rel="noreferrer">
+							<Link href={facebook || ''} target="_blank" rel="noreferrer">
 								<ReactSVG src={facebookIcon['src']} />
 							</Link>
 						</li>
 						<li>
-							<Link href={instagram} target="_blank" rel="noreferrer">
+							<Link href={instagram || ''} target="_blank" rel="noreferrer">
 								<ReactSVG src={instaIcon['src']} />
 							</Link>
 						</li>
 						<li>
-							<Link href={tiktok} target="_blank" rel="noreferrer">
+							<Link href={tiktok || ''} target="_blank" rel="noreferrer">
 								<ReactSVG src={tiktokIcon['src']} />
 							</Link>
 						</li>
