@@ -51,7 +51,8 @@ const RadioGroup = observer(({ questionContent }: IRadioGroup) => {
 	}
 
 	return <div id={questionContent?.id} data-type="radio-group" className="text-white mb-5" style={{"--tw-border-opacity": 1} as React.CSSProperties}>
-		<h4 className="mb-3 font-semibold">{questionContent?.title}</h4>
+		<h3 className="mb-3 font-semibold">{questionContent?.title}</h3>
+		<div className="mb-3 font-semibold" dangerouslySetInnerHTML={{__html: questionContent?.content}}></div>
 		{questionContent?.answers.map(a =>
 			<div key={nanoid()} className="flex gap-20 items-center mb-3">
 				<label className="label cursor-pointer justify-start gap-3">

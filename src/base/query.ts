@@ -8,7 +8,7 @@ const getUserInfo = async (cookies: any) => {
 }
 export const useUserInfoQuery = (cookies: any) => {
 	return useQuery({
-		queryKey: ['user', 'info'],
+		queryKey: ['user', 'info', cookies],
 		queryFn: () => getUserInfo(cookies),
 	})
 }
@@ -47,7 +47,6 @@ export const useCourseQuery = (id: number, cookies: any, enabled: boolean = true
 	return useQuery({
 		queryKey: ['course', id, cookies],
 		queryFn: () => fetchCourseById(id, cookies),
-		staleTime: Infinity,
 		enabled: !!id && enabled,
 	})
 }

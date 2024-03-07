@@ -267,3 +267,19 @@ export interface IAuthor {
 	featured: boolean
 	quote: string
 }
+
+
+export interface IGlobalContext {
+	userInfo?: IUser,
+	cookies: any,
+	isSessonValid: boolean,
+	isNavOpen: boolean,
+	categories: ICategory[],
+	courses: ICourse[],
+	units: IUnit[],
+	lessons: ILesson[],
+	quizs: IQuiz[],
+	lessonProgress: ILessonProgress[],
+	isQrScanning: boolean,
+	isLostPasswordPage: boolean,
+}

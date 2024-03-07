@@ -1,6 +1,6 @@
-import { IChapterDetail, ICourseDetail, ILessonDetail, IQuizDetail } from '@/types/types'
+import { IChapterDetail, ICourseDetail, ILessonDetail, IQuizDetail, IUser } from '@/types/types'
 import Image from 'next/image'
-import { MouseEventHandler, useState } from 'react'
+import { MouseEventHandler, useContext, useState } from 'react'
 import Link from 'next/link'
 import { ReactSVG } from 'react-svg'
 import chevron from "../../../public/images/chevron.svg"
@@ -8,6 +8,8 @@ import lock from "public/images/lock-icon.svg"
 import playIcon from "../../../public/images/play.svg"
 import examIcon from "../../../public/images/exam-white.svg"
 import exam from "../../../public/images/contract.svg"
+import { GlobalContext } from '@/context/context'
+import AlertModal from '../common/alert-modal'
 
 interface ICourseDetailProps {
   item?: ICourseDetail
@@ -37,8 +39,6 @@ const CourseDetail = ({ item }: ICourseDetailProps) => {
   )
 }
 
-
-
 const ChapterDetail = ({ item }: IChapterDetailProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
@@ -64,23 +64,39 @@ const ChapterDetail = ({ item }: IChapterDetailProps) => {
 }
 
 const LessonDetail = ({ item }: ILessonDetailProps) => {
+  const context = useContext(GlobalContext)
+  const userInfo = context.userInfo?.get()
+  const [errorMessage, setErrorMessage] = useState<string>()
+
+  const clearError = () => {
+    setErrorMessage(undefined)
+  }
+
   const onLessonClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
-    if(item.isLocked){
+    if(!userInfo?.id){
+      setErrorMessage("Bạn cần phải đăng nhập để tiếp tục sử dụng tính năng này")
       e.preventDefault()
+      return
+    }
+    if(item.isLocked){
+      setErrorMessage("Bạn cần nâng cấp tài khoản để tiếp tục sử dụng tính năng này")
+      e.preventDefault()
+      return
     }
   }
   return (
     <>
       <li data-lesson-id={item.id} data-video={item.videoUrl} className="list-none flex items-center justify-between pl-10 pr-3">
-          <Link href={`/courses/${item.courseId}/lessons/${item.id}`}
-            onClick={onLessonClick}
-            className="flex items-center gap-5 my-2">
-            <Image src={item.type === "video" ? playIcon: exam} width={24} height={24} alt="video" />
-            {item.name}
-            {item.isLocked && <ReactSVG src={lock["src"]} />}
-          </Link>
+        <Link href={`/courses/${item.courseId}/lessons/${item.id}`}
+          onClick={onLessonClick}
+          className="flex items-center gap-5 my-2">
+          <Image src={item.type === "video" ? playIcon : exam} width={24} height={24} alt="video" />
+          {item.name}
+          {item.isLocked && <ReactSVG src={lock["src"]} />}
+        </Link>
+        {errorMessage && <AlertModal type="ROOM_FULL" message={errorMessage} onClose={clearError} />}
       </li>
-      {item?.quizzes?.map(q => <QuizDetail key={q.id} item={q} courseId={item.courseId}/>)}
+      {item?.quizzes?.map(q => <QuizDetail key={q.id} item={q} courseId={item.courseId} />)}
     </>
   )
 }

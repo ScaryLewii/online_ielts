@@ -6,14 +6,14 @@ import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps }}: AppProps) {
   const router = useRouter()
 
   if (router.pathname === "/") {
     return (
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Component {...pageProps} />
+          <Component {...pageProps}/>
         </Hydrate>
       </QueryClientProvider>
     )
@@ -22,8 +22,8 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Layout>
-          <Component {...pageProps} />
+        <Layout >
+          <Component {...pageProps}/>
         </Layout>
       </Hydrate>
     </QueryClientProvider>
