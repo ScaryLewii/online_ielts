@@ -1,4 +1,4 @@
-import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery } from "@/base/query";
+import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useUserInfoQuery } from "@/base/query";
 import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import { PropsWithChildren, useEffect } from "react";
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
 import dashboardbg from "../../../public/images/dashboard-bg.svg";
-import { ICategory, ICourse, ILesson, ILessonProgress, IQuiz, IUnit } from "../../types/types";
+import { ICategory, ICourse, IGlobalContext, ILesson, ILessonProgress, IQuiz, IUnit, IUser } from "../../types/types";
 import SideNav from "../navigation/sidenav";
 import TopNav from "../navigation/topnav";
 import AlertModal from "./alert-modal";
@@ -15,14 +15,15 @@ import GTM from "./gtm";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
-
 	const { isFetched: isFinishFetchCategories, data: allCategories } = useCategoriesQuery(cookies)
 	const { isFetched: isFinishFetchCourses, data: allCourses } = useCoursesQuery(cookies)
 	const allLessons = useAllLessonsQuery(allCourses, cookies)
 	const lessonsProgress = useAllLessonsProgressQuery(allCourses, cookies)
 	const allUnits = useAllUnitsQuery(allCourses, cookies)
+	const {data: userInfo, isFetched: isFetchedUserInfo} = useUserInfoQuery(cookies)
 
-	const state = useObservable({
+	const state = useObservable<IGlobalContext>({
+		userInfo: undefined,
 		cookies: cookies,
 		isSessonValid: true,
 		isNavOpen: true,
@@ -31,17 +32,9 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		units: [],
 		lessons: [],
 		quizs: [],
-		lessonProgress: []
-	} as unknown as {
-		cookies: any,
-		isSessonValid: boolean,
-		isNavOpen: boolean,
-		categories: ICategory[],
-		courses: ICourse[],
-		units: IUnit[],
-		lessons: ILesson[],
-		quizs: IQuiz[],
-		lessonProgress: ILessonProgress[]
+		lessonProgress: [],
+		isLostPasswordPage: false,
+		isQrScanning: false,
 	})
 
 	useEffect(() => {
@@ -71,7 +64,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	state.lessonProgress.set(Object.values(allLessonsProgressData).flat())
 	const allUnitsData = allUnits.map(array => array.data)
 	state.units.set(Object.values(allUnitsData).flat())
-
+	state.userInfo?.set(userInfo)
 	return (
 		<GlobalContext.Provider value={state}>
 			<div className="dashboard-wrapper flex">
