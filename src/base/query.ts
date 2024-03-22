@@ -200,6 +200,32 @@ export const useAllLivesQuery = (cookies: any) => {
 	})
 }
 
+const fetchIncomingLives = async (page: number, pageSize: number, cookies: any) => {
+	const lives = await fetchData(`live-schedules/incoming?Page=${page}&PageSize=${pageSize}`, "GET", cookies)
+	return lives.data ?? []
+}
+export const useIncomingLivesQuery = (page: number, pageSize: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['lives', 'incoming'],
+		queryFn: () => fetchIncomingLives(page, pageSize, cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}
+
+const fetchEndedLives = async (page: number, pageSize: number, cookies: any) => {
+	const lives = await fetchData(`live-schedules/ended?Page=${page}&PageSize=${pageSize}`, "GET", cookies)
+	return lives.data ?? []
+}
+export const useEndedLivesQuery = (page: number, pageSize: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['lives', 'ended', page, pageSize],
+		queryFn: () => fetchEndedLives(page, pageSize, cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}
+
 const fetchMyLives = async (cookies: any) => {
 	const lives = await fetchData(`live-schedules/my`, "GET", cookies)
 	return lives.data ?? []

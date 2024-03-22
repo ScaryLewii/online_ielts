@@ -1,4 +1,4 @@
-import { useAllLivesQuery, useAuthorsQuery, useCoinQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
+import { useAllLivesQuery, useAuthorsQuery, useCoinQuery, useEndedLivesQuery, useIncomingLivesQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { IAuthor, IEvent } from "@/types/types"
 import Image from "next/image"
@@ -12,13 +12,13 @@ import AuthorCard from "@/components/author/author-card"
 
 const buttons = [
 	{
-		label: "Tất cả sự kiện"
+		label: "Sự kiện sắp diễn ra"
+	},
+	{
+		label: "Sự kiện đã kết thúc"
 	},
 	{
 		label: "Sự kiện của tôi"
-	},
-	{
-		label: "Sự kiện sắp diễn ra"
 	},
 	{
 		label: "Hồ sơ diễn giả"
@@ -28,16 +28,20 @@ const buttons = [
 const LivePage = () => {
 	const context = useContext(GlobalContext)
 	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
-	const { isFetched: isFinishFetchLives, data: allLives, refetch: refreshLives } = useAllLivesQuery(context.cookies.get())
+	// const { isFetched: isFinishFetchLives, data: allLives, refetch: refreshLives } = useAllLivesQuery(context.cookies.get())
 	const { isFetched: isFinishFetchMyLives, data: myLives, refetch: refreshMyLives } = useMyLivesQuery(context.cookies.get())
+	const { isFetched: isFinishFetchIncomingLives, data: incomingLives, refetch: refreshIncomingLives } = useIncomingLivesQuery(1, 100, context.cookies.get())
+	const { isFetched: isFinishFetchEndedLives, data: endedLives, refetch: refreshEndedLives } = useEndedLivesQuery(1, 100, context.cookies.get())
 	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
 	const { isFetched: isFinishFetchAuthors, data: authorData} = useAuthorsQuery(1, 100, context.cookies.get()) 
 
 	const [tabActive, setTabActive] = useState(0)
 
 	const onRegisterSuccess = () => {
-		refreshLives();
-		refreshMyLives();
+		// refreshLives()
+		refreshMyLives()
+		refreshIncomingLives()
+		refreshEndedLives()
 	}
 
 	useEffect(() => {
@@ -91,17 +95,22 @@ const LivePage = () => {
 				</div>
 
 				<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-[20px] mt-[34px] text-sea">
-					{tabActive === 0 && isFinishFetchLives && isFinishFetchMyLives && allLives?.map((live: IEvent, index: number) => (
+					{/* {tabActive === 0 && isFinishFetchLives && isFinishFetchMyLives && allLives?.map((live: IEvent, index: number) => (
+						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} onRegisterSuccess={onRegisterSuccess} />
+					))} */}
+					{tabActive === 0 && isFinishFetchIncomingLives && incomingLives?.items?.map((live: IEvent, index: number) => (
 						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} onRegisterSuccess={onRegisterSuccess} />
 					))}
 
-					{tabActive === 1 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
+					{tabActive === 1 && isFinishFetchEndedLives && endedLives?.items?.map((live: IEvent, index: number) => (
+						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} />
+					))}
+					
+
+					{tabActive === 2 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
 						<EventCard key={index} event={live} isSuccess={true} onRegisterSuccess={onRegisterSuccess} />
 					))}
 
-					{tabActive === 2 && isFinishFetchMyLives && myLives?.map((live: IEvent, index: number) => (
-						<EventCard key={index} event={live} isSuccess={myLives?.some((l: IEvent) => l.id === live.id)} onRegisterSuccess={onRegisterSuccess} />
-					))}
 					{tabActive === 3 && isFinishFetchAuthors && authorData?.items?.map((author: IAuthor, index: number) => (
 						<AuthorCard key={author.id} item={author}/>
 					))}
