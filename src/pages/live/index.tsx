@@ -1,4 +1,4 @@
-import { useAllLivesQuery, useAuthorsQuery, useCoinQuery, useEndedLivesQuery, useIncomingLivesQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
+import { useAllLivesQuery, useAuthorsQuery, useBannersQuery, useCoinQuery, useEndedLivesQuery, useIncomingLivesQuery, useMyLivesQuery, useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { IAuthor, IEvent } from "@/types/types"
 import Image from "next/image"
@@ -9,6 +9,9 @@ import { ReactSVG } from "react-svg"
 import RouteBox from "../all-courses/box"
 import EventCard from "@/components/live-schedule/event-card"
 import AuthorCard from "@/components/author/author-card"
+import Banner from "@/components/live-schedule/banner"
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const buttons = [
 	{
@@ -34,6 +37,9 @@ const LivePage = () => {
 	const { isFetched: isFinishFetchEndedLives, data: endedLives, refetch: refreshEndedLives } = useEndedLivesQuery(1, 100, context.cookies.get())
 	const { isFetched: isFinishFetchCoin, data: myCoin } = useCoinQuery(context.cookies.get())
 	const { isFetched: isFinishFetchAuthors, data: authorData} = useAuthorsQuery(1, 100, context.cookies.get()) 
+	const { isFetched: isFinishFetchBanners, data: resBanners } = useBannersQuery(context.cookies.get())
+
+	const banners = resBanners?.data || []
 
 	const [tabActive, setTabActive] = useState(0)
 
@@ -52,7 +58,7 @@ const LivePage = () => {
 
 	return <div className="text-white relative z-[1] p-5 xl:p-10">
 		{isFinishFetchUserInfo && userInfo &&
-			<div className="flex items-center gap-[20px] mb-[50px]">
+			<div className={`flex items-center gap-[20px] mb-[50px] ${banners.length !== 0 ? 'hidden' : ''}`}>
 				<Image className="rounded-full border-2 border-cyan w-[85px] h-[85px]" alt="profile image"
 					width={85}
 					height={85}
@@ -80,6 +86,11 @@ const LivePage = () => {
 				</div>
 			</div>
 		}
+		{ isFinishFetchBanners && banners.length>0 && <div className="w-full">
+			<Carousel showArrows className="w-full" infiniteLoop autoPlay swipeable emulateTouch>
+				{banners.map(p => <Banner key={p.id} item={p}/>)}
+			</Carousel>
+		</div>}
 
 		<div className="flex gap-[60px] 4xl:gap-[100px] w-full items-start md:flex-col lg:flex-row xl:justify-between">
 			<div className="w-full">

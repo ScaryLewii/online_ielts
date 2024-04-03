@@ -1,4 +1,4 @@
-import { ICategory, ICourse, ICourseDetail } from "@/types/types"
+import { IBanner, ICategory, ICourse, ICourseDetail, IGenericResponseApi } from "@/types/types"
 import { useQueries, useQuery } from "@tanstack/react-query"
 import { fetchData } from "./base"
 
@@ -289,5 +289,18 @@ export const useSingleAuthorQuery = (id: number, cookies: any) => {
 		queryFn: () => fetchAuthorById(id, cookies),
 		staleTime: Infinity,
 		enabled: !!id,
+	})
+}
+
+const fetchBanners = async (cookies: any): Promise<IGenericResponseApi<IBanner[]>> => {
+	const res = await fetchData("banners", "GET", cookies) as IGenericResponseApi<IBanner[]>
+	return res
+}
+
+export const useBannersQuery = (cookies: any) => {
+	return useQuery({
+		queryKey: ['banners'],
+		queryFn: () => fetchBanners(cookies),
+		staleTime: Infinity,
 	})
 }
