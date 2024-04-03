@@ -1,4 +1,4 @@
-import { ICategory, ICourse, ICourseDetail } from "@/types/types"
+import { IBanner, ICategory, ICourse, ICourseDetail, IGenericResponseApi } from "@/types/types"
 import { useQueries, useQuery } from "@tanstack/react-query"
 import { fetchData } from "./base"
 
@@ -200,6 +200,32 @@ export const useAllLivesQuery = (cookies: any) => {
 	})
 }
 
+const fetchIncomingLives = async (page: number, pageSize: number, cookies: any) => {
+	const lives = await fetchData(`live-schedules/incoming?Page=${page}&PageSize=${pageSize}`, "GET", cookies)
+	return lives.data ?? []
+}
+export const useIncomingLivesQuery = (page: number, pageSize: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['lives', 'incoming'],
+		queryFn: () => fetchIncomingLives(page, pageSize, cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}
+
+const fetchEndedLives = async (page: number, pageSize: number, cookies: any) => {
+	const lives = await fetchData(`live-schedules/ended?Page=${page}&PageSize=${pageSize}`, "GET", cookies)
+	return lives.data ?? []
+}
+export const useEndedLivesQuery = (page: number, pageSize: number, cookies: any) => {
+	return useQuery({
+		queryKey: ['lives', 'ended', page, pageSize],
+		queryFn: () => fetchEndedLives(page, pageSize, cookies),
+		enabled: !!cookies,
+		staleTime: Infinity
+	})
+}
+
 const fetchMyLives = async (cookies: any) => {
 	const lives = await fetchData(`live-schedules/my`, "GET", cookies)
 	return lives.data ?? []
@@ -263,5 +289,18 @@ export const useSingleAuthorQuery = (id: number, cookies: any) => {
 		queryFn: () => fetchAuthorById(id, cookies),
 		staleTime: Infinity,
 		enabled: !!id,
+	})
+}
+
+const fetchBanners = async (cookies: any): Promise<IGenericResponseApi<IBanner[]>> => {
+	const res = await fetchData("banners", "GET", cookies) as IGenericResponseApi<IBanner[]>
+	return res
+}
+
+export const useBannersQuery = (cookies: any) => {
+	return useQuery({
+		queryKey: ['banners'],
+		queryFn: () => fetchBanners(cookies),
+		staleTime: Infinity,
 	})
 }

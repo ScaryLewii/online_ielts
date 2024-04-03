@@ -283,3 +283,29 @@ export interface IGlobalContext {
 	isQrScanning: boolean,
 	isLostPasswordPage: boolean,
 }
+
+export interface IBanner {
+	id: number,
+	title: string,
+	titleColor: string,
+	description: string,
+	descriptionColor: string,
+	image: string,
+	imageMobile: string,
+	buttonTitle: string,
+	buttonTitleColor: string,
+	buttonColor: string,
+	overlayColor: string,
+	link: string,
+	active: boolean,
+	displayOrder: number,
+	type: string,
+	event: string,
+	newTab: boolean,
+}
+
+export interface IGenericResponseApi<T>{
+	data: T,
+	isSuccess: boolean,
+	errors: any[],
+}
