@@ -128,7 +128,7 @@ const LivePage = () => {
 				</div>
 			</div>
 
-			<RouteBox isPersonal={tabActive === 1} isFuture={tabActive === 2} />
+			<RouteBox isPersonal={tabActive === 2} isFuture={tabActive === 0} />
 		</div>
 	</div>
 }
