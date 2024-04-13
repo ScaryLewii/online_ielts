@@ -2,14 +2,17 @@ import Script from 'next/script'
 
 function Gtag() {
 	return <>
-		<Script id="google-analytics">
-			{`
-				window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-				ga('create', 'G-LYMPK4GT6B', 'auto');
-				ga('send', 'pageview');
-			`}
-		</Script>
-		<Script src="https://www.google-analytics.com/analytics.js" />
+		{`
+			<!-- Google tag (gtag.js) -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id=G-G37C3SSMSN"></script>
+			<script>
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+			
+				gtag('config', 'G-G37C3SSMSN');
+			</script>
+		`}
 	</>
 }
 
