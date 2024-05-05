@@ -6,11 +6,9 @@ import { PropsWithChildren, useEffect } from "react";
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
 import dashboardbg from "../../../public/images/dashboard-bg.svg";
-import { ICategory, ICourse, IGlobalContext, ILesson, ILessonProgress, IQuiz, IUnit, IUser } from "../../types/types";
+import { IGlobalContext } from "../../types/types";
 import SideNav from "../navigation/sidenav";
 import TopNav from "../navigation/topnav";
-import AlertModal from "./alert-modal";
-import Gtag from "./gtag";
 import GTM from "./gtm";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
@@ -76,8 +74,6 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 						<>{children}</>
 				</main>
 			</div>
-			
-			{state.isSessonValid.get() === false && <AlertModal type="LOGIN" />}
 		</GlobalContext.Provider>
 	)
 })

@@ -6,7 +6,7 @@ import CourseDetail from "@/components/course/course-detail"
 import { GlobalContext } from "@/context/context"
 import CourseInfo from "@/pages/courses/course-info"
 import { useRouter } from "next/router"
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 
 const CourseContent = () => {
 	const { isReady, query } = useRouter()
