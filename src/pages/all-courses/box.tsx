@@ -45,7 +45,7 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 			setFutureEventDate(new Date(allEvents?.find(e => moment(e.startTime) >= moment(new Date()))?.startTime || "") || moment(new Date()))
 		}
 		handleState()
-	}, [allLives, myLives, isPersonal, isFinishFetchLives, isFinishFetchMyLives, allEvents, isFuture])
+	}, [allLives, myLives, isFinishFetchLives, isFinishFetchMyLives])
 
 	useEffect(() => {
 		if (futureEventDate && allEvents) {

@@ -3,17 +3,17 @@ import { GlobalContext } from "@/context/context"
 import { ICategory } from "@/types/types"
 import { nanoid } from "nanoid"
 import Link from "next/link"
-import { useContext } from "react"
-import { ReactSVG } from "react-svg"
 import icon1 from "public/dump/icon-1.svg"
 import icon2 from "public/dump/icon-2.svg"
 import icon3 from "public/dump/icon-3.svg"
 import routeMobile from "public/images/route-mobile.svg"
 import route from "public/images/route.svg"
+import { useContext } from "react"
+import { ReactSVG } from "react-svg"
 
 const PlainContent = ({url}: {url: string}) => {
 	return <>
-		<div className="hidden md:flex items-center gap-2 mt-5 opacity-0 group-hover:opacity-100 whitespace-nowrap">
+		<div className="hidden md:flex items-center gap-2 mt-5 lg:opacity-0 group-hover:opacity-100 whitespace-nowrap">
 			<Link href={url} className="px-5 py-2 border border-[#51C84E] rounded-full inline-flex gap-2 items-center">
 				<ReactSVG src={icon1["src"]} width={24} height={24} />
 				Lý thuyết
@@ -62,22 +62,24 @@ const Route = () => {
 		},
 	]
 
-	return <div className="relative">
-		<ReactSVG className="hidden md:block" src={route['src']} />
-		<ReactSVG className="block md:hidden" src={routeMobile['src']} />
-		{ allCategories && 
-			allCategories.map((cat: ICategory, index: number) => {
-				if (cat.active) {
-					return (
-						<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].positionMb} ${Items[index].position}`}>
-							<Link href={`/categories/${cat.id}`} className={`${Items[index].color} font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
-							<PlainContent url={`/categories/${cat.id}`} />
-						</div>
-					)
-				}
-			})
-		}
-	</div>
+	return <>
+		<div className="relative">
+			<ReactSVG className="hidden md:block" src={route['src']} />
+			<ReactSVG className="block md:hidden" src={routeMobile['src']} />
+			{ allCategories && 
+				allCategories.map((cat: ICategory, index: number) => {
+					if (cat.active) {
+						return (
+							<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].positionMb} ${Items[index].position}`}>
+								<Link href={`/categories/${cat.id}`} className={`${Items[index].color} font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
+								<PlainContent url={`/categories/${cat.id}`} />
+							</div>
+						)
+					}
+				})
+			}
+		</div>
+	</>
 }
 
 export default Route

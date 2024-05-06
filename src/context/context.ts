@@ -1,5 +1,4 @@
 import { createContext } from "react";
-import { signal } from "@preact/signals-react";
 import { IGlobalContext } from "@/types/types";
 import { ObservableObject, observable  } from "@legendapp/state";
 
@@ -22,4 +21,3 @@ export const GlobalContext = createContext<ObservableObject<IGlobalContext>>(def
 export const CourseContext = createContext<any>(null)
 export const QuizContext = createContext<any>({})
 export const SubtitleContext = createContext<any>({})
-export const tokenAPI = signal("")

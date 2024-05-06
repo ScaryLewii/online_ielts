@@ -1,7 +1,6 @@
-import Link from "next/link"
-import back from "../../../public/images/back.svg"
-import { ReactSVG } from "react-svg"
 import { useRouter } from "next/router"
+import { ReactSVG } from "react-svg"
+import back from "../../../public/images/back.svg"
 
 interface IBreadcrumbs {
 	title: string

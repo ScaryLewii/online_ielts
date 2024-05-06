@@ -1,4 +1,4 @@
-import Gtag from '@/components/common/gtag'
+import GTM from '@/components/common/gtm'
 import Banner from '@/components/home/banner'
 import ContactSection from '@/components/home/contact'
 import HeaderSection from '@/components/home/header'
@@ -16,7 +16,7 @@ export default function Home() {
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<link rel="icon" href="/favicon.ico" />
 		</Head>
-		<Gtag />
+		<GTM />
 		<main className='bg-sea relative'>
 			<HeaderSection />
 			<Banner />

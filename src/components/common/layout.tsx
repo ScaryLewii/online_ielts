@@ -2,23 +2,25 @@ import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCa
 import { GlobalContext } from "@/context/context";
 import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
-import { isMobile } from 'react-device-detect';
-import dashboardbg from "../../../public/images/dashboard-bg.svg";
-import { IGlobalContext } from "../../types/types";
-import SideNav from "../navigation/sidenav";
-import TopNav from "../navigation/topnav";
+import { BrowserView } from 'react-device-detect';
+import dashboardbg from "public/images/dashboard-bg.svg";
+import { IGlobalContext } from "@/types/types";
+import SideNav from "@/components/navigation/sidenav";
+import TopNav from "@/components/navigation/topnav";
 import GTM from "./gtm";
+import useIsClient from "@/context/hook";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
+	const [isClient] = useIsClient();
 	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
 	const { isFetched: isFinishFetchCategories, data: allCategories } = useCategoriesQuery(cookies)
 	const { isFetched: isFinishFetchCourses, data: allCourses } = useCoursesQuery(cookies)
 	const allLessons = useAllLessonsQuery(allCourses, cookies)
 	const lessonsProgress = useAllLessonsProgressQuery(allCourses, cookies)
 	const allUnits = useAllUnitsQuery(allCourses, cookies)
-	const {data: userInfo, isFetched: isFetchedUserInfo} = useUserInfoQuery(cookies)
+	const {data: userInfo} = useUserInfoQuery(cookies)
 
 	const state = useObservable<IGlobalContext>({
 		userInfo: undefined,
@@ -36,10 +38,6 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	})
 
 	useEffect(() => {
-		if (isMobile) {
-			state.isNavOpen.set(false)
-		}
-
 		if (isFinishFetchCategories && typeof window !== undefined && !allCategories) {
 			// window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
@@ -50,7 +48,6 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 			// window.location.assign('https://ant-edu.ai/auth/login')
 			console.log('not login')
 			state.isSessonValid.set(false)
-
 		}
 	}, [allCategories, allCourses, isFinishFetchCategories, isFinishFetchCourses, state.isSessonValid])
 
@@ -63,15 +60,24 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const allUnitsData = allUnits.map(array => array.data)
 	state.units.set(Object.values(allUnitsData).flat())
 	state.userInfo?.set(userInfo)
+
+	if (!isClient) {
+		return null;
+	}
+
 	return (
 		<GlobalContext.Provider value={state}>
 			<div className="dashboard-wrapper flex">
 				<GTM />
-				<SideNav />
+				<BrowserView>
+					<SideNav />
+				</BrowserView>
 				<main className="bg-sea w-full min-h-screen relative" style={{gridArea: "dashboard"}}>
 					<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
-					<TopNav />
-						<>{children}</>
+					<BrowserView>
+						<TopNav />
+					</BrowserView>
+					<div className="relative z-[1]">{children}</div>
 				</main>
 			</div>
 		</GlobalContext.Provider>
