@@ -63,7 +63,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 
 	return (
 		<GlobalContext.Provider value={state}>
-			<div className="dashboard-wrapper flex">
+			<div className="dashboard-wrapper flex bg-sea-light ">
 				<GTM />
 				<BrowserView>
 					<SideNav />
