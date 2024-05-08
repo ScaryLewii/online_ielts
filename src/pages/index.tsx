@@ -1,3 +1,5 @@
+"use client"
+
 import GTM from '@/components/common/gtm'
 import Banner from '@/components/home/banner'
 import ContactSection from '@/components/home/contact'

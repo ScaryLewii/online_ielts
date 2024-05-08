@@ -6,6 +6,7 @@ import courseIcon from "public/images/course.svg"
 import examIcon from "public/images/exam.svg"
 import { useContext, useEffect, useState } from "react"
 import AllCourseBanner from "../all-courses/banner"
+import MobileBreadcrumbs from "@/components-mobile/common/breadcrumbs"
 
 const StudyRouteMobile = () => {
 	const context = useContext(GlobalContext)

@@ -1,12 +1,11 @@
-import { useCategoriesQuery, useCoinQuery, useCoursesQuery, useUserInfoQuery } from "@/base/query"
+import { useCoinQuery, useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
-import { ICategory, ICourse } from "@/types/types"
 import Image from "next/image"
 import coin from "public/images/coin.svg"
 import hand from "public/images/hand.svg"
 import silver from "public/images/silver.svg"
 import banner from "public/images/user-banner.png"
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { ReactSVG } from "react-svg"
 
 const AllCourseBanner = () => {

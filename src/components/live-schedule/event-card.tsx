@@ -2,7 +2,6 @@ import { fetchData } from "@/base/base"
 import AlertModal from "@/components/common/alert-modal"
 import { GlobalContext } from "@/context/context"
 import { IEvent } from "@/types/types"
-import { useQueryClient } from "@tanstack/react-query"
 import moment from "moment"
 import Image from "next/image"
 import close from "public/images/close.svg"
@@ -11,14 +10,14 @@ import { Fragment, useContext, useState } from "react"
 import ReactPlayer from "react-player/lazy"
 import { ReactSVG } from "react-svg"
 
-const EventCard = ({ event, isSuccess, onRegisterSuccess }:
+const EventCard = ({ event, isSuccess, onRegisterSuccess, isCarouselItem }:
 	{
 		event: IEvent,
 		isSuccess?: boolean,
 		onRegisterSuccess?: () => void,
+		isCarouselItem?: boolean,
 	}
 ) => {
-	const queryClient = useQueryClient()
 	const context = useContext(GlobalContext)
 	const [modalOpen, setModalOpen] = useState(false)
 	const [modalReviewOpen, setModalReviewOpen] = useState(false)
@@ -58,7 +57,7 @@ const EventCard = ({ event, isSuccess, onRegisterSuccess }:
 	return (
 		<>
 			{event &&
-				<article className="rounded-[16px] overflow-hidden bg-white">
+				<article className={`rounded-[16px] overflow-hidden bg-white ${isCarouselItem && 'h-full'}`}>
 					<div className="relative overflow-hidden">
 						<div className="absolute z-[2] flex flex-col [&>span:first-child]:z-[2]">
 							{event.liveScheduleConditions.length < 1 &&

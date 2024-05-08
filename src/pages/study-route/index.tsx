@@ -36,7 +36,7 @@ const StudyRoutePage = () => {
 			</div>
 		</BrowserView>
 		<MobileView>
-			<MobileBreadcrumbs title={'Lộ trình học'} parentPage={"/"} />
+			<MobileBreadcrumbs title={'Lộ trình học'} parentPage={"/menu"} />
 			<Tabs data={TabData} />
 		</MobileView>
 	</>

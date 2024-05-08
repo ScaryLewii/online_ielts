@@ -1,16 +1,28 @@
 import Link from "next/link"
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 import type { Container, Engine } from "tsparticles-engine";
+import { BrowserView, MobileView } from "react-device-detect";
+import useIsClient from "@/context/hook";
+
 
 const Banner = () => {
+    const [isClient, setIsClient] = useState(false)
 	const particlesInit = useCallback(async (engine: Engine) => {
         await loadSlim(engine);
     }, []);
 
 	const particlesLoaded = useCallback(async (container: Container | undefined) => {
     }, []);
+
+    useEffect(() => {
+        setIsClient(true)
+    }, []);
+
+    if (!isClient) {
+        return null
+    }
 
 	return <section id="about" className="flex items-center h-screen relative overflow-hidden">
 		<Particles
@@ -94,7 +106,13 @@ const Banner = () => {
 			<h2 className="text-[16px] lg:text-[34px] font-semibold uppercase">HỆ THỐNG LUYỆN THI IELTS QUA VIDEO COACHING</h2>
 			<p className="text-[14px] lg:text-[16px] italic my-12">Real people make miracles!</p>
 
-			<Link href="/study-route" className="inline-flex uppercase py-4 px-10 bg-cyan text-white font-bold hover:opacity-90 focus:opacity-90">TRẢI NGHIỆM NGAY</Link>
+			<BrowserView>
+                <Link href="/study-route" className="inline-flex uppercase py-4 px-10 bg-cyan text-white font-bold hover:opacity-90 focus:opacity-90">TRẢI NGHIỆM NGAY</Link>
+            </BrowserView>
+            
+            <MobileView>
+                <Link href="/menu" className="inline-flex uppercase py-4 px-10 bg-cyan text-white font-bold hover:opacity-90 focus:opacity-90">TRẢI NGHIỆM NGAY</Link>
+            </MobileView>
 		</div>
 	</section>
 }

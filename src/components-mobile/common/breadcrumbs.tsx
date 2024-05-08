@@ -13,7 +13,9 @@ const MobileBreadcrumbs = ({title, isSubMenu, parentPage}: IBreadcrumbsMobile) =
 	const router = useRouter()
 
 	return (
-		<div className="flex justify-between items-center px-5 py-3 sticky z-[15] top-0 bg-sea border-b border-gray-500">
+		<div className={`flex items-center px-5 py-3 sticky z-[15] top-0 bg-sea border-b border-gray-500
+			${!isSubMenu && !parentPage ? 'justify-center' : 'justify-between'}
+		`}>
 			{isSubMenu &&
 				<button className="w-8 h-8 bg-dark inline-flex items-center justify-center rounded hover:opacity-90"
 					onClick={() => router.back()}
@@ -28,7 +30,10 @@ const MobileBreadcrumbs = ({title, isSubMenu, parentPage}: IBreadcrumbsMobile) =
 				</Link>
 			}
 			<span className="text-white text-lg">{title}</span>
-			<div aria-hidden className="w-8"></div>
+
+			{isSubMenu || parentPage &&
+				<div aria-hidden className="w-8"></div>
+			}
 		</div>
 	)
 }

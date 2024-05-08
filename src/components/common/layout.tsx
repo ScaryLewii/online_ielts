@@ -1,19 +1,19 @@
+"use client"
+
 import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useUserInfoQuery } from "@/base/query";
-import { GlobalContext } from "@/context/context";
-import { observer, useObservable } from "@legendapp/state/react";
-import Image from "next/image";
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useCookies } from 'react-cookie';
-import { BrowserView } from 'react-device-detect';
-import dashboardbg from "public/images/dashboard-bg.svg";
-import { IGlobalContext } from "@/types/types";
 import SideNav from "@/components/navigation/sidenav";
 import TopNav from "@/components/navigation/topnav";
+import { GlobalContext } from "@/context/context";
+import { IGlobalContext } from "@/types/types";
+import { observer, useObservable } from "@legendapp/state/react";
+import Image from "next/image";
+import dashboardbg from "public/images/dashboard-bg.svg";
+import { PropsWithChildren, useEffect } from "react";
+import { useCookies } from 'react-cookie';
+import { BrowserView } from 'react-device-detect';
 import GTM from "./gtm";
-import useIsClient from "@/context/hook";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
-	const [isClient] = useIsClient();
 	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
 	const { isFetched: isFinishFetchCategories, data: allCategories } = useCategoriesQuery(cookies)
 	const { isFetched: isFinishFetchCourses, data: allCourses } = useCoursesQuery(cookies)
@@ -60,10 +60,6 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const allUnitsData = allUnits.map(array => array.data)
 	state.units.set(Object.values(allUnitsData).flat())
 	state.userInfo?.set(userInfo)
-
-	if (!isClient) {
-		return null;
-	}
 
 	return (
 		<GlobalContext.Provider value={state}>
