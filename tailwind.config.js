@@ -21,7 +21,10 @@ module.exports = {
         'green': '#32BEA6',
         'dark': 'rgba(255, 255, 255, 0.20)',
         'dark-10': 'rgba(255, 255, 255, 0.10)',
-        'dark-15': 'rgba(255, 246, 217, 0.15)'
+        'dark-15': 'rgba(255, 246, 217, 0.15)',
+        'blue-mb': '#3060CF',
+        'black-mb': '#131318',
+        'white-mb': '#F5F8FF',
       }
     },
   },

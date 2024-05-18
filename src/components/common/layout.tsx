@@ -8,10 +8,12 @@ import { IGlobalContext } from "@/types/types";
 import { observer, useObservable } from "@legendapp/state/react";
 import Image from "next/image";
 import dashboardbg from "public/images/dashboard-bg.svg";
-import { PropsWithChildren, useEffect } from "react";
+import dashboardbgMB from "public/images/bg-mobile.png";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
 import { BrowserView } from 'react-device-detect';
 import GTM from "./gtm";
+import { useRouter } from "next/router";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
@@ -21,7 +23,9 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	const lessonsProgress = useAllLessonsProgressQuery(allCourses, cookies)
 	const allUnits = useAllUnitsQuery(allCourses, cookies)
 	const {data: userInfo} = useUserInfoQuery(cookies)
-
+	const router = useRouter()
+	const [isClient, setIsClient] = useState(false)
+	
 	const state = useObservable<IGlobalContext>({
 		userInfo: undefined,
 		cookies: cookies,
@@ -49,6 +53,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 			console.log('not login')
 			state.isSessonValid.set(false)
 		}
+
+		setIsClient(true)
 	}, [allCategories, allCourses, isFinishFetchCategories, isFinishFetchCourses, state.isSessonValid])
 
 	state.categories.set(allCategories)
@@ -61,6 +67,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	state.units.set(Object.values(allUnitsData).flat())
 	state.userInfo?.set(userInfo)
 
+	if (!isClient) return null;
+
 	return (
 		<GlobalContext.Provider value={state}>
 			<div className="dashboard-wrapper flex bg-sea-light ">
@@ -68,8 +76,14 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 				<BrowserView>
 					<SideNav />
 				</BrowserView>
-				<main className="bg-sea w-full min-h-screen relative" style={{gridArea: "dashboard"}}>
-					<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
+				<main className={`${router.pathname.includes('course/') ? 'bg-sea' : 'bg-white-mb md:bg-sea'} w-full min-h-screen relative`} style={{gridArea: "dashboard"}}>
+					{router.pathname.includes('course/') &&
+						<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
+					}
+					{!router.pathname.includes('course/') &&
+						<Image src={dashboardbgMB} alt="background" loading="lazy" className="md:hidden absolute bottom-0 left-0 z-0 max-h-full" />
+					}
+					<Image src={dashboardbg} alt="background" loading="lazy" className="hidden md:block absolute top-0 left-0 z-0 max-h-full" />
 					<BrowserView>
 						<TopNav />
 					</BrowserView>
