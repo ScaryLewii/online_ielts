@@ -76,7 +76,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 				<BrowserView>
 					<SideNav />
 				</BrowserView>
-				<main className={`${router.pathname.includes('course/') ? 'bg-sea' : 'bg-white-mb md:bg-sea'} w-full min-h-screen relative`} style={{gridArea: "dashboard"}}>
+				<main className={`bg-sea w-full min-h-screen relative`} style={{gridArea: "dashboard"}}>
 					{router.pathname.includes('course/') &&
 						<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
 					}
