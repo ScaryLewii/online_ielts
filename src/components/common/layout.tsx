@@ -77,12 +77,12 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 					<SideNav />
 				</BrowserView>
 				<main className={`bg-sea w-full min-h-screen relative`} style={{gridArea: "dashboard"}}>
-					{router.pathname.includes('course/') &&
+					{/* {router.pathname.includes('course/') && */}
 						<Image src={dashboardbg} alt="background" loading="lazy" className="absolute top-0 left-0 z-0 max-h-full" />
-					}
-					{!router.pathname.includes('course/') &&
+					{/* } */}
+					{/* {!router.pathname.includes('course/') &&
 						<Image src={dashboardbgMB} alt="background" loading="lazy" className="md:hidden absolute bottom-0 left-0 z-0 max-h-full" />
-					}
+					} */}
 					<Image src={dashboardbg} alt="background" loading="lazy" className="hidden md:block absolute top-0 left-0 z-0 max-h-full" />
 					<BrowserView>
 						<TopNav />
