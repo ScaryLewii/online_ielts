@@ -3,13 +3,15 @@ import Image from 'next/image'
 import { MouseEventHandler, useContext, useState } from 'react'
 import Link from 'next/link'
 import { ReactSVG } from 'react-svg'
-import chevron from "../../../public/images/chevron.svg"
 import lock from "public/images/lock-icon.svg"
-import playIcon from "../../../public/images/play.svg"
-import examIcon from "../../../public/images/exam-white.svg"
-import exam from "../../../public/images/contract.svg"
+import playIcon from "public/images/play.svg"
+import examIcon from "public/images/exam-white.svg"
+import exam from "public/images/contract.svg"
 import { GlobalContext } from '@/context/context'
 import AlertModal from '../common/alert-modal'
+import ChevronIcon from '../icons/chevron'
+import PlayIcon from '../icons/play'
+import ExamIcon from '../icons/exam'
 
 interface ICourseDetailProps {
   item?: ICourseDetail
@@ -30,9 +32,9 @@ interface IQuizDetailProps {
 
 const CourseDetail = ({ item }: ICourseDetailProps) => {
   return (
-    <div className="text-white" data-video={item?.introVideo}>
+    <div className="text-black-mb dark:text-white" data-video={item?.introVideo}>
       <button className="mb-5 cursor-pointer">
-        <h3 className={`font-semibold text-cyan`}>{item?.name}</h3>
+        <h3 className="font-semibold text-black-mb dark:text-cyan">{item?.name}</h3>
       </button>
       {item?.chapters?.map(chapter => <ChapterDetail key={chapter.id} item={chapter} />)}
     </div>
@@ -48,10 +50,12 @@ const ChapterDetail = ({ item }: IChapterDetailProps) => {
   return (
     <>
       <div className={`flex justify-between items-center mb-5 lg:px-3
-			${isExpanded && "bg-dark border border-white pr-3"}
+			${isExpanded && "border-black-mb dark:bg-dark dark:border-white border pr-3"}
 		`}>
-        <button data-id={item.id} className="flex gap-2 lg:gap-4" onClick={onToggleChapter}>
-          <Image src={chevron} width={24} height={24} alt="chevron" />
+        <button data-id={item.id} className="flex gap-2 lg:gap-4 text-left" onClick={onToggleChapter}>
+          <span className="flex-grow-[24px]">
+            <ChevronIcon />
+          </span>
           {item.name}
         </button>
       </div>
@@ -89,8 +93,10 @@ const LessonDetail = ({ item }: ILessonDetailProps) => {
       <li data-lesson-id={item.id} data-video={item.videoUrl} className="list-none flex items-center justify-between pl-10 pr-3">
         <Link href={`/courses/${item.courseId}/lessons/${item.id}`}
           onClick={onLessonClick}
-          className="flex items-center gap-5 my-2">
-          <Image src={item.type === "video" ? playIcon : exam} width={24} height={24} alt="video" />
+          className="flex items-center gap-5 my-2 text-black-mb dark:text-white">
+          {item.type === 'video' ?
+            <PlayIcon /> : <ExamIcon />
+          }
           {item.name}
           {item.isLocked && <ReactSVG src={lock["src"]} />}
         </Link>
@@ -103,10 +109,10 @@ const LessonDetail = ({ item }: ILessonDetailProps) => {
 
 const QuizDetail = ({ item, courseId, }: IQuizDetailProps) => {
   return (
-    <li  data-quiz-id={item.id} className="list-none flex items-center justify-between pl-10 pr-3">
+    <li data-quiz-id={item.id} className="list-none flex items-center justify-between pl-10 pr-3">
 				<Link href={`/courses/${courseId}/lessons/${item.lessonId}/quiz/${item.id}`}
-					className="flex items-center gap-5 my-2">
-						<Image src={examIcon} width={24} height={24} alt="quiz" />
+					className="flex items-center gap-5 my-2 text-black-mb dark:text-white">
+						<ExamIcon />
 						{item.title}
 				</Link>
 			</li>

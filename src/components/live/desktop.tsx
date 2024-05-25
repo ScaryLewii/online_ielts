@@ -92,7 +92,7 @@ const LivePageDesktop = () => {
 
 			<div className="flex gap-[60px] 4xl:gap-[100px] w-full items-start md:flex-col lg:flex-row xl:justify-between">
 				<div className="w-full">
-					<h1 className="font-bold text-[24px] text-white border-l-[7px] border-cyan pl-[13px] mb-[20px]">Danh mục sự kiện</h1>
+					<h1 className="font-bold text-[24px] text-black-mb dark:text-white border-l-[7px] border-cyan pl-[13px] mb-[20px]">Danh mục sự kiện</h1>
 
 					<div className="flex items-center gap-[30px]">
 						{buttons.map((b, index) =>

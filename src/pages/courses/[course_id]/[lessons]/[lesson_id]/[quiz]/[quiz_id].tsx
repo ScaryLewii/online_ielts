@@ -10,6 +10,8 @@ import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import QuizNav from "../../../../../quiz/quiz-nav";
+import { BrowserView, MobileView } from "react-device-detect";
+import MobileBreadcrumbs from "@/components-mobile/common/breadcrumbs";
 
 interface IQuizContent {
 	id: string,
@@ -56,9 +58,15 @@ const QuizContent = observer(function Component() {
 	}, [quiz, router, state.answers, state.questions, state.title])
 
 	return <>
-		<Breadcrumbs title="" />
-		<div className="p-5 pt-0 xl:px-10 xl:pb-5">
-			<h1 className="text-white font-semibold text-2xl" data-id={quizId}>{state.title.get()}</h1>
+		<BrowserView>
+			<Breadcrumbs title="" />
+		</BrowserView>
+		<MobileView>
+			<MobileBreadcrumbs title="Quay lại" isSubMenu />
+		</MobileView>
+		
+		<div className="p-5 lg:pt-0 xl:px-10 xl:pb-5">
+			<h1 className="text-black-mb dark:text-white font-semibold text-2xl" data-id={quizId}>{state.title.get()}</h1>
 		</div>
 		<QuizContext.Provider value={state}>
 			<div className="p-5 xl:p-10 xl:pt-0 relative z-[1]">

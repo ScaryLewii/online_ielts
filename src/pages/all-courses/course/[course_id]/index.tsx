@@ -23,7 +23,7 @@ const CourseContent = () => {
 			<MobileBreadcrumbs title="Khóa học của tôi" isSubMenu />
 		</MobileView>
 		<div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
-			<div className="w-full lg:w-auto lg:min-w-[550px] border border-white py-5 px-5">
+			<div className="w-full lg:w-auto lg:min-w-[550px] border border-black-mb dark:border-white py-5 px-5">
 				{/* <CourseBox courseId={course.id} /> */}
 				<CourseDetail item={courseData} />
 			</div>

@@ -30,7 +30,7 @@ const GateWrapper = ({ children }: PropsWithChildren) => {
 	})
 
 	return (
-		<main className="relative bg-sea text-white">
+		<main className="relative bg-sea text-black-mb dark:text-white">
 			<Image src={background} width={1920} height={1080} className="w-full h-full absolute top-0 left-0" alt="login page background" />
 			<header className="fixed top-5 left-10 z-10">
 				<Link href="/">

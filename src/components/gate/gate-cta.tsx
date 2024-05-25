@@ -20,7 +20,7 @@ const GateCta = observer(() => {
 					Quét mã QR học viên
 				</button>
 
-				<button className="bg-red text-white inline-flex items-center py-2 px-4 rounded-lg gap-3 hover:opacity-90">
+				<button className="bg-red text-black-mb dark:text-white inline-flex items-center py-2 px-4 rounded-lg gap-3 hover:opacity-90">
 					<span className="w-[30px] h-[30px] rounded-full flex justify-center items-center bg-rose-800">
 						<Image src={gplus} width={16} height={16} alt="gplus" />
 					</span>

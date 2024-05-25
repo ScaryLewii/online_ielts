@@ -36,7 +36,7 @@ const InputGroup = observer(({ questionContent }: IInputGroup) => {
 		quizContext.userAnswers.set(userAnswers)
 	}
 
-	return <div id={questionContent?.id} data-type="input-group" className="text-white mb-5" style={{"--tw-border-opacity": 1} as React.CSSProperties}>
+	return <div id={questionContent?.id} data-type="input-group" className="text-black-mb dark:text-white mb-5" style={{"--tw-border-opacity": 1} as React.CSSProperties}>
 		<h3 className="mb-3 font-semibold">{questionContent?.title}</h3>
 		<div className="mb-3 font-semibold" dangerouslySetInnerHTML={{__html: questionContent?.content}}></div>
 		{questionContent?.answers.map((a, index) =>

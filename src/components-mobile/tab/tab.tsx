@@ -17,7 +17,7 @@ const Tabs = ({data}: {
 				<button
 					key={index}
 					className={`
-						py-[6px] px-3 border-b text-white
+						py-[6px] px-3 border-b text-black-mb dark:text-white
 						${index === activeIndex ? 'border-white' : 'border-transparent opacity-50'}
 					`}
 					onClick={() => setActiveIndex(index)}

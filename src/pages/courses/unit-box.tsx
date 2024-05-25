@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { useContext, useEffect, useState } from "react"
-import chevron from "../../../public/images/chevron.svg"
-import playIcon from "../../../public/images/play.svg"
+import playIcon from "public/images/play.svg"
 import lock from "public/images/lock-icon.svg"
 
 import { useLessonsQuery } from "@/base/query"
@@ -11,6 +10,8 @@ import Link from "next/link"
 import { ILesson, IUnit } from "../../types/types"
 import QuizLink from "./quiz-link"
 import { ReactSVG } from "react-svg"
+import ChevronIcon from "@/components/icons/chevron"
+import PlayIcon from "@/components/icons/play"
 interface IUnitBlock {
 	unit: IUnit,
 	courseId: number
@@ -35,8 +36,10 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 		<div className={`flex justify-between items-center mb-5 lg:px-3
 			${isExpanded && "py-3 bg-dark border border-white pr-3"}
 		`}>
-			<button data-id={unit?.id} className="flex gap-2 lg:gap-4" onClick={() => handleUnitClick()}>
-				<Image src={chevron} width={24} height={24} alt="chevron" />
+			<button data-id={unit?.id} className="flex gap-2 lg:gap-4 text-left" onClick={() => handleUnitClick()}>
+				<span className="flex-grow-[24px]">
+					<ChevronIcon />
+				</span>
 				{unit?.name}
 			</button>
 		</div>
@@ -46,13 +49,13 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 					{!l.isLocked &&
 						<Link href={`/courses/${l.courseId}/lessons/${l.id}`}
 							className="flex items-center gap-5 my-2">
-								{l.type === "video" && <Image src={playIcon} width={24} height={24} alt="video" />}
+								{l.type === "video" && <PlayIcon />}
 								{l.name}
 						</Link>
 					}
 					{l.isLocked &&
 						<div className="flex items-center gap-5 my-2 relative">
-							{l.type === "video" && <Image src={playIcon} width={24} height={24} alt="video" />}
+							{l.type === "video" && <PlayIcon />}
 							{l.name}
 							<span className="absolute -right-10 top-1/2 -translate-y-1/2 opacity-40">
 								<ReactSVG src={lock["src"]} />

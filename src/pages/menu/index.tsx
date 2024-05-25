@@ -18,13 +18,13 @@ const MenuPageMobile = () => {
 			<MobileBreadcrumbs title="Ant Edu Course" />
 
 			{isFinishFetchUserInfo && userInfo &&
-				<div className="flex items-center gap-4 font-semibold text-base lg:text-[22px] p-5 text-white">
+				<div className="flex items-center gap-4 font-semibold text-base lg:text-[22px] p-5 text-black-mb dark:text-white">
 					<ReactSVG src={hand["src"]} />
 					Hi {userInfo.displayName ?? "Guest"}, Happy learning
 				</div>
 			}
 
-			<div className="grid grid-rows-2 grid-cols-2 overflow-hidden gap-5 px-5">
+			<div className="grid grid-rows-2 grid-cols-2 overflow-hidden gap-5 px-5 mt-5">
 				<Link href="/study-route" className="relative">
 					<ReactSVG src={btnBg["src"]} />
 					<span className="text-[#FF6341] font-bold absolute top-1/2 left-5 -translate-y-1/2">

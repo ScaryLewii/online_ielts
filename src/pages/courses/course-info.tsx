@@ -12,6 +12,8 @@ import { ReactSVG } from "react-svg"
 import arrow from "../../../public/images/arrow-right.svg"
 import hat from "../../../public/images/hat.svg"
 import pin2 from "../../../public/images/pin2.svg"
+import PinIcon from "@/components/icons/pin"
+import HaatIcon from "@/components/icons/hat"
 
 const CourseInfo = ({videoUrl}: {videoUrl?: string}) => {
 	const router = useRouter()
@@ -85,15 +87,17 @@ const CourseInfo = ({videoUrl}: {videoUrl?: string}) => {
 				/>
 			}
 		</div>
-		<h3 className="text-xl font-semibold my-5">Video hướng dẫn học</h3>
-		<div dangerouslySetInnerHTML={{__html: courseContext?.activeCourse.description.get()}} />
-		<div className="flex items-center gap-2 mt-10">
-			<Image src={pin2} width={24} height={24} alt="start date" />
-			<p>Start date: February 21, 2023</p>
-		</div>
-		<div className="flex items-center gap-2 mt-5">
-			<Image src={hat} width={24} height={24} alt="start date" />
-			<p>Estimated end date: August 9, 2023</p>
+		<div className="text-black-mb dark:text-white">
+			<h3 className="text-xl font-semibold my-5">Video hướng dẫn học</h3>
+			<div dangerouslySetInnerHTML={{__html: courseContext?.activeCourse.description.get()}} />
+			<div className="flex items-center gap-2 mt-10">
+				<PinIcon />
+				<p>Start date: February 21, 2023</p>
+			</div>
+			<div className="flex items-center gap-2 mt-5">
+				<HaatIcon />
+				<p>Estimated end date: August 9, 2023</p>
+			</div>
 		</div>
 
 		<button className="py-4 px-8 bg-cyan rounded-full mt-10 flex items-center gap-2 hover:opacity-90" onClick={() => handleContinueStudy()}>

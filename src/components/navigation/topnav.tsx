@@ -1,13 +1,15 @@
 import { useUserInfoQuery } from "@/base/query"
 import { GlobalContext } from "@/context/context"
 import { observer } from "@legendapp/state/react"
+import { useTheme } from "next-themes"
 import Image from "next/image"
+import bellIcon from "public/images/bell.svg"
+import nav from "public/nav.svg"
 import { useContext } from "react"
-import bellIcon from "../../../public/images/bell.svg"
-import nav from "../../../public/nav.svg"
 
 const TopNav = observer(() => {
 	const context = useContext(GlobalContext)
+	const { setTheme, resolvedTheme } = useTheme();
 	
 	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
 
