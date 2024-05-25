@@ -1,5 +1,6 @@
 
 import { useCategoriesQuery, useCoursesQuery } from "@/base/query"
+import MobileBreadcrumbs from "@/components-mobile/common/breadcrumbs"
 import { CourseContext, GlobalContext } from "@/context/context"
 import CourseBox from "@/pages/courses/course-box"
 import CourseInfo from "@/pages/courses/course-info"
@@ -8,6 +9,7 @@ import { observer, useObservable } from "@legendapp/state/react"
 import { nanoid } from "nanoid"
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
+import { MobileView } from "react-device-detect"
 
 interface ICourseContent {
 	activeCourse: ICourse,
@@ -39,18 +41,25 @@ const CourseContent = observer(() => {
 		})
 	}, [allCourses, categories, context.categories, context.lessons, router.asPath, state.activeCourse])
 
-	return <div className="flex gap-10 flex-wrap text-white p-5 xl:p-10 relative z-[1]">
-		<CourseContext.Provider value={state}>
-			<div className="w-full lg:w-auto lg:min-w-[550px] border border-black-mb dark:border-white py-5 px-5">
-				{courses?.map((course: ICourse) => 
-					<CourseBox key={nanoid()} courseId={course.id} />
-				)}
-			</div>
-			<div className=" xl:max-w-[450px]">
-				<CourseInfo />
-			</div>
-		</CourseContext.Provider>
+	return <>
+	<MobileView>
+		<MobileBreadcrumbs isSubMenu title="Quay lại" />
+	</MobileView>
+	<div className="flex gap-10 flex-wrap text-white relative z-[1]">
+		<div className="p-5 xl:p-10">
+			<CourseContext.Provider value={state}>
+				<div className="w-full lg:w-auto lg:min-w-[550px] border border-black-mb dark:border-white py-5 px-5">
+					{courses?.map((course: ICourse) => 
+						<CourseBox key={nanoid()} courseId={course.id} />
+					)}
+				</div>
+				<div className=" xl:max-w-[450px]">
+					<CourseInfo />
+				</div>
+			</CourseContext.Provider>
+		</div>
 	</div>
+	</>
 })
 
 export default CourseContent

@@ -27,7 +27,7 @@ const CourseBox = ({courseId}: ICouseBox) => {
 		{ course &&
 			<div className="text-white" data-video={course.introVideo}>
 				<button className="mb-5 cursor-pointer" onClick={() => setActiveCourse()}>
-					<h3 className={`font-semibold ${courseContext?.activeCourse.id.get() === courseId ? "text-cyan" : ""}`}>{course.name}</h3>
+					<h3 className={`font-semibold ${courseContext?.activeCourse.id.get() === courseId ? "text-black-mb dark:text-cyan" : "text-sea dark:text-white"}`}>{course.name}</h3>
 				</button>
 				{units && units.map((unit: IUnit) =>
 					<UnitBox key={nanoid()} unit={unit} courseId={courseId} />

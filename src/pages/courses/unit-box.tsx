@@ -12,6 +12,7 @@ import QuizLink from "./quiz-link"
 import { ReactSVG } from "react-svg"
 import ChevronIcon from "@/components/icons/chevron"
 import PlayIcon from "@/components/icons/play"
+import MobileBreadcrumbs from "@/components-mobile/common/breadcrumbs"
 interface IUnitBlock {
 	unit: IUnit,
 	courseId: number
@@ -34,9 +35,9 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 
 	return <>
 		<div className={`flex justify-between items-center mb-5 lg:px-3
-			${isExpanded && "py-3 bg-dark border border-white pr-3"}
+			${isExpanded && "py-3 border border-black-mb dark:bg-dark dark:border-white pr-3"}
 		`}>
-			<button data-id={unit?.id} className="flex gap-2 lg:gap-4 text-left" onClick={() => handleUnitClick()}>
+			<button data-id={unit?.id} className="flex gap-2 lg:gap-4 text-left text-black-mb dark:text-white" onClick={() => handleUnitClick()}>
 				<span className="flex-grow-[24px]">
 					<ChevronIcon />
 				</span>
@@ -45,7 +46,7 @@ const UnitBox = ({ unit, courseId }: IUnitBlock) => {
 		</div>
 		<ul className={`${isExpanded ? "block mb-5" : "hidden"}`}>
 			{lessons?.map(l => 
-				<li key={nanoid()} data-lesson-id={l.id} data-video={l.videoUrl} className="list-none flex items-center justify-between pl-10 pr-3">
+				<li key={nanoid()} data-lesson-id={l.id} data-video={l.videoUrl} className="list-none flex items-center justify-between pl-10 pr-3 text-black-mb dark:text-white">
 					{!l.isLocked &&
 						<Link href={`/courses/${l.courseId}/lessons/${l.id}`}
 							className="flex items-center gap-5 my-2">

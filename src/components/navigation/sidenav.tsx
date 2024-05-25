@@ -70,7 +70,7 @@ const SideNav = observer(() => {
 		return ""
 	}
 
-	return <div className={`bg-sea-light text-white fixed z-20 top-0 left-0 lg:relative`}>
+	return <div className="bg-sea-light text-white fixed z-20 top-0 left-0">
 		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${context.isNavOpen.get() ? "block" : "hidden"}`}>
 			<div className="flex justify-between items-start">
 				<Link href="/" className="inline-block mb-8 px-6">
