@@ -12,7 +12,7 @@ interface CourseItemProps{
 
 const Course = () => {
 	return (
-		<div className="flex gap-10 items-center mt-[40px] text-white">
+		<div className="flex gap-5 lg:gap-10 items-center mt-[40px] text-black-mb dark:text-white">
 			<div className="w-[150px]">
 				<ReactSVG src={courseIcon['src']} />
 				<span>Khoá học</span>
@@ -28,8 +28,8 @@ const Course = () => {
 const CourseItem = ({ item }: CourseItemProps) => {
 	return (
 		<figure
-			className="p-[10px] rounded-[10px] border border-white border-opacity-20 bg-white bg-opacity-10
-							text-white flex items-center justify-between w-[570px]"
+			className="p-[10px] rounded-[10px] border bg-black-mb border-black-mb dark:border-white border-opacity-20 dark:bg-white bg-opacity-10
+							text-black-mb dark:text-white flex items-center justify-between w-[570px]"
 		>
 			<span className="font-semibold">{item.name}</span>
 

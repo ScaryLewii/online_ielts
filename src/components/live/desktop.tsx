@@ -98,7 +98,7 @@ const LivePageDesktop = () => {
 						{buttons.map((b, index) =>
 							<button key={index}
 								onClick={() => setTabActive(index)}
-								className={`py-[10px] px-[12px] text-white border-b-2 ${tabActive === index ? "border-cyan" : "border-transparent opacity-60"}`}>
+								className={`py-[10px] px-3 text-black-mb dark:text-white border-b-2 ${tabActive === index ? "border-cyan" : "border-transparent opacity-60"}`}>
 								{b.label}
 							</button>)}
 					</div>

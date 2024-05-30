@@ -4,6 +4,7 @@ import facebookIcon from "public/images/facebook.svg"
 import instaIcon from "public/images/insta.svg"
 import tiktokIcon from "public/images/tiktok.svg"
 import share from "public/images/share.svg"
+import ShareIcon from "@/components/icons/share"
 
 const TopInfo = ({
 	name,
@@ -19,8 +20,8 @@ const TopInfo = ({
 	tiktok: string	
 }) => {	
 	return (
-		<div className="text-white">
-			<h1 className="mb-3 font-bold text-5xl">{name}</h1>
+		<div className="text-black-mb dark:text-white">
+			<h1 className="mb-3 font-bold text-2xl lg:text-5xl">{name}</h1>
 
 			<div className="flex justify-between items-end">
 				<div className="flex flex-col gap-3">
@@ -45,8 +46,8 @@ const TopInfo = ({
 					</ul>
 				</div>
 
-				<button className="font-medium text-base flex gap-2 p-3 rounded-lg border border-white">
-					<ReactSVG src={share['src']} />
+				<button className="font-medium text-base flex gap-2 p-3 rounded-lg border border-black-mb dark:border-white">
+					<ShareIcon />
 					<span>Chia sẻ</span>
 				</button>
 			</div>

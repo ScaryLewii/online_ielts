@@ -69,7 +69,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 	return (
 		<ThemeModeProvider>
 			<GlobalContext.Provider value={state}>
-				<div className="dashboard-wrapper flex bg-white-mb bg-opacity-10 dark:bg-sea dark:bg-opacity-100" suppressHydrationWarning>
+				<div className="dashboard-wrapper flex bg-white-mb dark:bg-sea dark:bg-opacity-100" suppressHydrationWarning>
 					<GTM />
 					<BrowserView>
 						<SideNav />

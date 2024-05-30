@@ -9,6 +9,8 @@ import Course from "./course"
 import MiddleInfo from "./middle-info"
 import TopInfo from "./top-info"
 import Video from "./video"
+import { BrowserView, MobileView } from "react-device-detect"
+import MobileBreadcrumbs from "@/components-mobile/common/breadcrumbs"
 
 const data = {
 	id: 271,
@@ -40,9 +42,14 @@ const Author = () => {
 	if ( !isReady || !isFinishFetchAuthor) return <span className="loading loading-bars"></span>;
 
 	return <div className="z-[2] relative pb-[80px]">
-		<AuthorBanner background={authorData.cover || authorData.avatar || data.cover} />
+		<BrowserView>
+			<AuthorBanner background={authorData.cover || authorData.avatar || data.cover} />
+		</BrowserView>
+		<MobileView>
+			<MobileBreadcrumbs title="Hồ sơ diễn giả" isSubMenu />
+		</MobileView>
 
-		<div className="flex gap-20 px-20 -mt-[160px]">
+		<div className="flex gap-10 lg:gap-20 px-5 lg:px-20 mt-5 lg:-mt-[160px] flex-wrap lg:flex-nowrap justify-center lg:justify-start">
 			<div className="flex flex-col gap-[30px]">
 				<Card name={authorData.name} avatar={authorData.avatar} introduce={authorData.introduce} />
 				<Video videoSrc={authorData.introVideo} />

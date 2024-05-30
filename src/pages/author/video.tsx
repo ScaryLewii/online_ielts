@@ -19,7 +19,7 @@ const Video = ({
 				<div className="flex items-center gap-2">
 					<ReactSVG src={youtube['src']} />
 
-					<span className="text-white text-base font-semibold">Video giới thiệu</span>
+					<span className="text-black-mb dark:text-white text-base font-semibold">Video giới thiệu</span>
 				</div>
 
 				<div

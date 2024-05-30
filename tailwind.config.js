@@ -25,6 +25,8 @@ module.exports = {
         'blue-mb': '#3060CF',
         'black-mb': '#131318',
         'white-mb': '#F5F8FF',
+        'sea-30': 'rgba(3, 35, 92, 0.30)',
+        'cyan-60': 'rgba(0, 183, 240, 0.60)',
       }
     },
   },

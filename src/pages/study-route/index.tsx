@@ -26,7 +26,7 @@ const StudyRoutePage = () => {
 
 	return <>
 		<BrowserView>
-			<div className="text-white relative z-[1] p-5 xl:p-10">
+			<div className="text-black-mb dark:text-white relative z-[1] p-5 xl:p-10">
 				<h2 className="font-semibold text-3xl mb-10">Chào mừng, {user?.displayName}</h2>
 
 				<div className="flex gap-[60px] 4xl:gap-[100px] flex-wrap items-start md:justify-center">

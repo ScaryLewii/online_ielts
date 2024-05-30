@@ -14,9 +14,9 @@ import { nanoid } from "nanoid"
 import { useRouter } from 'next/router'
 import { useContext, useEffect } from "react"
 import { ReactSVG } from "react-svg"
-import nav from "../../../public/nav.svg"
 import { ICategory, ICourse } from "../../types/types"
 import DashboardNav from "./dashboard-nav"
+import NavIcon from "../icons/nav"
 
 const mainNav = [
 	{
@@ -70,15 +70,15 @@ const SideNav = observer(() => {
 		return ""
 	}
 
-	return <div className="bg-sea-light text-white fixed z-20 top-0 left-0 bottom-0 h-full lg:relative">
+	return <div className="bg-white text-black-mb dark:bg-sea-light dark:text-white fixed z-20 top-0 left-0 bottom-0 h-full lg:relative">
 		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${context.isNavOpen.get() ? "block" : "hidden"}`}>
 			<div className="flex justify-between items-start">
 				<Link href="/" className="inline-block mb-8 px-6">
-					<Image src={logo} alt={logo} />
+					<Image src={logo} alt={"logo"} />
 				</Link>
 
 				<button className="mt-4 mr-3" onClick={() => context.isNavOpen.set((v: boolean) => !v)}>
-					<Image src={nav} width={23} height={23} alt="nav control" />
+					<NavIcon />
 				</button>
 			</div>
 
@@ -87,13 +87,13 @@ const SideNav = observer(() => {
 				<ul className="sidenav">
 					<li key={nanoid()} className="sidenav__item">
 						<Link key={nanoid()} href="/study-route" className={`sidenav__link mb-2 relative ${getActiveClass("/study-route")}`}>
-							<ReactSVG src={course["src"]} className="fill-white absolute -left-[35px]" />
+							<ReactSVG src={course["src"]} className="fill-black-mb dark:fill-white absolute -left-[35px]" />
 							Lộ trình học của tôi
 						</Link>
 
 						<ul className="block">
 							<li className="sidenav-child__item">
-								<Link href="/study-route" className={`sidenav-child__link hover:text-cyan ${getActiveClass("/study-route")}`}>Lộ trình học</Link>
+								<Link href="/study-route" className={`sidenav-child__link hover:text-black-mb dark:hover:text-cyan ${getActiveClass("/study-route")}`}>Lộ trình học</Link>
 							</li>
 							<li className="sidenav-child__item">
 								<Link href="/all-courses" className={`sidenav-child__link hover:text-cyan ${getActiveClass("/all-courses")}`}>Các khóa học</Link>
@@ -103,8 +103,8 @@ const SideNav = observer(() => {
 
 					{mainNav.map(nav =>
 						<li key={nanoid()} className="sidenav__item">
-							<Link href={nav.url} className={`sidenav__link mb-2 relative ${getActiveClass(nav.url)}`}>
-								<ReactSVG src={nav.icon["src"]} className="fill-white absolute -left-[35px]" />
+							<Link href={nav.url} className={`sidenav__link mb-2 relative group ${getActiveClass(nav.url)}`}>
+								<ReactSVG src={nav.icon["src"]} className="fill-black-mb dark:fill-white group-hover:fill-sea absolute -left-[35px]" />
 								{nav.label}
 							</Link>
 						</li>

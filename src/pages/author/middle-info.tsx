@@ -11,19 +11,19 @@ const MiddleInfo = ({
 }) => {
 	return (
 		<>
-			<div className="flex gap-10 mt-[90px] text-white">
+			<div className="flex gap-5 lg:gap-10 mt-10 lg:mt-[90px] text-black-mb dark:text-white">
 				<div className="w-[150px]">
 					<ReactSVG src={info['src']} />
-					<span>THÔNG TIN</span>
+					<span>Thông tin</span>
 				</div>
 
 				<div dangerouslySetInnerHTML={{__html: description}}></div>
 			</div>
 
-			<div className="flex gap-10 mt-[40px] text-white">
+			<div className="flex gap-5 lg:gap-10 mt-10 text-black-mb dark:text-white">
 				<div className="w-[150px]">
 					<ReactSVG src={quoteIcon['src']} />
-					<span>CHÂM NGÔN</span>
+					<span>Châm ngôn</span>
 				</div>
 
 				<div dangerouslySetInnerHTML={{__html: quote}}></div>

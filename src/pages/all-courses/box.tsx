@@ -56,7 +56,7 @@ const RouteBox = ({isPersonal, isFuture} : {isPersonal?: boolean, isFuture?: boo
 	return <div className="max-w-[400px]">
 		{isPersonal && <h2 className="font-bold text-[24px] text-black-mb dark:text-white border-l-[7px] border-cyan pl-[13px] mb-[20px]">Timeline của bạn</h2>}
 		{isFinishFetchLives &&
-			<Calendar locale={"vi-VN"} className="bg-sea rounded-[10px] p-[20px] mb-[18px] border border-cyan"
+			<Calendar locale={"vi-VN"} className="dark:bg-sea bg-white rounded-[10px] p-[20px] mb-[18px] border border-sea dark:border-cyan text-black-mb dark:text-white"
 				onChange={setActiveDate} value={activeDate}
 				tileClassName={({ date, view }) => {
 					if (allEvents?.find((x: IEvent) => moment(x.startTime).format("DD-MM-YYYY") === moment(date).format("DD-MM-YYYY"))) {

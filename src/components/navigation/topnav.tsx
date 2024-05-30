@@ -6,6 +6,9 @@ import Image from "next/image"
 import bellIcon from "public/images/bell.svg"
 import nav from "public/nav.svg"
 import { useContext } from "react"
+import MoonIcon from "../icons/moon"
+import SunIcon from "../icons/sun"
+import NavIcon from "../icons/nav"
 
 const TopNav = observer(() => {
 	const context = useContext(GlobalContext)
@@ -18,13 +21,12 @@ const TopNav = observer(() => {
 		window.location.href = loginPage
 	}
 
-	return <div className="sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10" style={{
-		"background": "linear-gradient(0deg, rgba(3, 35, 92, 0.30) 0%, rgba(0, 183, 240, 0.60) 100%)",
-	}}>
+	return <div className={`sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10 
+		${resolvedTheme === "light" ? "bg-blue-mb" : ""} dark:bg-gradient-to-t from-sea-30 to-cyan-60`}>
 		<div>
 			<button title="control" className={context?.isNavOpen.get() ? "hidden" : "block"}
 				onClick={() => context?.isNavOpen.set((v: any) => !v)}>
-				<Image src={nav} width={23} height={23} alt="nav control" />
+				<NavIcon />
 			</button>
 		</div>
 		<div className="flex gap-5 items-center">
@@ -43,6 +45,14 @@ const TopNav = observer(() => {
 						}
 					</button>)
 					: <button onClick={onGoToLoginPage}>Đăng nhập</button>
+			}
+
+			{resolvedTheme === "dark" &&
+				<button onClick={() => setTheme('light')}><MoonIcon /></button>
+			}
+
+			{resolvedTheme === "light" &&
+				<button onClick={() => setTheme('dark')}><SunIcon /></button>
 			}
 		</div>
 	</div>

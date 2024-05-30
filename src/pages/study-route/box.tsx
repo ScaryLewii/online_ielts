@@ -38,12 +38,12 @@ const RouteBox = () => {
 		handleBoxState()
 	}, [lessons, state, units, userLessons])
 
-	return <div className="border border-white bg-dark rounded-lg p-8">
+	return <div className="border border-black-mb dark:border-white dark:bg-dark rounded-lg p-8 text-black-mb dark:text-white">
 		<div className="flex gap-4 mb-10 items-start">
 			<Image src={contract} width={35} height={35} alt="course" />
 
 			<div className="font-semibold mb-14">
-				<h4 className="text-cyan text-[36px] mb-2 leading-7">{allCourses?.length}</h4>
+				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">{allCourses?.length}</h4>
 				<p>Khóa học đã đăng kí</p>
 			</div>
 		</div>
@@ -52,7 +52,7 @@ const RouteBox = () => {
 			<Image src={certificate} width={35} height={35} alt="course" />
 
 			<div className="font-semibold mb-14">
-				<h4 className="text-cyan text-[36px] mb-2 leading-7">
+				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">
 					{completeCourses?.length}
 				</h4>
 				<p>Khóa học đã hoàn thành</p>
@@ -63,7 +63,7 @@ const RouteBox = () => {
 			<Image src={conquer} width={35} height={35} alt="course" />
 
 			<div className="font-semibold">
-				<h4 className="text-cyan text-[36px] mb-2 leading-7">
+				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">
 					{context.lessonProgress.get().length}/{context.lessons.get().length}
 				</h4>
 				<p>Hoạt động đã hoàn thành</p>
