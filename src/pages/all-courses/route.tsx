@@ -61,7 +61,7 @@ const Route = () => {
 									<span className="font-bold opacity-20 text-[50px]" style={{color: CourseColor[index]?.text}}>0{availableCategories.find(cat => cat.id === c.categoryId)?.name.split(":")[0].slice(-1)}</span>
 									<span className="font-bold text-[24px] mt-[-20px]" style={{color: CourseColor[index]?.text}}>{availableCategories.find(cat => cat.id === c.categoryId)?.name.split(":").pop()}</span>
 								</div>
-								<div className="flex flex-col gap-[6px] pt-[8px] pb-[13px] px-[25px] bg-white bg-opacity-20">
+								<div className="flex flex-col gap-[6px] pt-[8px] pb-[13px] px-[25px] bg-black-mb dark:bg-white bg-opacity-20">
 									<span className="capitalize font-semibold text-[14px]">{c.name}</span>
 									<span className="flex items-center gap-1">
 										{c.isLocked && <ReactSVG src={lock["src"]} />}

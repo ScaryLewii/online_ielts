@@ -34,7 +34,7 @@ const DashboardNav = () => {
 					<li key={nav.url} className="bottom-nav__item">
 						<Link href={nav.url} className={`bottom-nav__link ${getActiveClass(nav.url)}`}>
 							<div className="relative z-[1] flex gap-3 items-center py-3">
-								<ReactSVG src={nav.icon["src"]} className="fill-black-mb dark:fill-white" />
+								<ReactSVG src={nav.icon["src"]} className="fill-white" />
 								{nav.label}
 							</div>
 						</Link>

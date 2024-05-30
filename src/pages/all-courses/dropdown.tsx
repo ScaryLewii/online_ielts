@@ -59,9 +59,9 @@ const CourseDropdown = ({number, activeColor, handleClick, handleItemClick, text
 		</button>
 
 		{isActive && !!handleItemClick && (
-			<button onClick={() => handleItemClick?.()} className="flex justify-between items-center p-[20px] text-[16px] font-bold rounded-[16px] border border-[#F4754C]">
+			<button onClick={() => handleItemClick?.()} className="flex justify-between items-center p-[20px] text-[16px] font-bold rounded-[16px] border border-[#F4754C] text-black-mb dark:text-white text-left">
 				<span>Real IELTS on video</span>
-				<ReactSVG src={arrow3["src"]} className="fill-none" />
+				<ReactSVG src={arrow3["src"]} />
 			</button>
 		)}
 		</>
