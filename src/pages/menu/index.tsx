@@ -31,7 +31,7 @@ const MenuPageMobile = () => {
 						Lộ trình học <br /> của tôi
 					</span>
 				</Link>
-				<Link href="/404" className="relative">
+				<Link href="https://ant-edu.ai/user/assesment-history" target="_blank" className="relative">
 					<ReactSVG src={btnBg["src"]} />
 					<span className="text-[#83B000] font-bold absolute top-1/2 left-5 -translate-y-1/2">
 						Lịch sử <br /> luyện tập
@@ -43,10 +43,10 @@ const MenuPageMobile = () => {
 						Sự kiện  <br /> trực tuyến
 					</span>
 				</Link>
-				<Link href="/exam" className="relative">
+				<Link href="https://ant-edu.ai" target="_blank" className="relative">
 					<ReactSVG src={btnBg["src"]} />
 					<span className="text-[#FF64AE] font-bold absolute top-1/2 left-5 -translate-y-1/2">
-						Khảo thí - <br /> Thi thử
+						Kiểm tra <br /> trình độ
 					</span>
 				</Link>
 			</div>

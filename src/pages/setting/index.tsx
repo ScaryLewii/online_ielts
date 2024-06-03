@@ -1,10 +1,29 @@
-import { getSession } from "next-auth/react"
-import { useRouter } from "next/router"
-import { useEffect } from "react"
+import MobileBreadcrumbs from "@/components-mobile/common/breadcrumbs"
+import MoonIcon from "@/components/icons/moon";
+import SunIcon from "@/components/icons/sun";
+import { useTheme } from "next-themes";
 
 const SettingPage = () => {
-	return <div className="text-white lg:max-w-[600px] relative z-[1] p-5 xl:p-10">
-		<div className="pb-10 border-b border-white">
+	const { setTheme, resolvedTheme } = useTheme();
+
+	return <>
+	<MobileBreadcrumbs title="Settings" isSubMenu />
+	
+	<div className="text-black-mb dark:text-white lg:max-w-[600px] relative z-[1] p-5 xl:p-10">
+		<div className="flex justify-between items-center pb-10 mb-10 border-b border-black-mb dark:border-white">
+			<h2 className="text-xl font-semibold">Theme sáng / tối</h2>
+
+			{resolvedTheme === "dark" &&
+				<button onClick={() => setTheme('light')}><MoonIcon /></button>
+			}
+
+			{resolvedTheme === "light" &&
+				<button onClick={() => setTheme('dark')}><SunIcon /></button>
+			}
+		</div>
+		
+		
+		<div className="pb-10 border-b border-black-mb dark:border-white">
 			<h2 className="text-xl font-semibold mb-8">Thông báo cho tôi khi....</h2>
 			<div className="form-control mb-4">
 				<label className="label cursor-pointer">
@@ -54,6 +73,8 @@ const SettingPage = () => {
 			</div>
 		</div>
 	</div>
+	</>
+
 }
 
 export default SettingPage

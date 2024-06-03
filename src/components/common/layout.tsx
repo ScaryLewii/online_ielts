@@ -8,7 +8,7 @@ import { IGlobalContext } from "@/types/types";
 import { observer, useObservable } from "@legendapp/state/react";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
-import { BrowserView } from 'react-device-detect';
+import { BrowserView, isMobile } from 'react-device-detect';
 import GTM from "./gtm";
 import ThemeModeProvider from "@/context/theme-mode";
 import LayoutBg from "./layout-bg";
@@ -27,7 +27,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 		userInfo: undefined,
 		cookies: cookies,
 		isSessonValid: true,
-		isNavOpen: true,
+		isNavOpen: isMobile ? false : true,
 		categories: [],
 		courses: [],
 		units: [],
@@ -71,9 +71,8 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 			<GlobalContext.Provider value={state}>
 				<div className="dashboard-wrapper flex bg-white-mb dark:bg-sea dark:bg-opacity-100" suppressHydrationWarning>
 					<GTM />
-					<BrowserView>
-						<SideNav />
-					</BrowserView>
+					<SideNav />
+
 					<main className={`bg-white-mb dark:bg-sea w-full min-h-screen relative`} style={{gridArea: "dashboard"}}>
 						<LayoutBg />
 
