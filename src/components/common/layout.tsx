@@ -1,17 +1,18 @@
 "use client"
 
 import { useAllLessonsProgressQuery, useAllLessonsQuery, useAllUnitsQuery, useCategoriesQuery, useCoursesQuery, useUserInfoQuery } from "@/base/query";
-import SideNav from "@/components/navigation/sidenav";
+import SideNav from "@/components/navigation/sidenav-desktop";
 import TopNav from "@/components/navigation/topnav";
 import { GlobalContext } from "@/context/context";
 import { IGlobalContext } from "@/types/types";
 import { observer, useObservable } from "@legendapp/state/react";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
-import { BrowserView, isMobile } from 'react-device-detect';
+import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 import GTM from "./gtm";
 import ThemeModeProvider from "@/context/theme-mode";
 import LayoutBg from "./layout-bg";
+import SideNavMobile from "@/components/navigation/sidenav-mobile";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
@@ -71,7 +72,13 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 			<GlobalContext.Provider value={state}>
 				<div className="dashboard-wrapper flex bg-white-mb dark:bg-sea dark:bg-opacity-100" suppressHydrationWarning>
 					<GTM />
-					<SideNav />
+					<BrowserView>
+						<SideNav />
+					</BrowserView>
+
+					<MobileView>
+						<SideNavMobile />
+					</MobileView>
 
 					<main className={`bg-white-mb dark:bg-sea w-full min-h-screen relative`} style={{gridArea: "dashboard"}}>
 						<LayoutBg />

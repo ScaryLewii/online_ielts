@@ -63,7 +63,7 @@ const MobileBreadcrumbs = ({title, isSubMenu, parentPage}: IBreadcrumbsMobile) =
 			}
 			<span className="text-black-mb dark:text-white text-lg font-bold">{title}</span>
 
-			<button title="control" className={context?.isNavOpen.get() ? "hidden" : "block"}
+			<button title="control" className="block"
 				onClick={() => context?.isNavOpen.set((v: any) => !v)}>
 				<NavIconDark />
 			</button>

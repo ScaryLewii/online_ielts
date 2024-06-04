@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ReactSVG } from "react-svg"
 import { useRouter } from 'next/router'
 
-const dashboardNav = [
+export const dashboardNav = [
 	{
 		label: "Cài đặt",
 		url: "/setting",
@@ -27,7 +27,7 @@ const DashboardNav = () => {
 	}
 
 	return (
-		<nav className="mt-[200px] pt-7 px-6 border-t border-[rgba(255, 255, 255, 0.50)]">
+		<nav className="mt-auto pt-7 px-6 border-t border-[rgba(255, 255, 255, 0.50)]">
 			<h2 className="font-semibold mb-5">Quản trị</h2>
 			<ul className="bottom-nav">
 				{dashboardNav.map(nav => 
