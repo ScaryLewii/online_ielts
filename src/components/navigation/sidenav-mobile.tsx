@@ -37,7 +37,11 @@ const SideNavMobile = observer(() => {
 		}
 	}, [categories, courses, isFinishFetchCategories, isFinishFetchCourses, state.availableCategories])
 
-	return <div className="bg-blue-mb dark:bg-sea-light text-white fixed z-20 top-0 left-0 bottom-0 min-h-full lg:relative">
+	return <>
+	{context.isNavOpen.get() &&
+		<div className="fixed top-0 left-0 right-0 bottom-0 z-[19] bg-black bg-opacity-30" onClick={() => context.isNavOpen.set((v: boolean) => !v)}></div>
+	}
+	<div className="bg-blue-mb dark:bg-sea-light text-white fixed z-20 top-0 left-0 bottom-0 min-h-full lg:relative">
 		<div className={`sidenav-wrapper sticky top-0 pt-6 min-w-[275px] ${context.isNavOpen.get() ? "flex flex-col justify-between" : "hidden"}`}>
 			<div>
 				<div className="flex justify-between items-start">
@@ -52,10 +56,9 @@ const SideNavMobile = observer(() => {
 
 				<nav className="sidenav px-6">
 					<ul className="sidenav">
-						<li className="bottom-nav__item">
+						{/* <li className="bottom-nav__item">
 							<Link href={"/"} className={`bottom-nav__link}`}>
 								<div className="relative z-[1] flex gap-3 items-center py-3">
-									{/* <ReactSVG src={nav.icon["src"]} className="fill-white" /> */}
 									Quay về trang chủ
 								</div>
 							</Link>
@@ -63,11 +66,10 @@ const SideNavMobile = observer(() => {
 						<li className="bottom-nav__item">
 							<Link href={"/"} className={`bottom-nav__link}`}>
 								<div className="relative z-[1] flex gap-3 items-center py-3">
-									{/* <ReactSVG src={nav.icon["src"]} className="fill-white" /> */}
 									Kiểm tra đầu vào
 								</div>
 							</Link>
-						</li>
+						</li> */}
 
 						{dashboardNav.map(nav => 
 							<li key={nav.url} className="bottom-nav__item">
@@ -106,6 +108,7 @@ const SideNavMobile = observer(() => {
 			</div>
 		</div>
 	</div>
+	</>
 })
 
 export default SideNavMobile

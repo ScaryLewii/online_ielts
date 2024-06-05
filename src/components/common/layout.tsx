@@ -13,6 +13,7 @@ import GTM from "./gtm";
 import ThemeModeProvider from "@/context/theme-mode";
 import LayoutBg from "./layout-bg";
 import SideNavMobile from "@/components/navigation/sidenav-mobile";
+import Footer from "./footer";
 
 const Layout = observer(({ children }: PropsWithChildren) => {
 	const [cookies] = useCookies(['.AspNetCore.SharedCookie']);
@@ -87,6 +88,7 @@ const Layout = observer(({ children }: PropsWithChildren) => {
 							<TopNav />
 						</BrowserView>
 						<div className="relative z-[1]">{children}</div>
+						<Footer />
 					</main>
 				</div>
 			</GlobalContext.Provider>

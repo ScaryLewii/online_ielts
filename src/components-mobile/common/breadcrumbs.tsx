@@ -21,7 +21,7 @@ const MobileBreadcrumbs = ({title, isSubMenu, parentPage}: IBreadcrumbsMobile) =
 	const context = useContext(GlobalContext)
 
 	return (
-		<div className="flex items-center w-full px-5 py-3 sticky z-[15] top-0 bg-white-mb bg-opacity-10 dark:bg-sea dark:bg-opacity-100 border-b border-gray-500
+		<div className="flex items-center w-full px-5 py-3 sticky z-[15] top-0 bg-white-mb dark:bg-sea border-b border-gray-500
 			justify-between"
 		>
 			{!isSubMenu && !parentPage && 

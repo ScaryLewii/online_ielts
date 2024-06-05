@@ -6,7 +6,7 @@ import moment from "moment"
 import Image from "next/image"
 import close from "public/images/close.svg"
 import greenCheck from "public/images/green-check.svg"
-import { Fragment, useContext, useState } from "react"
+import { Fragment, useContext, useEffect, useState } from "react"
 import ReactPlayer from "react-player/lazy"
 import { ReactSVG } from "react-svg"
 
@@ -23,10 +23,15 @@ const EventCard = ({ event, isSuccess, onRegisterSuccess, isCarouselItem }:
 	const [modalReviewOpen, setModalReviewOpen] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
 	const [isRegistered, setIsRegisterd] = useState(false)
+	const [isEnded, setIsEnded] = useState(false)
+	const [isUpcoming, setIsUpcoming] = useState(false)
+	const [badgeClass, setBadgeClass] = useState('')
 
-	const isEnded = Date.now() - new Date(event.endTime).getTime() > 0
-	const isUpcoming = Date.now() - new Date(event.startTime).getTime() < 0
-	const badgeClass = !isEnded && !isUpcoming ? 'badge-success' : isEnded ? 'badge-dark' : 'badge-warning'
+	useEffect(() => {
+    setIsEnded(Date.now() - new Date(event.endTime).getTime() > 0)
+		setIsUpcoming(Date.now() - new Date(event.startTime).getTime() < 0)
+		setBadgeClass(!isEnded &&!isUpcoming? 'badge-success' : isEnded? 'badge-dark' : 'badge-warning')
+  }, [event.endTime, event.startTime, isEnded, isUpcoming])
 
 	const tempVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 
