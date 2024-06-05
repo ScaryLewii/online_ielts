@@ -1,3 +1,4 @@
+import NavIcon from "@/components/icons/nav"
 import NavIconDark from "@/components/icons/nav-dark"
 import { GlobalContext } from "@/context/context"
 import { useTheme } from "next-themes"
@@ -65,7 +66,13 @@ const MobileBreadcrumbs = ({title, isSubMenu, parentPage}: IBreadcrumbsMobile) =
 
 			<button title="control" className="block"
 				onClick={() => context?.isNavOpen.set((v: any) => !v)}>
-				<NavIconDark />
+					{resolvedTheme === "dark" &&
+						<NavIcon />
+					}
+
+					{resolvedTheme === "light" &&
+						<NavIconDark />
+					}
 			</button>
 		</div>
 	)
