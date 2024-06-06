@@ -2,15 +2,18 @@ import MobileBreadcrumbs from "@/components-mobile/common/breadcrumbs"
 import MoonIcon from "@/components/icons/moon";
 import SunIcon from "@/components/icons/sun";
 import { useTheme } from "next-themes";
+import { MobileView } from "react-device-detect";
 
 const SettingPage = () => {
 	const { setTheme, resolvedTheme } = useTheme();
 
 	return <>
-	<MobileBreadcrumbs title="Settings" isSubMenu />
+	<MobileView>
+		<MobileBreadcrumbs title="Settings" isSubMenu />
+	</MobileView>
 	
 	<div className="text-black-mb dark:text-white lg:max-w-[600px] relative z-[1] p-5 xl:p-10">
-		<div className="flex justify-between items-center pb-10 mb-10 border-b border-black-mb dark:border-white">
+		<div className="flex justify-between items-center pb-10 mb-10 border-b border-black-mb dark:border-white lg:hidden">
 			<h2 className="text-xl font-semibold">Theme sáng / tối</h2>
 
 			{resolvedTheme === "dark" &&
