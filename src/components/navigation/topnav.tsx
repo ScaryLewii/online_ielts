@@ -4,11 +4,10 @@ import { observer } from "@legendapp/state/react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
 import bellIcon from "public/images/bell.svg"
-import nav from "public/nav.svg"
 import { useContext } from "react"
 import MoonIcon from "../icons/moon"
-import SunIcon from "../icons/sun"
 import NavIcon from "../icons/nav"
+import SunIcon from "../icons/sun"
 
 const TopNav = observer(() => {
 	const context = useContext(GlobalContext)
@@ -17,7 +16,7 @@ const TopNav = observer(() => {
 	const { isFetched: isFinishFetchUserInfo, data: userInfo  } = useUserInfoQuery(context.cookies.get())
 
 	const onGoToLoginPage = () => {
-		const loginPage = "https://ant-edu.ai/auth/login"
+		const loginPage = `https://ant-edu.ai/auth/login?r=${location}`
 		window.location.href = loginPage
 	}
 

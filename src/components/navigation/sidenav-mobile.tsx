@@ -85,7 +85,7 @@ const SideNavMobile = observer(() => {
 						{isFinishFetchUserInfo && 
 							<li className="bottom-nav__item">
 								{!userInfo.userName &&
-									<Link href={"https://ant-edu.ai/auth/login"} className={`bottom-nav__link}`}>
+									<Link href={`https://ant-edu.ai/auth/login?r=${location}`} className={`bottom-nav__link}`}>
 										<div className="relative z-[1] flex gap-3 items-center py-3">
 											{/* <ReactSVG src={nav.icon["src"]} className="fill-white" /> */}
 											Đăng nhập
