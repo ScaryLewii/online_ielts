@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import dashboardbg from "public/images/dashboard-bg.svg";
 import dashboardbgMB from "public/images/bg-mobile.png";
-import dashboardbgLight from "public/images/bg-light.svg";
+import dashboardbgLight from "public/images/bg-light.png";
 import { BrowserView, MobileView } from "react-device-detect";
 
 const LayoutBg = () => {
@@ -21,7 +21,7 @@ const LayoutBg = () => {
 			</MobileView>
 
 			<BrowserView>
-				<Image src={dashboardbgLight} alt="background" className="fixed bottom-0 right-0 z-0 max-h-full" />
+				<Image src={dashboardbgLight} alt="background" className="fixed bottom-0 left-0 right-0 z-0 max-h-full object-cover" />
 			</BrowserView>
 			</>
 		}
