@@ -8,6 +8,7 @@ import { useContext } from "react"
 import MoonIcon from "../icons/moon"
 import NavIcon from "../icons/nav"
 import SunIcon from "../icons/sun"
+import { fetchData } from "@/base/base"
 
 const TopNav = observer(() => {
 	const context = useContext(GlobalContext)
@@ -18,6 +19,13 @@ const TopNav = observer(() => {
 	const onGoToLoginPage = () => {
 		const loginPage = `https://ant-edu.ai/auth/login?r=${location}`
 		window.location.href = loginPage
+	}
+
+	const onSignOut = async () => {
+		const request = await fetchData("signout", "POST", context.cookies.get())
+		if (request) {
+			alert('Bạn đã đăng xuất!')
+		}
 	}
 
 	return <div className={`sticky top-0 w-full min-h-[50px] p-4 flex justify-between items-center text-white z-10 
@@ -37,12 +45,18 @@ const TopNav = observer(() => {
 			<span className="hidden lg:block h-8 w-[1px] bg-white"></span>
 			{
 				userInfo?.userName
-					? (<button className="flex gap-5 items-center group">
-						<h3 className="group-hover:underline">{userInfo?.displayName}</h3>
-						{isFinishFetchUserInfo && userInfo &&
-							<Image className="rounded-full h-[45px] w-[45px] border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
-						}
-					</button>)
+					? (
+						<div className="flex items-center gap-5">
+							<button className="flex gap-5 items-center group">
+								<h3 className="group-hover:underline">{userInfo?.displayName}</h3>
+								{isFinishFetchUserInfo && userInfo &&
+									<Image className="rounded-full h-[45px] w-[45px] border-2 border-white group-hover:border-cyan" src={userInfo.avatar ? `https://apitest.ant-edu.ai${userInfo.avatar}` : "https://placehold.co/45x45"} width={45} height={45} alt="profile image" unoptimized={true} />
+									}
+							</button>
+
+							<button onClick={onSignOut}>Đăng xuất</button>
+						</div>
+					)
 					: <button onClick={onGoToLoginPage}>Đăng nhập</button>
 			}
 

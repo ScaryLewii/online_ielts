@@ -26,6 +26,13 @@ const SideNavMobile = observer(() => {
 		availableCategories: ICategory[]
 	})
 
+	const onSignOut = async () => {
+		const request = await fetchData("signout", "POST", context.cookies.get())
+		if (request) {
+			alert('Bạn đã đăng xuất!')
+		}
+	}
+
 	if (!context) {
 		return <>Loading...</>
 	}
@@ -94,7 +101,7 @@ const SideNavMobile = observer(() => {
 								}
 
 								{userInfo.userName &&
-									<button onClick={() => fetchData("signout", "POST", context.cookies.get())} className={`bottom-nav__link}`}>
+									<button onClick={onSignOut} className={`bottom-nav__link}`}>
 										<div className="relative z-[1] flex gap-3 items-center py-3">
 											{/* <ReactSVG src={nav.icon["src"]} className="fill-white" /> */}
 											Đăng xuất
