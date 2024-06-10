@@ -7,9 +7,12 @@ import icon1 from "public/dump/icon-1.svg"
 import icon2 from "public/dump/icon-2.svg"
 import icon3 from "public/dump/icon-3.svg"
 import routeMobile from "public/images/route-mobile.svg"
+import routeMobileLight from "public/images/route-mobile-light.svg"
 import route from "public/images/route.svg"
+import routeLight from "public/images/route-light.svg"
 import { useContext } from "react"
 import { ReactSVG } from "react-svg"
+import { useTheme } from "next-themes"
 
 const PlainContent = ({url}: {url: string}) => {
 	return <>
@@ -31,12 +34,13 @@ const PlainContent = ({url}: {url: string}) => {
 }
 
 const Route = () => {
+	const { setTheme, resolvedTheme } = useTheme();
 	const context = useContext(GlobalContext)
 	const allCategories = useCategoriesQuery(context.cookies.get()).data as ICategory[]
 
 	const Items = [
 		{
-			color: "text-light",
+			color: "text-[#FFBA23]",
 			position: "md:top-[45px] md:left-[250px]",
 			positionMb: "top-[8px] left-[135px]"
 		},
@@ -64,14 +68,20 @@ const Route = () => {
 
 	return <>
 		<div className="relative">
-			<ReactSVG className="hidden md:block" src={route['src']} />
-			<ReactSVG className="block md:hidden" src={routeMobile['src']} />
+			{resolvedTheme === "dark" && <>
+				<ReactSVG className="hidden md:block" src={route['src']} />
+				<ReactSVG className="block md:hidden" src={routeMobile['src']} />
+			</>}
+			{resolvedTheme === "light" && <>
+				<ReactSVG className="hidden md:block" src={routeLight['src']} />
+				<ReactSVG className="block md:hidden" src={routeMobileLight['src']} />
+			</>}
 			{ allCategories && 
 				allCategories.map((cat: ICategory, index: number) => {
 					if (cat.active) {
 						return (
 							<div key={nanoid()} className={`absolute cursor-pointer group ${Items[index].positionMb} ${Items[index].position}`}>
-								<Link href={`/categories/${cat.id}`} className={`text-black-mb dark:text-white font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
+								<Link href={`/categories/${cat.id}`} className={`${Items[index].color} font-semibold text-[18px] md:text-[22px] group-hover:text-cyan`}>{cat.name}</Link>
 								<PlainContent url={`/categories/${cat.id}`} />
 							</div>
 						)

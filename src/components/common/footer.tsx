@@ -5,7 +5,7 @@ const Footer = () => {
 			text-black-mb dark:text-white
 			bg-white dark:bg-sea
 			border-t border-gray-500 border-opacity-50
-			absolute bottom-0 left-0 right-0 lg:relative z-[2]
+			absolute bottom-0 left-0 right-0 z-[2]
 		">
 			Bản quyền thuộc về @AntEdu
 		</footer>

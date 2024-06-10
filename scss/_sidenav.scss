@@ -30,16 +30,19 @@
 .sidenav__link {
 	display: block;
 
-	&.is-active {
-		--svg--fill: var(--color-cyan);
-		color: var(--color-cyan);
-		font-weight: 600;
-	}
-
+	&.is-active,
 	&:hover:not(.is-active) {
-		--svg--fill: var(--color-cyan);
-		color: var(--color-cyan);
+		--svg--fill: var(--set-sidenav-link--active-color, var(--color-cyan));
+		color: var(--set-sidenav-link--active-color, var(--color-cyan));
+		}
+		
+	&.is-active {
+			font-weight: 600;
 	}
+}
+
+.light {
+	--set-sidenav-link--active-color: var(--color-black-mb);
 }
 
 .sidenav-child__item {

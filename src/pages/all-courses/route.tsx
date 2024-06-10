@@ -53,7 +53,7 @@ const Route = () => {
 			</div>
 
 			{choice === 1 && allCourses &&
-				<div className="w-1/2 grid grid-cols-2 gap-[33px] pl-[60px]">
+				<div className="w-1/2 grid grid-cols-2 gap-8 pl-8">
 					{allCourses.sort((a, b) => a.categoryId - b.categoryId)
 						.map((c: ICourse, index) => (
 							<Link href={'/all-courses/course/' + c.id} key={nanoid()} className="block rounded-[16px] overflow-hidden">
@@ -61,7 +61,7 @@ const Route = () => {
 									<span className="font-bold opacity-20 text-[50px]" style={{color: CourseColor[index]?.text}}>0{availableCategories.find(cat => cat.id === c.categoryId)?.name.split(":")[0].slice(-1)}</span>
 									<span className="font-bold text-[24px] mt-[-20px]" style={{color: CourseColor[index]?.text}}>{availableCategories.find(cat => cat.id === c.categoryId)?.name.split(":").pop()}</span>
 								</div>
-								<div className="flex flex-col gap-[6px] pt-[8px] pb-[13px] px-[25px] bg-black-mb dark:bg-white bg-opacity-20">
+								<div className="flex flex-col gap-[6px] pt-[8px] pb-[13px] px-[25px] text-black-mb dark:text-white bg:text-white bg-white dark:bg-opacity-20">
 									<span className="capitalize font-semibold text-[14px]">{c.name}</span>
 									<span className="flex items-center gap-1">
 										{c.isLocked && <ReactSVG src={lock["src"]} />}

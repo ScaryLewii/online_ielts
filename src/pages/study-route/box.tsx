@@ -40,7 +40,7 @@ const RouteBox = () => {
 
 	return <div className="border border-black-mb dark:border-white dark:bg-dark rounded-lg p-8 text-black-mb dark:text-white">
 		<div className="flex gap-4 mb-10 items-start">
-			<Image src={contract} width={35} height={35} alt="course" />
+			<Image className="brightness-0 dark:filter-none" src={contract} width={35} height={35} alt="course" />
 
 			<div className="font-semibold mb-14">
 				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">{allCourses?.length}</h4>
@@ -49,7 +49,7 @@ const RouteBox = () => {
 		</div>
 
 		<div className="flex gap-4 mb-10 items-start">
-			<Image src={certificate} width={35} height={35} alt="course" />
+			<Image className="brightness-0 dark:filter-none" src={certificate} width={35} height={35} alt="course" />
 
 			<div className="font-semibold mb-14">
 				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">
@@ -60,7 +60,7 @@ const RouteBox = () => {
 		</div>
 
 		<div className="flex gap-4 mb-10 items-start">
-			<Image src={conquer} width={35} height={35} alt="course" />
+			<Image className="brightness-0 dark:filter-none" src={conquer} width={35} height={35} alt="course" />
 
 			<div className="font-semibold">
 				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">
