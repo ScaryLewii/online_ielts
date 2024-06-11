@@ -10,7 +10,7 @@ const Banner = ({item}: BannerProps) => {
     window.open(item.link, item.newTab ? '_blank' : '_self')
   }
   return <div className="flex w-full h-[175px] relative">
-    <Image alt="background" src={item.image} className="absolute top-0 bottom-0 left-0 right-0 object-cover" />
+    <Image alt="background" src={item.image} unoptimized className="absolute top-0 bottom-0 left-0 right-0 object-cover" />
     <div className="flex w-2/5 h-full flex-col">
       <div className="flex flex-1 flex-col text-left justify-center ps-[40px]">
         <label className="text-3xl font-bold" style={{ color: item.titleColor }}>{item.title}</label>
