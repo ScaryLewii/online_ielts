@@ -4,9 +4,9 @@ import { ICourse, ILesson, ILessonProgress, IUnit } from "@/types/types"
 import { useObservable } from "@legendapp/state/react"
 import Image from "next/image"
 import { useContext, useEffect } from "react"
-import certificate from "public/images/certificate.svg"
-import conquer from "public/images/conquer.svg"
-import contract from "public/images/contract.svg"
+import location from "public/images/location.svg"
+import elearning from "public/images/elearning.svg"
+import diploma from "public/images/diploma.svg"
 
 const RouteBox = () => {
 	const context = useContext(GlobalContext)
@@ -40,7 +40,7 @@ const RouteBox = () => {
 
 	return <div className="border border-black-mb dark:border-white dark:bg-dark rounded-lg p-8 text-black-mb dark:text-white">
 		<div className="flex gap-4 mb-10 items-start">
-			<Image className="brightness-0 dark:filter-none" src={contract} width={35} height={35} alt="course" />
+			<Image src={location} width={35} height={35} alt="course" />
 
 			<div className="font-semibold mb-14">
 				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">{allCourses?.length}</h4>
@@ -49,7 +49,7 @@ const RouteBox = () => {
 		</div>
 
 		<div className="flex gap-4 mb-10 items-start">
-			<Image className="brightness-0 dark:filter-none" src={certificate} width={35} height={35} alt="course" />
+			<Image src={elearning} width={35} height={35} alt="course" />
 
 			<div className="font-semibold mb-14">
 				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">
@@ -60,7 +60,7 @@ const RouteBox = () => {
 		</div>
 
 		<div className="flex gap-4 mb-10 items-start">
-			<Image className="brightness-0 dark:filter-none" src={conquer} width={35} height={35} alt="course" />
+			<Image src={diploma} width={35} height={35} alt="course" />
 
 			<div className="font-semibold">
 				<h4 className="text-black-mb dark:text-cyan text-[36px] mb-2 leading-7">

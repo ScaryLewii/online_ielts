@@ -21,7 +21,7 @@ const LayoutBg = () => {
 			</MobileView>
 
 			<BrowserView>
-				<Image src={dashboardbgLight} alt="background" className="fixed bottom-0 left-0 right-0 z-0 max-h-full object-cover" />
+				<Image src={dashboardbgLight} alt="background" className="fixed bottom-0 left-0 right-0 z-0 w-full h-full object-cover" />
 			</BrowserView>
 			</>
 		}
