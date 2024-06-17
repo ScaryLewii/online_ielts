@@ -38,7 +38,7 @@ const Route = () => {
 			<div className="flex flex-col gap-[30px] w-1/2">
 				<CourseDropdown iconSrc={courseIcon["src"]} activeColor="#F4754C" number={availableCategories.length} text1="Khóa học của tôi" text2="khóa học" handleClick={() => setChoice(1)} handleItemClick={() => setChoice(1)} />
 				
-				<Link href="/exam" className="flex items-center justify-between w-full rounded-[16px] p-[20px] text-[#93D3E6] bg-white">
+				<Link href="https://ant-edu.ai/?test=speakingai" className="flex items-center justify-between w-full rounded-[16px] p-[20px] text-[#93D3E6] bg-white">
 					<div className="flex items-center">
 						<div className="w-[60px] h-[60px] rounded-[16px] flex items-center justify-center bg-[#93D3E6] fill-white">
 							<ReactSVG src={examIcon["src"]} />
