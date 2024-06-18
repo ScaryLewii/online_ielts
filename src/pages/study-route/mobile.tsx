@@ -38,7 +38,7 @@ const StudyRouteMobile = () => {
 				<RouteButton
 					label={"IELTS Speaking Test"}
 					description={"5 lượt"}
-					href={"/exam"}
+					href={"https://ant-edu.ai/?test=speakingai"}
 					iconSrc={examIcon["src"]}
 					color={"#93D3E6"}
 				/>
